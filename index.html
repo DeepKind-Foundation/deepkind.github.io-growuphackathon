@@ -4,13 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>GrowUp Hackathon</title>
-    <link rel="icon" type="image/png" href="logo.png" /> 
-    
+    <meta name="description" content="Ogólnopolski hackathon dla młodych ludzi — projektuj technologiczne rozwiązania realnych problemów swojego pokolenia." />
+    <link rel="icon" type="image/png" href="logo.png" />
+
+    <!-- Open Graph (Facebook, Messenger, LinkedIn, WhatsApp) -->
+    <meta property="og:title" content="GrowUp Hackathon 2026" />
+    <meta property="og:description" content="Hackuj dorosłość, wymyśl lepsze jutro. Ogólnopolski hackathon dla młodych ludzi." />
+    <meta property="og:image" content="logo.png" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter/X Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="GrowUp Hackathon 2026" />
+    <meta name="twitter:description" content="Hackuj dorosłość, wymyśl lepsze jutro. Ogólnopolski hackathon dla młodych ludzi." />
+    <meta name="twitter:image" content="logo.png" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    
+
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -25,15 +38,15 @@
                 extend: {
                     colors: {
                         brand: {
-                            start: '#9d4edd', 
-                            end: '#a3e635',   
-                            dark: '#040b1d',  
-                            card: '#091428',  
-                            border: '#6d28d9' 
+                            start: '#9d4edd',
+                            end: '#a3e635',
+                            dark: '#040b1d',
+                            card: '#091428',
+                            border: '#6d28d9'
                         }
                     },
                     fontFamily: {
-                        'adumu': ['Adumu', 'Poppins', 'sans-serif'], 
+                        'adumu': ['Adumu', 'Poppins', 'sans-serif'],
                         'poppins': ['Poppins', 'sans-serif']
                     }
                 }
@@ -87,7 +100,7 @@
                 radial-gradient(circle at 4% 78%, transparent 0 92px, rgba(168, 85, 247, 0.20) 93px 95px, transparent 96px),
                 radial-gradient(circle at 88% 78%, transparent 0 110px, rgba(132, 204, 22, 0.18) 111px 113px, transparent 114px);
         }
-        
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #081120; }
@@ -95,7 +108,7 @@
 
         /* Effects */
         .hero-gradient {
-            background: 
+            background:
                 radial-gradient(circle at 18% 24%, rgba(157, 78, 221, 0.18), transparent 38%),
                 radial-gradient(circle at 82% 72%, rgba(132, 204, 22, 0.18), transparent 34%),
                 linear-gradient(135deg, rgba(1, 6, 18, 0.92), rgba(5, 16, 36, 0.72));
@@ -265,7 +278,7 @@ const Header = () => {
                     {/* Logo */}
                     <a href="#" className="flex items-center gap-3 hover:opacity-90">
                         <img src="logo.png" alt="GrowUp Logo" className="h-12 md:h-14 w-auto object-contain shrink-0" />
-                        <span className="text-xl md:text-2xl text-white font-adumu tracking-wide">Grow<span className="text-gradient">Up</span></span>
+                          {/*  <span className="text-xl md:text-2xl text-white font-adumu tracking-wide">Grow<span className="text-gradient">Up</span></span> */}
                     </a>
 
                     {/* Menu */}
