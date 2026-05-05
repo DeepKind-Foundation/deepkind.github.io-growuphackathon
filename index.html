@@ -241,12 +241,12 @@
 <script type="text/babel">
 
     // --- LINKI GLOBALNE ---
-    const GOOGLE_FORM_LINK = "zophia.hardek@gmail.com TUTAJ WKLEJ LINK"; 
+    const GOOGLE_FORM_LINK = null; // Zapisy wkrótce
     const REGULAMIN_LINK = "asia.lilolu@gmail.com TUTAJ WKLEJ LINK";
     const FB_LINK = "https://www.facebook.com/profile.php?id=61585845027175";
     const INSTA_LINK = "https://www.instagram.com/growup_hackaton/";
-    const FAQ_LINK = "https://docs.google.com/document/d/1-OJcjPge2NulJpsTYYFHil2jebnhQXclkIkyVJnpSTs/edit?tab=t.0";
-    const PRIVACY_LINK = "https://docs.google.com/document/d/1ugv88sR4mOQfGResNn98M_nadKTj-VNJ5fZ7Tk1pgZ8/edit?usp=sharing";
+    const PRIVACY_LINK = "privacy-policy.pdf";
+    const WAITLIST_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSdYLoTTgE-pr6nxkf1hoRPPviIyZRaptouS2hpWHZ1fLce80A/viewform";
 
     // --- 1. HEADER ---
 const Header = () => {
@@ -316,9 +316,9 @@ const Header = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <a href={GOOGLE_FORM_LINK} target="_blank" className="btn-gradient text-[#081120] text-lg font-extrabold py-4 px-10 rounded-full flex items-center justify-center gap-2 uppercase tracking-[0.08em]">
+                    <button disabled className="btn-gradient opacity-50 cursor-not-allowed text-[#081120] text-lg font-extrabold py-4 px-10 rounded-full flex items-center justify-center gap-2 uppercase tracking-[0.08em]">
                         Chcę wziąć udział <i className="ph-bold ph-arrow-right"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         </section>
@@ -331,21 +331,21 @@ const Header = () => {
                 <div className="max-w-4xl mx-auto">
                     <div>
                             <h2 className="section-title text-3xl md:text-5xl font-bold mb-8 leading-tight text-center">
-                                Bo wejście w dorosłość stało się <span className="text-gradient">wyzwaniem</span>, którego nikt nas nie uczy.
+                                Praktyczne <span className="text-gradient">laboratorium dorosłości</span>
                             </h2>
 
                             <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
                                 <p>
-                                    Młodzi ludzie wchodzą dziś w samodzielne życie w świecie pełnym presji — cyfrowej, społecznej, klimatycznej i emocjonalnej. Codziennie mierzą się ze stresem, niepewnością, porównywaniem się, samotnością i informacyjnym przeciążeniem.
+                                    Nikt nie uczy nas, jak być dorosłym — szkoła nie tłumaczy, jak ogarnąć własny budżet, dbać o zdrowie psychiczne, kiedy wszystko dookoła stresuje, ani jak radzić sobie z presją internetu. Dlatego powstał GrowUp — praktyczne laboratorium dorosłości, w którym młodzi ludzie projektują technologiczne rozwiązania realnych problemów swojego pokolenia.
                                 </p>
                                 <p>
-                                    Technologia, która miała ułatwiać życie, często je komplikuje. A jednocześnie szkoła nie daje narzędzi do radzenia sobie z planowaniem dorosłego życia, zarządzaniem  finansami, nawiązywaniem i utrzymywaniem relacji czy zdrowiem psychicznym.
-                                </p>
-                                <p className="font-semibold text-white border-l-4 border-[#71135f] pl-4">
-                                    W tym chaosie młodzi wciąż chcą jednego: robić rzeczy, które mają sens, budować swoją przyszłość i tworzyć rozwiązania, które realnie pomagają.
+                                    To nie jest zwykły hackathon: zamiast jednego intensywnego weekendu uczestnicy mają cały miesiąc pracy w pełni online, żeby rozwinąć swój pomysł od idei aż po działający prototyp. W tym czasie zespoły z całej Polski (łącznie 30 drużyn) pracują nad swoimi projektami, ucząc się jak prowadzić je krok po kroku pod okiem mentorów, ekspertów i konsultantów z branży.
                                 </p>
                                 <p>
-                                    GrowUp powstał właśnie po to — żeby dać przestrzeń, w której młodzi mogą odzyskiwać wpływ, sprawczość i pewność siebie.
+                                    Wpadacie ze swoimi pomysłami albo dołączacie do innych, tworzycie zespoły i wspólnie budujecie aplikacje, strony lub narzędzia — może to być aplikacja wspierająca zdrowie psychiczne, narzędzie do nauki finansów osobistych albo system, który krok po kroku tłumaczy pierwsze podatki.
+                                </p>
+                                <p className="font-semibold text-white border-l-4 border-[#a3e635] pl-4">
+                                    Na końcu 5 najlepszych zespołów prezentuje swoje projekty podczas finału w Krakowie, gdzie mają szansę pokazać swoje rozwiązania, zdobyć feedback i rozwinąć je dalej.
                                 </p>
                             </div>
                     </div>
@@ -580,9 +580,9 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
                     <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
                         <div>
                             <h3 className="text-3xl font-bold text-white mb-6">A na zwycięzców czekają <br/>dodatkowe nagrody:</h3>
-                            <a href={GOOGLE_FORM_LINK} target="_blank" className="inline-flex items-center gap-2 text-[#d8ff72] hover:text-white font-semibold transition-colors border-b border-[#d8ff72] pb-1">
+                            <span className="inline-flex items-center gap-2 text-gray-500 font-semibold opacity-50 cursor-not-allowed">
                                 Dołącz do gry o przyszłość <i className="ph-bold ph-arrow-right"></i>
-                            </a>
+                            </span>
                         </div>
 
                         <div className="space-y-4">
@@ -591,7 +591,7 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
                                     <i className="ph-bold ph-wallet text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-white text-lg">Microgranty</h4>
+                                    <h4 className="font-bold text-white text-lg">Mikrogranty</h4>
                                     <p className="text-sm text-gray-400">Dla zespołów z I, II i III miejsca.</p>
                                 </div>
                             </div>
@@ -618,9 +618,9 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
                 </div>
 
                 <div className="mt-20 flex justify-center">
-                    <a href={GOOGLE_FORM_LINK} target="_blank" className="btn-gradient text-[#081120] text-xl font-extrabold py-5 px-16 rounded-full inline-flex items-center gap-2 hover:scale-105 transition-transform uppercase tracking-[0.08em]">
+                    <button disabled className="btn-gradient opacity-50 cursor-not-allowed text-[#081120] text-xl font-extrabold py-5 px-16 rounded-full inline-flex items-center gap-2 uppercase tracking-[0.08em]">
                         Chcę wziąć udział <i className="ph-bold ph-paper-plane-right"></i>
-                    </a>
+                    </button>
                 </div>
 
             </div>
@@ -658,7 +658,7 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
                 <div>
                     <div className="grid md:grid-cols-[1fr_2fr] gap-12">
                         <div>
-                             <h3 className="text-2xl font-bold text-white mb-2">GrowUp <br/>Team</h3>
+                             <h3 className="text-2xl font-bold text-white mb-2"><span className="text-[#d8ff72]">GrowUp </span> <br/>Team</h3>
                              <p className="text-gray-500 text-sm mt-2">Studentki i studenci z różnych uczelni</p>
                         </div>
                         <div className="text-gray-300 space-y-5 text-lg leading-relaxed">
@@ -683,6 +683,102 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
     // --- 7. PARTNERZY (obecnie wyciszony do czasu posiadania logotypów) ---
     const PartnersSection = () => null;
 
+    // --- 7.5. WAITLIST ---
+    const WaitlistSection = () => (
+        <section className="py-24 px-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(157,78,221,0.15),transparent_50%)] pointer-events-none"></div>
+            <div className="container mx-auto max-w-3xl relative z-10">
+                <div className="section-shell rounded-[32px] px-6 md:px-10 py-12 md:py-16 text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                        Wkrótce uruchomimy zapisy!
+                    </h2>
+                    <p className="text-lg text-gray-300 mb-8">
+                        Nie przegap terminu i zapisz się na listę oczekujących!
+                    </p>
+                    <iframe
+                        src={WAITLIST_FORM_LINK.replace('/viewform', '/viewform?embedded=true')}
+                        width="100%"
+                        height="500"
+                        frameBorder="0"
+                        marginHeight="0"
+                        marginWidth="0"
+                        className="rounded-xl"
+                    >
+                        Ładowanie…
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    );
+
+    // --- 7.7. FAQ ---
+    const FAQSection = () => {
+        const [openIndex, setOpenIndex] = React.useState(null);
+
+        const faqs = [
+            {
+                q: "Kto może wziąć udział w hackathonie?",
+                a: "Hackathon jest skierowany do studentów, ale może w nim wziąć udział każda osoba w wieku 18-26 lat."
+            },
+            {
+                q: "Czy muszę umieć programować?",
+                a: "Nie, nie trzeba umieć programować. Jako uczestnik hackathonu będziesz mieć dostęp do materiałów, które pomogą Ci zdobyć potrzebne umiejętności. Poza tym oceniany jest cały projekt – pomysł, koncepcja, prezentacja i współpraca w zespole – a nie tylko sam kod. Projekt może być nawet 'vibekodowany' (czyli tworzony w bardziej kreatywny, eksperymentalny sposób), ale warto mieć w zespole przynajmniej jedną osobę, która czuje się pewniej w programowaniu i będzie mogła wesprzeć część techniczną. Dzięki temu każdy znajdzie coś dla siebie, nawet jeśli nie jest pewny swoich umiejętności kodowania."
+            },
+            {
+                q: "W jakiej formie odbywa się hackathon?",
+                a: "Miesiąc rozwoju odbywa się online, natomiast potem najlepsze drużyny przedstawią swoje projekty na finale, który odbędzie się na żywo w Krakowie."
+            },
+            {
+                q: "Czy udział coś kosztuje?",
+                a: "Nie, udział nic nie kosztuje."
+            },
+            {
+                q: "Umiem bardzo dobrze programować, czego mogę się nauczyć?",
+                a: "Podczas hackathonu uczestnicy będą się uczyć jak prowadzić projekty od idei do wdrożenia. Przewidujemy szkolenia z m.in. product development, marketingu, UX design."
+            },
+            {
+                q: "Czy trzeba mieć zespół przy zgłaszaniu się?",
+                a: "Uczestnicy mogą zgłaszać się w zespołach do 5 osób lub samodzielnie. W przypadku pojedynczego zgłoszenia połączymy cię na platformie Discord z innymi uczestnikami bez drużyn w celu stworzenia ich."
+            }
+        ];
+
+        return (
+            <section className="py-24 px-4 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(132,204,22,0.14),transparent_45%),radial-gradient(circle_at_10%_80%,rgba(157,78,221,0.12),transparent_50%)] pointer-events-none"></div>
+                <div className="container mx-auto max-w-3xl relative z-10">
+                    <div className="text-center mb-16">
+                        <h2 className="section-title text-4xl md:text-5xl font-bold mb-4">
+                            Pytania i <span className="text-gradient">Odpowiedzi</span>
+                        </h2>
+                        <p className="text-slate-400">Znajdź odpowiedzi na najczęstsze pytania</p>
+                    </div>
+
+                    <div className="space-y-4">
+                        {faqs.map((faq, idx) => (
+                            <div
+                                key={idx}
+                                className="puzzle-block rounded-2xl overflow-hidden border border-white/10 transition-all duration-300 cursor-pointer hover:border-[#84cc16]/40"
+                                onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                            >
+                                <div className="px-6 md:px-8 py-5 md:py-6 flex items-center justify-between bg-gradient-to-r from-[#0a1530] to-[#081124]">
+                                    <h3 className="text-lg md:text-xl font-bold text-white pr-4">{faq.q}</h3>
+                                    <div className={`shrink-0 text-[#a3e635] transition-transform duration-300 ${openIndex === idx ? 'rotate-180' : ''}`}>
+                                        <i className="ph-bold ph-caret-down text-2xl"></i>
+                                    </div>
+                                </div>
+                                {openIndex === idx && (
+                                    <div className="px-6 md:px-8 py-6 border-t border-white/10 bg-white/[0.02]">
+                                        <p className="text-gray-300 leading-relaxed">{faq.a}</p>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    };
+
     // --- 8. STOPKA ---
     const FooterSection = () => {
         return (
@@ -705,7 +801,6 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
                     <div className="border-t border-white/10 pt-8">
                         <div className="flex flex-col md:flex-row justify-center gap-2 text-xs text-gray-500">
                             <a href={REGULAMIN_LINK} target="_blank" className="hover:text-gray-300 underline underline-offset-2">Regulamin</a>
-                            <a href={FAQ_LINK} target="_blank" className="hover:text-gray-300 underline underline-offset-2">FAQ</a>
                             <a href={PRIVACY_LINK} target="_blank" className="hover:text-gray-300 underline underline-offset-2">Polityka Prywatności (RODO)</a>
                         </div>
 
@@ -723,7 +818,7 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
     const CookieBanner = () => {
         const [isVisible, setIsVisible] = React.useState(true);
         if (!isVisible) return null;
-        
+
         return (
             <div className="fixed bottom-0 left-0 right-0 bg-[#061022]/92 backdrop-blur-xl border-t border-[#84cc16]/20 p-4 z-50 flex flex-col md:flex-row justify-center items-center gap-6 text-sm text-gray-300">
                 <p className="text-center md:text-left max-w-3xl">
@@ -746,6 +841,8 @@ Dorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesa
                 <PathsSection />
                 <StagesSection />
                 <BenefitsSection />
+                <WaitlistSection />
+                <FAQSection />
                 <OrganizersSection />
                 <PartnersSection />
             </main>
