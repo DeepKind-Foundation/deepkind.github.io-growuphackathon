@@ -45,7 +45,12 @@ jobs:
       - name: Install dependencies
         run: |
           mkdir -p .pnpm-store
-          pnpm install --frozen-lockfile --store-dir .pnpm-store
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile --store-dir .pnpm-store
+          else
+            echo 'pnpm-lock.yaml not found — installing without --frozen-lockfile'
+            pnpm install --store-dir .pnpm-store
+          fi
 
       - name: Build site
         run: pnpm build
