@@ -6,7 +6,6 @@ node_modules
 .pnp.js
 /.pnp
 package-lock.json
-pnpm-lock.yaml
 .pnpm-store
 
 # pnpm local store
