@@ -1,0 +1,279 @@
+{
+  "seo": {
+    "title": "GrowUp Hackathon",
+    "description": "Ogólnopolski hackathon dla młodych ludzi — projektuj technologiczne rozwiązania realnych problemów swojego pokolenia.",
+    "ogImage": "https://growuphackathon.pl/logo.png"
+  },
+  "nav": [
+    { "label": "O projekcie", "href": "#o-projekcie" },
+    { "label": "Ścieżki", "href": "#sciezki" },
+    { "label": "Etapy", "href": "#etapy" },
+    { "label": "Korzyści", "href": "#nagrody" },
+    { "label": "FAQ", "href": "#faq" },
+    { "label": "Organizatorzy", "href": "#organizator" },
+    { "label": "Partnerzy", "href": "#partnerzy" },
+    { "label": "Kontakt", "href": "#kontakt" }
+  ],
+  "links": {
+    "waitlist": "https://forms.gle/pzrs6dqv7qyh9J5F6",
+    "facebook": "https://www.facebook.com/profile.php?id=61585845027175",
+    "instagram": "https://www.instagram.com/growup_hackaton/",
+    "regulamin": "#",
+    "privacy": "/privacy-policy.pdf",
+    "contactEmail": "kontakt@growuphackathon.pl"
+  },
+  "hero": {
+    "eyebrow": "Hackathon 2026",
+    "wordmarkLead": "Grow",
+    "wordmarkAccent": "Up",
+    "taglinePurple": "Hackuj dorosłość,",
+    "taglineLime": "wymyśl lepsze jutro",
+    "leadParagraph1": "Ogólnopolski hackathon dla młodych ludzi, który łączy technologię, innowacje i empatię, aby ułatwić wchodzenie w dorosłe życie.",
+    "leadParagraph2": "Pracuj w zespole, testuj pomysły, prototypuj, korzystaj z wiedzy mentorów i stwórz rozwiązanie, które może zmienić czyjeś (i Twoje) życie.",
+    "ctaLabel": "Chcę wziąć udział",
+    "ctaEnabled": false
+  },
+  "about": {
+    "titleLead": "Praktyczne",
+    "titleAccent": "laboratorium dorosłości",
+    "paragraphs": [
+      "Nikt nie uczy nas, jak być dorosłym — szkoła nie tłumaczy, jak ogarnąć własny budżet, dbać o zdrowie psychiczne, kiedy wszystko dookoła stresuje, ani jak radzić sobie z presją internetu. Dlatego powstał GrowUp — praktyczne laboratorium dorosłości, w którym młodzi ludzie projektują technologiczne rozwiązania realnych problemów swojego pokolenia.",
+      "To nie jest zwykły hackathon: zamiast jednego intensywnego weekendu uczestnicy mają cały miesiąc pracy w pełni online, żeby rozwinąć swój pomysł od idei aż po działający prototyp. W tym czasie zespoły z całej Polski (łącznie 30 drużyn) pracują nad swoimi projektami, ucząc się jak prowadzić je krok po kroku pod okiem mentorów, ekspertów i konsultantów z branży.",
+      "Wpadacie ze swoimi pomysłami albo dołączacie do innych, tworzycie zespoły i wspólnie budujecie aplikacje, strony lub narzędzia — może to być aplikacja wspierająca zdrowie psychiczne, narzędzie do nauki finansów osobistych albo system, który krok po kroku tłumaczy pierwsze podatki."
+    ],
+    "highlight": "Na końcu 5 najlepszych zespołów prezentuje swoje projekty podczas finału w Krakowie, gdzie mają szansę pokazać swoje rozwiązania, zdobyć feedback i rozwinąć je dalej."
+  },
+  "paths": {
+    "titleLead": "Ścieżki",
+    "titleAccent": "Tematyczne",
+    "intro": "Wybierz obszar, w którym chcesz działać i wprowadzaj realne zmiany.",
+    "items": [
+      {
+        "title": "Grow Self",
+        "icon": "ph-user",
+        "description": "Jak dorosnąć w XXI wieku i nie zwariować?\n\nW dobie niestabilności geopolitycznej, kryzysu klimatycznego i wszechobecnej presji sukcesu, odnalezienie własnej drogi staje się wyzwaniem ekstremalnym. Tradycyjne metody wsparcia często nie nadążają za tempem zmian. Twoim zadaniem jest zaprojektowanie rozwiązania, które pomoże naszym rówieśnikom zadbać o zdrowie psychiczne, wypracować autentyczną równowagę (work-life-tech balance) i głębiej poznać siebie.\n\n„Nie ma ucieczki przed formą, jak tylko w inną formę” – pisał Witold Gombrowicz. Skoro nie uciekniemy od technologii i współczesnych struktur, stwórzmy ich nową, lepszą formę: taką, która wspiera człowieka, zamiast go przytłaczać."
+      },
+      {
+        "title": "Grow Together",
+        "icon": "ph-users-three",
+        "description": "Jak nie być samotnym w tłumie?\n\nLudzie to zwierzęta stadne, lecz w świecie algorytmów coraz częściej o tym zapominamy. Budowanie i utrzymywanie wartościowych relacji staje się trudniejsze niż kiedykolwiek, a ekrany, które miały nas łączyć, paradoksalnie wznoszą między nami bariery. Samotność stała się chorobą cywilizacyjną, dotykającą nas bez względu na liczbę \"znajomych\" w sieci.\n\n„Ludzie mają zbyt mało czasu, aby cokolwiek poznać. Kupują w sklepach rzeczy gotowe. A ponieważ nie ma magazynów z przyjaciółmi, więc ludzie nie mają przyjaciół” – pisał Antoine de Saint-Exupéry. W świecie nastawionym na szybką konsumpcję relacji, zapomnieliśmy o procesie ich uważnego budowania."
+      },
+      {
+        "title": "Grow Skills",
+        "icon": "ph-brain",
+        "description": "Jak uczyć się jutra, które dzieje się dziś?\n\nSystem edukacji często przypomina mapę do świata, który już nie istnieje. W obliczu rewolucji AI i błyskawicznej dezaktualizacji wiedzy, kluczową kompetencją nie jest już \"wiedzieć\", ale \"potrafić się uczyć\" i krytycznie analizować rzeczywistość. Musimy wyposażyć się w narzędzia, które pozwolą nam nawigować po rynku pracy, który zmienia się na naszych oczach.\n\n„Wiedza to jedyna rzecz, która się mnoży, gdy się ją dzieli” – pisał Andrzej Majewski. W erze sztucznej inteligencji to współdzielenie wiedzy i umiejętność współpracy z technologią, a nie walka z nią, stanie się naszym największym atutem."
+      },
+      {
+        "title": "Grow Impact",
+        "icon": "ph-globe-hemisphere-west",
+        "description": "Jak zostawić świat lepszym, niż go zastaliśmy?\n\nTechnologia rośnie szybciej niż nasza refleksja nad jej skutkami. Stoimy przed wyzwaniami, które nie uznają granic: od kryzysu klimatycznego po dylematy etyczne związane z automatyzacją życia. Mamy potężne narzędzia, ale musimy nadać im kierunek, który służy wspólnemu dobru, a nie tylko chwilowemu zyskowi.\n\n„Bądź zmianą, którą chcesz ujrzeć w świecie” – te słowa Mahatmy Gandhiego nabierają nowego znaczenia w erze cyfrowej. Nasza sprawczość jako obywateli i twórców technologii jest większa niż kiedykolwiek – pytanie brzmi, jak ją wykorzystamy."
+      },
+      {
+        "title": "Grow Everyday",
+        "icon": "ph-calendar-check",
+        "description": "Jak ogarnąć dorosłość i nie stracić sensu?\n\nDorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesami. Tymczasem większość naszego życia składa się z dużo prostszych rzeczy: zapłacenia rachunków, umówienia wizyty u lekarza, zorganizowania budżetu czy znalezienia czasu na odpoczynek. To właśnie w tej codzienności uczymy się samodzielności. Małe zadania potrafią być zaskakująco trudne - szczególnie gdy nikt wcześniej nie pokazał nam, jak je ogarnąć.\n\n\"Wszyscy powinniśmy przynajmniej raz w życiu dostać owację na stojąco, bo przecież każdy z nas zwycięża ten świat.\" - R. J. Palacio, \"Cudowny chłopak\". W tej ścieżce szukamy pomysłów, które pomagają ludziom lepiej radzić sobie z codziennością: upraszczają organizację życia, pomagają zarządzać finansami czy budować dobre nawyki. Bo czasem największą innowacją nie jest zmiana świata - tylko sprawienie, że zwykłe życie staje się trochę łatwiejsze."
+      }
+    ]
+  },
+  "stages": {
+    "titleLead": "Etapy",
+    "titleAccent": "Programu",
+    "intro": "Dokładnie wiesz, co Cię czeka — krok po kroku",
+    "items": [
+      {
+        "step": "01",
+        "icon": "ph-pencil-simple-line",
+        "title": "Zapisujesz się",
+        "date": "14.09 – 23.10",
+        "what": "Rejestracja online — solo lub z gotowym zespołem (max 5 osób). Jeśli nie masz drużyny, połączymy Cię z innymi na Discordzie.",
+        "expect": ["Formularz zgłoszeniowy online", "Możliwość dołączenia bez zespołu"]
+      },
+      {
+        "step": "02",
+        "icon": "ph-flag-checkered",
+        "title": "Kick-off & mentor",
+        "date": "7.11",
+        "what": "Inauguracja hackathonu online. Poznajesz swój zespół, dostajesz dedykowanego mentora i wybieracie ścieżkę tematyczną.",
+        "expect": ["Spotkanie otwierające online", "Przydzielenie mentora do zespołu"]
+      },
+      {
+        "step": "03",
+        "icon": "ph-flask",
+        "title": "Miesiąc rozwoju",
+        "date": "7.11 – 6.12",
+        "what": "Cztery tygodnie intensywnej pracy online. Cotygodniowe check-iny z mentorem, dostęp do warsztatów z UX, marketingu i technologii. Budujesz działający prototyp.",
+        "expect": ["Cotygodniowe sesje z mentorem", "Warsztaty: UX, marketing, tech, prezentacje", "Wsparcie ekspertów i konsultantów"]
+      },
+      {
+        "step": "04",
+        "icon": "ph-trophy",
+        "title": "Finał w Krakowie",
+        "date": "12.12",
+        "what": "Top 5 zespołów prezentuje projekty przed jury ekspertów. Nagrody, networking z firmami i świętowanie.",
+        "expect": ["Prezentacje finałowe na żywo", "Jury złożone z ekspertów branży", "Nagrody, certyfikaty, networking"]
+      }
+    ]
+  },
+  "benefits": {
+    "titleLead": "Biorąc udział w GrowUp,",
+    "titleAccent": "zdobywasz:",
+    "items": [
+      { "bold": "Praktyczne kompetencje", "rest": "(technologia, współpraca, komunikacja, organizacja)" },
+      { "bold": "Wsparcie mentorów", "rest": "— technologicznych, społecznych i biznesowych" },
+      { "bold": "Doświadczenie projektowe", "rest": "które wykorzystasz na studiach i w pracy" },
+      { "bold": "Portfolio", "rest": "zrealizowanego projektu (robi wrażenie na rekruterach)" },
+      { "bold": "Możliwość przetestowania pomysłu", "rest": "w realnym środowisku" },
+      { "bold": "Networking z mentorami", "rest": "— zbuduj sieć kontaktów z ekspertami z czołowych firm, która pomoże Ci w karierze" },
+      { "bold": "Dołączenie do społeczności", "rest": "GrowUp Alumni" },
+      { "bold": "Certyfikat udziału", "rest": "potwierdzający umiejętności" }
+    ],
+    "awardsTitle": "A na zwycięzców czekają\ndodatkowe nagrody:",
+    "awardsNote": "Dołącz do gry o przyszłość",
+    "awards": [
+      { "icon": "ph-wallet", "title": "Mikrogranty", "description": "Dla zespołów z I, II i III miejsca." },
+      { "icon": "ph-stairs", "title": "Program rozwojowy", "description": "Wsparcie specjalistów w dopracowaniu i testowaniu projektu." },
+      { "icon": "ph-briefcase", "title": "Networking z liderami branży", "description": "Zbuduj sieć kontaktów z mentorami z czołowych firm — to często cenniejsze niż sama nagroda. Staże, „job shadowing” i połączenia, które otwierają drzwi." }
+    ],
+    "ctaLabel": "Chcę wziąć udział"
+  },
+  "waitlist": {
+    "title": "Wkrótce uruchomimy zapisy!",
+    "text": "Nie przegap terminu i zapisz się na listę oczekujących!",
+    "ctaLabel": "Zapisz się na listę"
+  },
+  "faq": {
+    "titleLead": "Pytania i",
+    "titleAccent": "Odpowiedzi",
+    "intro": "Znajdź odpowiedzi na najczęstsze pytania",
+    "items": [
+      {
+        "question": "Kto może wziąć udział w hackathonie?",
+        "answer": "Hackathon jest skierowany do studentów, ale może w nim wziąć udział każda osoba w wieku 18-26 lat."
+      },
+      {
+        "question": "Czy muszę umieć programować?",
+        "answer": "Nie, nie trzeba umieć programować. Jako uczestnik hackathonu będziesz mieć dostęp do materiałów, które pomogą Ci zdobyć potrzebne umiejętności. Poza tym oceniany jest cały projekt – pomysł, koncepcja, prezentacja i współpraca w zespole – a nie tylko sam kod. Projekt może być nawet 'vibekodowany' (czyli tworzony w bardziej kreatywny, eksperymentalny sposób), ale warto mieć w zespole przynajmniej jedną osobę, która czuje się pewniej w programowaniu i będzie mogła wesprzeć część techniczną. Dzięki temu każdy znajdzie coś dla siebie, nawet jeśli nie jest pewny swoich umiejętności kodowania."
+      },
+      {
+        "question": "W jakiej formie odbywa się hackathon?",
+        "answer": "Miesiąc rozwoju odbywa się online, natomiast potem najlepsze drużyny przedstawią swoje projekty na finale, który odbędzie się na żywo w Krakowie."
+      },
+      {
+        "question": "Czy udział coś kosztuje?",
+        "answer": "Nie, udział nic nie kosztuje."
+      },
+      {
+        "question": "Umiem bardzo dobrze programować, czego mogę się nauczyć?",
+        "answer": "Podczas hackathonu uczestnicy będą się uczyć jak prowadzić projekty od idei do wdrożenia. Przewidujemy szkolenia z m.in. product development, marketingu, UX design."
+      },
+      {
+        "question": "Czy trzeba mieć zespół przy zgłaszaniu się?",
+        "answer": "Uczestnicy mogą zgłaszać się w zespołach do 5 osób lub samodzielnie. W przypadku pojedynczego zgłoszenia połączymy cię na platformie Discord z innymi uczestnikami bez drużyn w celu stworzenia ich."
+      }
+    ]
+  },
+  "organizers": {
+    "title": "ORGANIZATORZY",
+    "blocks": [
+      {
+        "nameLead": "Fundacja",
+        "nameAccent": "DeepKind",
+        "accentFirst": false,
+        "subtitle": "",
+        "paragraphs": [
+          {
+            "text": "Fundacja DeepKind wspiera osoby i społeczności, które chcą działać odpowiedzialnie i w zgodzie z wartościami. Tworzy inicjatywy rozwijające kompetencje, ułatwiające dostęp do wiedzy oraz pokazujące, jak technologia, edukacja i empatia mogą realnie wzmacniać ludzi i środowisko.",
+            "variant": "normal"
+          },
+          {
+            "text": "Pomaga organizacjom i partnerom wdrażać rozwiązania społeczne i ekologiczne, dzięki czemu mogą skuteczniej wspierać zrównoważony rozwój, różnorodność i dobrostan.",
+            "variant": "normal"
+          },
+          {
+            "text": "Działa w obszarach: edukacji klimatycznej, odpowiedzialnych technologii, neuroróżnorodności, wsparcia kobiet, kultury empatii oraz innowacji społecznych — łącząc je w praktyczne programy i partnerskie projekty.",
+            "variant": "note"
+          }
+        ]
+      },
+      {
+        "nameLead": "Team",
+        "nameAccent": "GrowUp",
+        "accentFirst": true,
+        "subtitle": "Studentki i studenci z różnych uczelni",
+        "paragraphs": [
+          {
+            "text": "Zespół Programowy GrowUp Hackathon - to grupa studentek i studentów z różnych uczelni i kierunków, których połączyła wspólna potrzeba: zrobienie czegoś wspierającego dla swojego pokolenia.",
+            "variant": "normal"
+          },
+          {
+            "text": "Osobiście doświadczają wyzwań związanych z wejściem w dorosłość, brakiem edukacji projektowej oraz niewystarczającym rozwijaniem kompetencji przyszłości. Dlatego stają się ambasadorkami/ami tych tematów i chcą wesprzeć swoje koleżanki i kolegów, tworząc przestrzeń rozwoju, współpracy i sprawczości.",
+            "variant": "normal"
+          },
+          {
+            "text": "GrowUp Hackathon to inicjatywa zrodzona z ich chęci nauki oraz działania, które realnie wpłyną na przyszłość młodych dorosłych.",
+            "variant": "highlight"
+          }
+        ]
+      }
+    ]
+  },
+  "partners": {
+    "partnersTitleLead": "Nasi",
+    "partnersTitleAccent": "Partnerzy",
+    "logos": [
+      { "image": "/logos/logo_allventures.jpg", "alt": "All Ventures" },
+      { "image": "/logos/logo_GI.png", "alt": "GI" }
+    ],
+    "becomeTitleLead": "Zostań",
+    "becomeTitleAccent": "Partnerem",
+    "becomeIntro": "Dołącz do grona firm i organizacji, które inwestują w kolejne pokolenie innowatorów.",
+    "stats": [
+      { "value": "200+", "label": "przewidywanych uczestników" },
+      { "value": "30", "label": "drużyn z całej Polski" },
+      { "value": "10+", "label": "uczelni partnerskich" }
+    ],
+    "benefits": [
+      {
+        "icon": "ph-star",
+        "title": "Dostęp do top talentów",
+        "description": "Pierwszy kontakt z najbardziej zmotywowanymi młodymi ludźmi w Polsce — zanim trafi do nich konkurencja."
+      },
+      {
+        "icon": "ph-megaphone",
+        "title": "Branding w social mediach",
+        "description": "Logo i obecność na wszystkich materiałach, postach i podczas finału w Krakowie. Realny zasięg wśród pokolenia Z."
+      },
+      {
+        "icon": "ph-handshake",
+        "title": "Realny wpływ społeczny",
+        "description": "Twój brand kojarzony z inicjatywą, która realnie zmienia życie młodych dorosłych w Polsce."
+      },
+      {
+        "icon": "ph-buildings",
+        "title": "Employer Branding",
+        "description": "Hackathon to najlepszy sposób na znalezienie kreatywnych pracowników spoza schematu. Poznaj kandydatów w działaniu — zanim trafią na rynek pracy."
+      },
+      {
+        "icon": "ph-flag",
+        "title": "Własne wyzwanie dla uczestników",
+        "description": "Obejmij patronatem konkretną ścieżkę (np. bank → Grow Everyday o finansach) i zaproponuj uczestnikom realne zadanie z Twojego obszaru."
+      }
+    ],
+    "ctaLabel": "Zostań partnerem",
+    "ctaMailto": "mailto:kontakt@growuphackathon.pl?subject=Zostań partnerem GrowUp Hackathon"
+  },
+  "bottomCta": {
+    "titleLead": "Gotowy, żeby",
+    "titleAccent": "hackować dorosłość?",
+    "text": "Dołącz do listy oczekujących i nie przegap startu zapisów.",
+    "ctaLabel": "Chcę wziąć udział"
+  },
+  "footer": {
+    "contactTitle": "Kontakt",
+    "copyright": "© 2026 GrowUp Hackathon. Powered by DeepKind."
+  },
+  "cookie": {
+    "text": "Ta strona używa plików cookies w celu świadczenia usług na najwyższym poziomie. Dalsze korzystanie ze strony oznacza, że zgadzasz się na ich użycie.",
+    "accept": "Zgadzam się"
+  }
+}

@@ -1,0 +1,110 @@
+/*
+  GrowUp Hackathon — design tokens.
+  Aesthetic: a late-night neon poster — deep navy-to-violet field lit by purple and
+  lime beams, glass panels with soft outlines, electric purple-to-lime gradient accents.
+  Colours: dominant deep navy (60%), purple/lime accents (30% / 10%) — all in oklch (P3).
+  Type: Poppins throughout (the live site's Adumu display face 404s and falls back to Poppins).
+  Motion: restrained — fade-and-rise reveals on scroll, gentle lift on hover.
+*/
+
+:root {
+  /* Brand — purple family */
+  --c-purple-vivid: oklch(58.8% 0.212 306.3); /* #9d4edd */
+  --c-violet-500: oklch(60.6% 0.219 292.7); /* #8b5cf6 */
+  --c-purple-light: oklch(69.7% 0.195 303.1); /* #b779ff */
+  --c-purple-400: oklch(72.2% 0.177 305.5); /* #c084fc */
+  --c-purple-300: oklch(82.0% 0.107 301.2); /* #d0b4ff */
+  --c-lavender: oklch(76.3% 0.096 300.8); /* #bca4e6 */
+  --c-purple-deep: oklch(38.4% 0.151 337.5); /* #71135f */
+
+  /* Brand — lime / green family */
+  --c-lime-500: oklch(76.8% 0.204 130.8); /* #84cc16 */
+  --c-lime-400: oklch(84.9% 0.207 128.8); /* #a3e635 */
+  --c-lime-light: oklch(94.5% 0.172 122.7); /* #d8ff72 */
+  --c-green-500: oklch(72.3% 0.192 149.6); /* #22c55e */
+
+  /* Backgrounds / surfaces (dark navy field) */
+  --c-bg-0: oklch(12.9% 0.041 264.7); /* #020617 */
+  --c-bg-1: oklch(15.4% 0.041 263.2); /* #040b1d */
+  --c-bg-2: oklch(17.7% 0.045 254.3); /* #031124 */
+  --c-bg-3: oklch(18.0% 0.033 243.1); /* #04131f */
+  --c-ink-deep: oklch(17.8% 0.034 259.9); /* #081120 — dark text on bright buttons */
+  --c-panel-1: oklch(18.0% 0.042 261.6); /* #071124 */
+  --c-card: oklch(19.3% 0.044 261.4); /* #091428 */
+  --c-head-dark: oklch(13.1% 0.027 306.1); /* #0a0510 */
+  --c-card-2: oklch(20.3% 0.056 265.1); /* #0a1530 */
+  --c-card-3: oklch(17.7% 0.032 258.7); /* #08111f */
+  --c-cookie: oklch(17.5% 0.041 260.3); /* #061022 */
+  --c-hover-card: oklch(21.3% 0.051 262.8); /* #0c1830 */
+  --c-quote-box: oklch(23.2% 0.048 261.1); /* #101d34 */
+
+  /* Text / neutrals */
+  --c-text-100: oklch(96.7% 0.003 264.5); /* #f3f4f6 */
+  --c-gray-300: oklch(87.2% 0.009 258.3); /* #d1d5db */
+  --c-gray-400: oklch(71.4% 0.019 261.3); /* #9ca3af */
+  --c-gray-500: oklch(55.1% 0.023 264.4); /* #6b7280 */
+  --c-gray-700: oklch(37.3% 0.031 259.7); /* #374151 */
+  --c-slate-200: oklch(92.9% 0.013 255.5); /* #e2e8f0 */
+  --c-slate-300: oklch(86.9% 0.020 252.9); /* #cbd5e1 */
+  --c-slate-400: oklch(71.1% 0.035 256.8); /* #94a3b8 */
+
+  --c-white: oklch(100% 0 0);
+
+  /* Semantic aliases */
+  --color-text: var(--c-text-100);
+  --color-text-muted: var(--c-gray-300);
+  --color-text-dim: var(--c-gray-400);
+  --color-text-faint: var(--c-gray-500);
+  --color-accent-purple: var(--c-purple-vivid);
+  --color-accent-lime: var(--c-lime-500);
+  --color-on-accent: var(--c-ink-deep);
+
+  /* Stage accent colours (presentational, keyed by step) */
+  --stage-1: var(--c-purple-vivid);
+  --stage-2: var(--c-purple-400);
+  --stage-3: var(--c-lime-500);
+  --stage-4: var(--c-lime-light);
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(
+    90deg,
+    var(--c-purple-light) 0%,
+    var(--c-purple-vivid) 32%,
+    var(--c-lime-500) 100%
+  );
+  --gradient-lime: linear-gradient(90deg, var(--c-lime-light) 0%, var(--c-lime-400) 100%);
+  --gradient-button: linear-gradient(90deg, var(--c-violet-500) 0%, var(--c-lime-500) 100%);
+
+  /* Typography */
+  --font-body: 'Poppins', system-ui, sans-serif;
+  --font-display: 'Poppins', system-ui, sans-serif;
+
+  /* Spacing — 4px base scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Radii */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --container-max: 1152px; /* max-w-6xl */
+  --container-narrow: 768px; /* max-w-3xl */
+
+  /* Easing / motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-duration: 0.7s;
+}

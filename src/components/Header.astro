@@ -1,0 +1,101 @@
+---
+import type { NavItem } from '../lib/types';
+import { safeHref } from '../lib/url';
+
+interface Props {
+  nav: readonly NavItem[];
+}
+
+const { nav } = Astro.props;
+---
+
+<header class="site-header" id="site-header" data-scrolled="false">
+  <nav class="container site-header__nav" aria-label="Główna nawigacja">
+    <a href="#" class="site-header__logo" aria-label="GrowUp Hackathon — strona główna">
+      <img src="/logos/logo_growup.png" alt="GrowUp Hackathon" width="160" height="56" />
+    </a>
+    <ul class="site-header__menu">
+      {
+        nav.map((item) => (
+          <li>
+            <a href={safeHref(item.href)}>{item.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    padding-block: var(--space-3);
+    background: color-mix(in oklch, var(--c-bg-1) 55%, transparent);
+    backdrop-filter: blur(4px);
+    transition: background 0.3s var(--ease-out), padding 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+    border-bottom: 1px solid transparent;
+  }
+  .site-header[data-scrolled='true'] {
+    padding-block: var(--space-2);
+    background: color-mix(in oklch, var(--c-head-dark) 95%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom-color: color-mix(in oklch, var(--c-white) 10%, transparent);
+  }
+
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.2s var(--ease-out);
+  }
+  .site-header__logo:hover {
+    opacity: 0.9;
+  }
+  .site-header__logo img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .site-header__menu {
+    display: none;
+    gap: var(--space-8);
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .site-header__menu a {
+    color: var(--c-gray-300);
+    transition: color 0.2s var(--ease-out);
+  }
+  .site-header__menu a:hover {
+    color: var(--c-lavender);
+  }
+
+  @media (min-width: 1024px) {
+    .site-header__menu {
+      display: flex;
+    }
+    .site-header__logo img {
+      height: 56px;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  if (header) {
+    const onScroll = () => {
+      header.dataset.scrolled = window.scrollY > 50 ? 'true' : 'false';
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

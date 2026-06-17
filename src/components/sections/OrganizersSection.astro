@@ -1,0 +1,123 @@
+---
+import type { HomeContent } from '../../lib/types';
+
+interface Props {
+  organizers: HomeContent['organizers'];
+}
+
+const { organizers } = Astro.props;
+---
+
+<section id="organizator" class="section">
+  <div class="container container--md organizers__shell section-shell reveal">
+    <h2 class="organizers__title">{organizers.title}</h2>
+
+    <div class="organizers__blocks">
+      {
+        organizers.blocks.map((block) => (
+          <div class="organizers__block">
+            <div class="organizers__aside">
+              <h3 class="organizers__name">
+                {block.accentFirst ? (
+                  <>
+                    <span class="organizers__name-accent">{block.nameAccent}</span>
+                    <span>{block.nameLead}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{block.nameLead}</span>
+                    <span class="organizers__name-accent">{block.nameAccent}</span>
+                  </>
+                )}
+              </h3>
+              {block.subtitle ? (
+                <p class="organizers__subtitle">{block.subtitle}</p>
+              ) : (
+                <span class="organizers__bar" aria-hidden="true" />
+              )}
+            </div>
+
+            <div class="organizers__body">
+              {block.paragraphs.map((paragraph) => (
+                <p class={`organizers__para organizers__para--${paragraph.variant}`}>{paragraph.text}</p>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .organizers__shell {
+    border-radius: var(--radius-xl);
+    padding: var(--space-12) var(--space-6);
+  }
+  .organizers__title {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+  }
+  .organizers__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+  .organizers__block {
+    display: grid;
+    gap: var(--space-12);
+  }
+  .organizers__name {
+    font-size: 1.5rem;
+    color: var(--c-white);
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+  }
+  .organizers__name-accent {
+    color: var(--c-lime-light);
+  }
+  .organizers__subtitle {
+    margin-top: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--c-gray-500);
+  }
+  .organizers__bar {
+    display: block;
+    width: 3rem;
+    height: 4px;
+    margin-top: var(--space-4);
+    border-radius: var(--radius-pill);
+    background: var(--c-lime-500);
+  }
+  .organizers__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--c-gray-300);
+  }
+  .organizers__para--note {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--c-gray-500);
+    border-left: 2px solid var(--c-gray-700);
+    padding-left: var(--space-4);
+  }
+  .organizers__para--highlight {
+    font-weight: 600;
+    color: var(--c-lime-light);
+  }
+
+  @media (min-width: 768px) {
+    .organizers__shell {
+      padding: var(--space-16) var(--space-10);
+    }
+    .organizers__block {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+</style>

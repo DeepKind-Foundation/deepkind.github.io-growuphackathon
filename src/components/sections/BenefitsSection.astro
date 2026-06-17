@@ -1,0 +1,226 @@
+---
+import type { HomeContent } from '../../lib/types';
+import { safeHref } from '../../lib/url';
+
+interface Props {
+  benefits: HomeContent['benefits'];
+  waitlistUrl: string;
+}
+
+const { benefits, waitlistUrl } = Astro.props;
+
+// Award accent tints, by row (presentational).
+const AWARD_ACCENTS = ['var(--c-lime-light)', 'var(--c-purple-300)', 'var(--c-white)'];
+const awards = benefits.awards.map((award, index) => ({
+  ...award,
+  accent: AWARD_ACCENTS[index % AWARD_ACCENTS.length],
+}));
+---
+
+<section id="nagrody" class="section benefits">
+  <div class="container benefits__shell section-shell reveal">
+    <div class="benefits__grow">
+      <h2 class="section-title benefits__title">
+        {benefits.titleLead} <span class="text-gradient">{benefits.titleAccent}</span>
+      </h2>
+
+      <ul class="benefits__grid">
+        {
+          benefits.items.map((item) => (
+            <li class="benefits__card puzzle-block">
+              <i class="ph-fill ph-check-circle benefits__check" aria-hidden="true" />
+              <p>
+                <strong>{item.bold}</strong> {item.rest}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="benefits__awards">
+      <div class="benefits__awards-blob" aria-hidden="true"></div>
+      <div class="benefits__awards-inner">
+        <div class="benefits__awards-intro">
+          <h3 class="benefits__awards-title">{benefits.awardsTitle}</h3>
+          <span class="benefits__awards-note" aria-disabled="true">
+            {benefits.awardsNote}
+            <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+          </span>
+        </div>
+
+        <ul class="benefits__awards-list">
+          {
+            awards.map((award) => (
+              <li class="benefits__award" style={`--accent: ${award.accent}`}>
+                <span class="benefits__award-icon icon-tile">
+                  <i class={`ph-bold ${award.icon}`} aria-hidden="true" />
+                </span>
+                <div>
+                  <h4 class="benefits__award-name">{award.title}</h4>
+                  <p class="benefits__award-desc">{award.description}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="benefits__cta">
+      <a class="btn-gradient btn-gradient--lg" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
+        {benefits.ctaLabel}
+        <i class="ph-bold ph-paper-plane-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .benefits {
+    overflow: hidden;
+  }
+  .benefits__shell {
+    position: relative;
+    z-index: 1;
+    border-radius: var(--radius-xl);
+    padding: var(--space-12) var(--space-6);
+  }
+  .benefits__grow {
+    margin-bottom: var(--space-24);
+  }
+  .benefits__title {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+  .benefits__grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+  .benefits__card {
+    border-radius: var(--radius-sm);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .benefits__check {
+    font-size: 1.875rem;
+    color: var(--c-lime-400);
+    margin-bottom: var(--space-4);
+  }
+  .benefits__card p {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--c-gray-300);
+  }
+  .benefits__card strong {
+    color: var(--c-white);
+    font-weight: 700;
+  }
+
+  .benefits__awards {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    background: linear-gradient(135deg, var(--c-card-2), var(--c-card-3));
+    border: 1px solid color-mix(in oklch, var(--c-lime-500) 25%, transparent);
+    box-shadow: 0 24px 80px color-mix(in oklch, black 35%, transparent);
+  }
+  .benefits__awards-blob {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20rem;
+    height: 20rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklch, var(--c-lime-500) 10%, transparent);
+    filter: blur(48px);
+    pointer-events: none;
+  }
+  .benefits__awards-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+  .benefits__awards-title {
+    font-size: 1.875rem;
+    color: var(--c-white);
+    margin-bottom: var(--space-6);
+    white-space: pre-line;
+  }
+  .benefits__awards-note {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    color: var(--c-gray-500);
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .benefits__awards-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .benefits__award {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--c-white) 5%, transparent);
+    border: 1px solid color-mix(in oklch, var(--c-white) 5%, transparent);
+  }
+  .benefits__award-icon {
+    margin-top: var(--space-1);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-pill);
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    color: var(--accent);
+    background: color-mix(in oklch, var(--accent) 14%, transparent);
+  }
+  .benefits__award-name {
+    font-size: 1.125rem;
+    color: var(--c-white);
+    margin-bottom: var(--space-1);
+  }
+  .benefits__award-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--c-gray-400);
+  }
+
+  .benefits__cta {
+    margin-top: var(--space-20);
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .benefits__shell {
+      padding: var(--space-16) var(--space-10);
+    }
+    .benefits__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .benefits__awards {
+      padding: var(--space-12);
+    }
+    .benefits__awards-inner {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .benefits__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

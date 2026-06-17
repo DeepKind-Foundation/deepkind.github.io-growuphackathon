@@ -1,0 +1,53 @@
+---
+import type { HomeContent } from '../../lib/types';
+import { safeHref } from '../../lib/url';
+
+interface Props {
+  bottomCta: HomeContent['bottomCta'];
+  waitlistUrl: string;
+}
+
+const { bottomCta, waitlistUrl } = Astro.props;
+---
+
+<section class="section bottom-cta">
+  <div class="bottom-cta__bg" aria-hidden="true"></div>
+  <div class="container container--narrow bottom-cta__inner reveal">
+    <h2 class="bottom-cta__title">
+      {bottomCta.titleLead} <span class="text-gradient">{bottomCta.titleAccent}</span>
+    </h2>
+    <p class="bottom-cta__text">{bottomCta.text}</p>
+    <a class="btn-gradient btn-gradient--lg" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
+      {bottomCta.ctaLabel}
+      <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+    </a>
+  </div>
+</section>
+
+<style>
+  .bottom-cta {
+    overflow: hidden;
+    padding-block: var(--space-20);
+  }
+  .bottom-cta__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--c-lime-500) 12%, transparent), transparent 60%);
+  }
+  .bottom-cta__inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+  .bottom-cta__title {
+    font-size: clamp(1.875rem, 5vw, 2.25rem);
+    color: var(--c-white);
+    margin-bottom: var(--space-4);
+  }
+  .bottom-cta__text {
+    font-size: 1.125rem;
+    color: var(--c-gray-400);
+    margin-bottom: var(--space-10);
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import AboutSection from '../components/sections/AboutSection.astro';
+import PathsSection from '../components/sections/PathsSection.astro';
+import StagesSection from '../components/sections/StagesSection.astro';
+import BenefitsSection from '../components/sections/BenefitsSection.astro';
+import WaitlistSection from '../components/sections/WaitlistSection.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import OrganizersSection from '../components/sections/OrganizersSection.astro';
+import PartnersSection from '../components/sections/PartnersSection.astro';
+import BottomCtaSection from '../components/sections/BottomCtaSection.astro';
+import { getHomeContent } from '../lib/content';
+
+const content = await getHomeContent();
+const waitlistUrl = content.links.waitlist;
+---
+
+<BaseLayout title={content.seo.title} description={content.seo.description} ogImage={content.seo.ogImage}>
+  <Header nav={content.nav} />
+  <main>
+    <HeroSection hero={content.hero} waitlistUrl={waitlistUrl} />
+    <AboutSection about={content.about} />
+    <PathsSection paths={content.paths} />
+    <StagesSection stages={content.stages} />
+    <BenefitsSection benefits={content.benefits} waitlistUrl={waitlistUrl} />
+    <WaitlistSection waitlist={content.waitlist} waitlistUrl={waitlistUrl} />
+    <FaqSection faq={content.faq} />
+    <OrganizersSection organizers={content.organizers} />
+    <PartnersSection partners={content.partners} />
+    <BottomCtaSection bottomCta={content.bottomCta} waitlistUrl={waitlistUrl} />
+  </main>
+  <Footer footer={content.footer} links={content.links} />
+  <CookieBanner cookie={content.cookie} />
+</BaseLayout>

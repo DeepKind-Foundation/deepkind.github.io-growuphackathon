@@ -1,0 +1,167 @@
+---
+import type { HomeContent } from '../../lib/types';
+
+interface Props {
+  paths: HomeContent['paths'];
+}
+
+const { paths } = Astro.props;
+
+type Kind = 'question' | 'quote' | 'normal';
+
+function classify(description: string): { text: string; kind: Kind }[] {
+  return description
+    .split('\n\n')
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((text, index) => {
+      if (index === 0 && text.endsWith('?')) return { text, kind: 'question' as const };
+      if (text.startsWith('„') || text.startsWith('"')) return { text, kind: 'quote' as const };
+      return { text, kind: 'normal' as const };
+    });
+}
+
+const items = paths.items.map((item) => ({ ...item, blocks: classify(item.description) }));
+---
+
+<section id="sciezki" class="section paths">
+  <div class="paths__bg" aria-hidden="true"></div>
+  <div class="container paths__inner">
+    <header class="paths__header reveal">
+      <h2 class="section-title paths__title">
+        {paths.titleLead} <span class="text-gradient">{paths.titleAccent}</span>
+      </h2>
+      <p class="paths__intro">{paths.intro}</p>
+    </header>
+
+    <div class="paths__list">
+      {
+        items.map((item) => (
+          <article class="paths__card puzzle-block reveal">
+            <div class="paths__aside">
+              <span class="paths__icon icon-tile">
+                <i class={`ph-duotone ${item.icon}`} aria-hidden="true" />
+              </span>
+              <h3 class="paths__name">{item.title}</h3>
+            </div>
+            <div class="paths__content">
+              {item.blocks.map((block) =>
+                block.kind === 'question' ? (
+                  <p class="paths__question">{block.text}</p>
+                ) : block.kind === 'quote' ? (
+                  <p class="paths__quote">{block.text}</p>
+                ) : (
+                  <p class="paths__text">{block.text}</p>
+                ),
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .paths {
+    overflow: hidden;
+  }
+  .paths__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 20%, color-mix(in oklch, var(--c-purple-vivid) 18%, transparent), transparent 45%),
+      radial-gradient(circle at 80% 75%, color-mix(in oklch, var(--c-lime-500) 14%, transparent), transparent 40%);
+  }
+  .paths__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .paths__header {
+    text-align: center;
+    margin-bottom: var(--space-16);
+  }
+  .paths__title {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    margin-bottom: var(--space-4);
+  }
+  .paths__intro {
+    color: var(--c-slate-300);
+  }
+
+  .paths__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .paths__card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .paths__aside {
+    padding: var(--space-8) var(--space-6);
+    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    background: color-mix(in oklch, var(--c-panel-1) 78%, transparent);
+  }
+  .paths__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-5);
+    font-size: 1.875rem;
+    color: var(--c-lime-light);
+    background: color-mix(in oklch, var(--c-lime-500) 10%, transparent);
+    border: 1px solid color-mix(in oklch, var(--c-lime-500) 30%, transparent);
+  }
+  .paths__name {
+    font-size: 1.5rem;
+    color: var(--c-white);
+    line-height: 1.15;
+  }
+
+  .paths__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-8) var(--space-6);
+  }
+  .paths__question {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--c-white);
+  }
+  .paths__quote {
+    white-space: pre-line;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--c-gray-300);
+    border-left: 4px solid var(--c-lavender);
+    padding: var(--space-3) var(--space-4);
+    background: color-mix(in oklch, var(--c-white) 3%, transparent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .paths__text {
+    white-space: pre-line;
+    line-height: 1.7;
+    color: var(--c-gray-300);
+  }
+
+  @media (min-width: 1024px) {
+    .paths__card {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+    }
+    .paths__aside {
+      border-bottom: 0;
+      border-right: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    }
+    .paths__content {
+      padding: var(--space-8);
+    }
+  }
+</style>

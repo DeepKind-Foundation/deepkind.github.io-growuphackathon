@@ -1,0 +1,151 @@
+---
+import type { HomeContent } from '../lib/types';
+import { safeHref } from '../lib/url';
+
+interface Props {
+  footer: HomeContent['footer'];
+  links: HomeContent['links'];
+}
+
+const { footer, links } = Astro.props;
+---
+
+<footer id="kontakt" class="footer">
+  <div class="container container--md footer__shell section-shell reveal">
+    <h2 class="footer__title">{footer.contactTitle}</h2>
+
+    <div class="footer__contact">
+      <a class="footer__email" href={safeHref(`mailto:${links.contactEmail}`)}>
+        <i class="ph-bold ph-envelope" aria-hidden="true"></i>
+        {links.contactEmail}
+      </a>
+      <span class="footer__divider" aria-hidden="true">|</span>
+      <div class="footer__social">
+        <a
+          href={safeHref(links.instagram)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          class="footer__social-link footer__social-link--insta"
+        >
+          <i class="ph-fill ph-instagram-logo" aria-hidden="true"></i>
+        </a>
+        <a
+          href={safeHref(links.facebook)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+          class="footer__social-link footer__social-link--fb"
+        >
+          <i class="ph-fill ph-facebook-logo" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__legal">
+      <div class="footer__legal-links">
+        <a href={safeHref(links.regulamin)} target="_blank" rel="noopener noreferrer">Regulamin</a>
+        <a href={safeHref(links.privacy)} target="_blank" rel="noopener noreferrer">
+          Polityka Prywatności (RODO)
+        </a>
+      </div>
+      <p class="footer__copyright">{footer.copyright}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--space-16) var(--space-8);
+    padding-inline: var(--space-4);
+    border-top: 1px solid color-mix(in oklch, var(--c-white) 5%, transparent);
+  }
+  .footer__shell {
+    text-align: center;
+    border-radius: var(--radius-xl);
+    padding: var(--space-10) var(--space-6);
+  }
+  .footer__title {
+    font-size: 1.5rem;
+    color: var(--c-white);
+    margin-bottom: var(--space-5);
+  }
+  .footer__contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+    color: var(--c-gray-300);
+  }
+  .footer__email {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: color 0.2s var(--ease-out);
+  }
+  .footer__email:hover {
+    color: var(--c-lime-light);
+  }
+  .footer__divider {
+    display: none;
+    color: var(--c-gray-700);
+  }
+  .footer__social {
+    display: flex;
+    gap: var(--space-3);
+  }
+  .footer__social-link {
+    font-size: 1.5rem;
+    transition: transform 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+  .footer__social-link:hover {
+    transform: scale(1.1);
+  }
+  .footer__social-link--insta:hover {
+    color: oklch(65% 0.24 9);
+  }
+  .footer__social-link--fb:hover {
+    color: oklch(52% 0.22 264);
+  }
+  .footer__legal {
+    border-top: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    padding-top: var(--space-8);
+  }
+  .footer__legal-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    color: var(--c-gray-500);
+  }
+  .footer__legal-links a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s var(--ease-out);
+  }
+  .footer__legal-links a:hover {
+    color: var(--c-gray-300);
+  }
+  .footer__copyright {
+    margin-top: var(--space-6);
+    color: var(--c-gray-700);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  @media (min-width: 768px) {
+    .footer__contact {
+      flex-direction: row;
+    }
+    .footer__divider {
+      display: inline;
+    }
+    .footer__legal-links {
+      flex-direction: row;
+    }
+  }
+</style>

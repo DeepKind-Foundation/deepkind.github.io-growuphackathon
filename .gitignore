@@ -1,0 +1,58 @@
+node_modules
+.claude
+
+# Node / package managers
+.pnp.cjs
+.pnp.js
+/.pnp
+package-lock.json
+pnpm-lock.yaml
+.pnpm-store
+
+# pnpm local store
+.pnpm-store/
+
+# Build outputs
+/dist
+/dist/
+/build
+/out
+
+# Astro & Vite
+/.astro
+/.cache
+/.vercel
+/.netlify
+
+# Keystatic session + editor
+/keystatic.session.json
+/keystatic.session
+/keystatic
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Temporary
+*.tmp
+*.temp
+*.bak
+*.swp
+

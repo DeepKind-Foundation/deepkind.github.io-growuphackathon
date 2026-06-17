@@ -1,0 +1,199 @@
+---
+import type { HomeContent } from '../../lib/types';
+import { safeHref } from '../../lib/url';
+
+interface Props {
+  hero: HomeContent['hero'];
+  waitlistUrl: string;
+}
+
+const { hero, waitlistUrl } = Astro.props;
+---
+
+<section class="hero hero-gradient" aria-labelledby="hero-heading">
+  <span class="hero__beam hero__beam--left" aria-hidden="true"></span>
+  <span class="hero__beam hero__beam--right" aria-hidden="true"></span>
+  <span class="hero__ring hero__ring--1" aria-hidden="true"></span>
+  <span class="hero__blob" aria-hidden="true"></span>
+  <span class="hero__ring hero__ring--2" aria-hidden="true"></span>
+
+  <div class="hero__panel poster-outline">
+    <p class="eyebrow"><span class="accent-dot" aria-hidden="true"></span>{hero.eyebrow}</p>
+
+    <h1 class="hero__wordmark" id="hero-heading">
+      {hero.wordmarkLead}<span class="text-gradient">{hero.wordmarkAccent}</span>
+    </h1>
+
+    <p class="hero__tagline">
+      <span class="hero__tagline-purple">{hero.taglinePurple}</span>{' '}
+      <span class="hero__tagline-lime">{hero.taglineLime}</span>
+    </p>
+
+    <p class="hero__lead">
+      {hero.leadParagraph1}
+    </p>
+    <p class="hero__lead">
+      {hero.leadParagraph2}
+    </p>
+
+    <div class="hero__actions">
+      {
+        hero.ctaEnabled ? (
+          <a class="btn-gradient btn-gradient--md" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
+            {hero.ctaLabel}
+            <i class="ph-bold ph-arrow-right" aria-hidden="true" />
+          </a>
+        ) : (
+          <button class="btn-gradient btn-gradient--md" type="button" disabled>
+            {hero.ctaLabel}
+            <i class="ph-bold ph-arrow-right" aria-hidden="true" />
+          </button>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 9rem var(--space-4) var(--space-16);
+  }
+
+  .hero__beam {
+    position: absolute;
+    width: 44vw;
+    height: 120vh;
+    pointer-events: none;
+    opacity: 0.7;
+    filter: saturate(120%);
+  }
+  .hero__beam--left {
+    left: -14vw;
+    top: 10vh;
+    background: linear-gradient(
+      140deg,
+      color-mix(in oklch, var(--c-purple-light) 28%, transparent),
+      color-mix(in oklch, var(--c-purple-light) 4%, transparent) 35%,
+      transparent 35%
+    );
+    transform: rotate(-8deg);
+    clip-path: polygon(0 0, 26% 0, 74% 100%, 48% 100%);
+  }
+  .hero__beam--right {
+    right: -10vw;
+    top: -6vh;
+    background: linear-gradient(
+      140deg,
+      color-mix(in oklch, var(--c-lime-500) 32%, transparent),
+      color-mix(in oklch, var(--c-lime-500) 4%, transparent) 40%,
+      transparent 40%
+    );
+    transform: rotate(6deg);
+    clip-path: polygon(18% 0, 100% 0, 56% 100%, 30% 100%);
+  }
+
+  .hero__ring {
+    position: absolute;
+    border-radius: var(--radius-pill);
+    pointer-events: none;
+  }
+  .hero__ring--1 {
+    top: 16%;
+    left: 10%;
+    width: 14rem;
+    height: 14rem;
+    border: 1px solid color-mix(in oklch, var(--c-purple-light) 20%, transparent);
+  }
+  .hero__ring--2 {
+    top: 12%;
+    right: 12%;
+    width: 20rem;
+    height: 20rem;
+    border: 1px solid color-mix(in oklch, var(--c-green-500) 20%, transparent);
+  }
+  .hero__blob {
+    position: absolute;
+    bottom: 14%;
+    right: -4%;
+    width: 18rem;
+    height: 18rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklch, var(--c-lime-500) 18%, transparent);
+    filter: blur(120px);
+    pointer-events: none;
+  }
+
+  .hero__panel {
+    position: relative;
+    z-index: 1;
+    max-width: 64rem;
+    border-radius: var(--radius-xl);
+    padding: var(--space-10) var(--space-6) var(--space-12);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--c-panel-1) 82%, transparent),
+      color-mix(in oklch, var(--c-panel-1) 42%, transparent)
+    );
+    border: 1px solid color-mix(in oklch, var(--c-white) 9%, transparent);
+    box-shadow: 0 24px 80px color-mix(in oklch, black 35%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .hero__wordmark {
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--c-white);
+    margin-block: var(--space-8) var(--space-5);
+  }
+
+  .hero__tagline {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-8);
+  }
+  .hero__tagline-purple {
+    color: var(--c-purple-400);
+  }
+  .hero__tagline-lime {
+    color: var(--c-lime-400);
+  }
+
+  .hero__lead {
+    max-width: 48rem;
+    margin-inline: auto;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--c-slate-300);
+  }
+  .hero__lead + .hero__lead {
+    margin-top: var(--space-6);
+  }
+
+  .hero__actions {
+    margin-top: var(--space-10);
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      padding-top: 9rem;
+    }
+    .hero__lead {
+      font-size: 1.25rem;
+    }
+  }
+</style>

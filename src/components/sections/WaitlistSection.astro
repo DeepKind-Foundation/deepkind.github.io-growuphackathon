@@ -1,0 +1,62 @@
+---
+import type { HomeContent } from '../../lib/types';
+import { safeHref } from '../../lib/url';
+
+interface Props {
+  waitlist: HomeContent['waitlist'];
+  waitlistUrl: string;
+}
+
+const { waitlist, waitlistUrl } = Astro.props;
+---
+
+<section class="section waitlist">
+  <div class="waitlist__bg" aria-hidden="true"></div>
+  <div class="container container--narrow waitlist__inner">
+    <div class="waitlist__shell section-shell reveal">
+      <h2 class="waitlist__title">{waitlist.title}</h2>
+      <p class="waitlist__text">{waitlist.text}</p>
+      <a class="btn-gradient btn-gradient--md" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
+        {waitlist.ctaLabel}
+        <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .waitlist {
+    overflow: hidden;
+  }
+  .waitlist__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 20% 50%, color-mix(in oklch, var(--c-purple-vivid) 15%, transparent), transparent 50%);
+  }
+  .waitlist__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .waitlist__shell {
+    border-radius: var(--radius-xl);
+    padding: var(--space-12) var(--space-6);
+    text-align: center;
+  }
+  .waitlist__title {
+    font-size: clamp(1.875rem, 5vw, 2.25rem);
+    color: var(--c-white);
+    margin-bottom: var(--space-6);
+  }
+  .waitlist__text {
+    font-size: 1.125rem;
+    color: var(--c-gray-300);
+    margin-bottom: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .waitlist__shell {
+      padding: var(--space-16) var(--space-10);
+    }
+  }
+</style>
