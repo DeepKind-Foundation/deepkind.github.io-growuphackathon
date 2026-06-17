@@ -61,7 +61,8 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          # Astro outputs client files under dist/client — publish that directory
+          path: './dist/client'
 
       - name: Deploy to GitHub Pages
         id: deployment
