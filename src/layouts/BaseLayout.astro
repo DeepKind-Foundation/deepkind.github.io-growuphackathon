@@ -10,6 +10,7 @@ import '@phosphor-icons/web/bold';
 import '@phosphor-icons/web/fill';
 import '@phosphor-icons/web/duotone';
 import '../styles/global.css';
+import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 
 interface Props {
   title: string;
@@ -68,9 +69,18 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     <meta name="twitter:image" content={ogImageUrl} />
 
     <script is:inline type="application/ld+json" set:html={jsonLdSafe} />
+
+    <script is:inline>
+      // Apply the saved palette-preview theme before first paint (no flash).
+      try {
+        var t = localStorage.getItem('gh-theme');
+        if (t && t !== 'neon') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <a class="skip-nav" href="#o-projekcie">Przejdź do treści</a>
+    {import.meta.env.DEV && <ThemeSwitcher />}
     <slot />
 
     <script>

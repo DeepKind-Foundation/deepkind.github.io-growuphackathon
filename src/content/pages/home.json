@@ -31,7 +31,7 @@
     "leadParagraph1": "Ogólnopolski hackathon dla młodych ludzi, który łączy technologię, innowacje i empatię, aby ułatwić wchodzenie w dorosłe życie.",
     "leadParagraph2": "Pracuj w zespole, testuj pomysły, prototypuj, korzystaj z wiedzy mentorów i stwórz rozwiązanie, które może zmienić czyjeś (i Twoje) życie.",
     "ctaLabel": "Chcę wziąć udział",
-    "ctaEnabled": false
+    "ctaEnabled": true
   },
   "about": {
     "titleLead": "Praktyczne",

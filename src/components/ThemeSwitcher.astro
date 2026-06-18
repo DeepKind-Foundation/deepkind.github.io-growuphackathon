@@ -1,0 +1,127 @@
+---
+// Palette preview switcher — a decision tool, not a production feature.
+// Flips [data-theme] on <html> and persists the choice to localStorage.
+// Remove this component (and the unused theme blocks in tokens.css) once a
+// direction is chosen.
+const themes = [
+  { id: 'neon',         label: 'Neon (obecny)',                    a: '#9d4edd', b: '#a3e635' },
+  { id: 'ultraviolet',  label: 'Ultraviolet — fiolet, bold',       a: '#a64dff', b: '#ff4dc4' },
+  { id: 'plakat',       label: 'Plakat — polska szkoła plakatów',  a: '#a83a22', b: '#2a7060' },
+  { id: 'amber',        label: 'Bursztyn — leśna ciemność, złoto', a: '#c49a2e', b: '#c0682a' },
+  { id: 'wycinanki',    label: 'Wycinanki — zieleń, mak, kremowy', a: '#d42020', b: '#2a6030' },
+  { id: 'beton',        label: 'Beton — Nowa Huta, rdza, miętowy', a: '#b83020', b: '#4a9a88' },
+] as const;
+---
+
+<aside class="theme-switcher" aria-label="Podgląd motywu kolorystycznego">
+  <p class="theme-switcher__title">Podgląd motywu</p>
+  <div class="theme-switcher__list">
+    {
+      themes.map((t) => (
+        <button type="button" class="theme-switcher__btn" data-theme-id={t.id}>
+          <span class="theme-switcher__swatch" style={`--a:${t.a};--b:${t.b}`} aria-hidden="true" />
+          <span class="theme-switcher__label">{t.label}</span>
+        </button>
+      ))
+    }
+  </div>
+</aside>
+
+<style>
+  .theme-switcher {
+    position: fixed;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    width: 13rem;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: oklch(18% 0.03 264 / 0.92);
+    border: 1px solid oklch(100% 0 0 / 0.14);
+    box-shadow: 0 18px 50px oklch(0% 0 0 / 0.45);
+    backdrop-filter: blur(10px);
+    color: oklch(96% 0.003 264);
+    max-height: 86vh;
+    overflow-y: auto;
+  }
+  .theme-switcher__title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: oklch(80% 0.02 264);
+    margin-bottom: var(--space-3);
+  }
+  .theme-switcher__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .theme-switcher__btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-2);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.8rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  }
+  .theme-switcher__btn:hover {
+    background: oklch(100% 0 0 / 0.07);
+  }
+  .theme-switcher__btn[aria-pressed='true'] {
+    background: oklch(100% 0 0 / 0.1);
+    border-color: oklch(100% 0 0 / 0.25);
+  }
+  .theme-switcher__swatch {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, var(--a), var(--b));
+    border: 1px solid oklch(100% 0 0 / 0.2);
+  }
+  @media (max-width: 640px) {
+    .theme-switcher {
+      top: auto;
+      bottom: var(--space-3);
+      right: var(--space-3);
+      transform: none;
+      width: 11rem;
+    }
+  }
+</style>
+
+<script>
+  const KEY = 'gh-theme';
+  const root = document.documentElement;
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.theme-switcher__btn'));
+
+  function apply(id: string): void {
+    if (id === 'neon') {
+      delete root.dataset.theme;
+    } else {
+      root.dataset.theme = id;
+    }
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeId === id)));
+  }
+
+  const saved = localStorage.getItem(KEY) ?? 'neon';
+  apply(saved);
+
+  buttons.forEach((b) => {
+    b.addEventListener('click', () => {
+      const id = b.dataset.themeId ?? 'neon';
+      localStorage.setItem(KEY, id);
+      apply(id);
+    });
+  });
+</script>

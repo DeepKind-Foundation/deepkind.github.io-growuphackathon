@@ -65,15 +65,10 @@
   --stage-3: var(--c-lime-500);
   --stage-4: var(--c-lime-light);
 
-  /* Gradients */
-  --gradient-accent: linear-gradient(
-    90deg,
-    var(--c-purple-light) 0%,
-    var(--c-purple-vivid) 32%,
-    var(--c-lime-500) 100%
-  );
-  --gradient-lime: linear-gradient(90deg, var(--c-lime-light) 0%, var(--c-lime-400) 100%);
-  --gradient-button: linear-gradient(90deg, var(--c-violet-500) 0%, var(--c-lime-500) 100%);
+  /* Gradients — always P→A (adjacent hues, clean path). Complement (lime) used flat only. */
+  --gradient-accent: linear-gradient(in oklch 90deg, var(--c-purple-light), var(--c-purple-vivid));
+  --gradient-lime: linear-gradient(in oklch 90deg, var(--c-lime-light), var(--c-lime-400));
+  --gradient-button: linear-gradient(in oklch 90deg, var(--c-violet-500), var(--c-purple-vivid));
 
   /* Typography */
   --font-body: 'Poppins', system-ui, sans-serif;
@@ -107,4 +102,214 @@
   /* Easing / motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --reveal-duration: 0.7s;
+}
+
+/*
+  ── Palette preview themes ───────────────────────────────────────────────
+  Each block remaps the raw brand/background/text tokens, so the entire site
+  re-skins live without touching any component. The default `:root` above is
+  the original "Neon" direction. Theme blocks are placed after `:root` so they
+  win on equal specificity. Toggled via [data-theme] on <html> by ThemeSwitcher.
+
+  Each theme is rooted in a specific cultural artifact, not a color-wheel derivation.
+  Remove the unused blocks once a direction is chosen.
+*/
+
+/* Plakat — Polish school of poster design (Tomaszewski, Świerzy, 1950s–70s).
+   Warm ivory ground. Deep vermillion red. Flat mid-teal as the graphic countercolor.
+   LIGHT theme. */
+[data-theme='plakat'] {
+  --c-bg-0: oklch(96% 0.018 80);
+  --c-bg-1: oklch(93% 0.022 78);
+  --c-bg-2: oklch(90% 0.026 76);
+  --c-bg-3: oklch(95% 0.020 79);
+  --c-panel-1: oklch(94% 0.020 79);
+  --c-card: oklch(93% 0.022 78);
+  --c-card-2: oklch(91% 0.026 76);
+  --c-card-3: oklch(95% 0.020 79);
+  --c-head-dark: oklch(91% 0.025 76);
+  --c-ink-deep: oklch(20% 0.04 35);
+  --c-cookie: oklch(92% 0.022 77);
+  --c-hover-card: oklch(89% 0.030 74);
+  --c-quote-box: oklch(90% 0.028 75);
+
+  --c-purple-vivid: oklch(50% 0.22 30);   /* P: deep vermillion */
+  --c-violet-500: oklch(56% 0.18 50);    /* A: warm orange, 20° adjacent — gradient endpoint */
+  --c-purple-light: oklch(62% 0.17 34);
+  --c-purple-400: oklch(54% 0.20 30);
+  --c-purple-300: oklch(76% 0.11 35);
+  --c-lavender: oklch(62% 0.16 31);
+  --c-purple-deep: oklch(42% 0.22 26);
+
+  --c-lime-500: oklch(56% 0.13 195);     /* C: mid teal, complement — used flat */
+  --c-lime-400: oklch(60% 0.12 198);
+  --c-lime-light: oklch(70% 0.10 196);
+  --c-green-500: oklch(52% 0.15 200);
+
+  --c-text-100: oklch(18% 0.04 30);
+  --c-gray-300: oklch(30% 0.030 35);
+  --c-gray-400: oklch(42% 0.025 38);
+  --c-gray-500: oklch(55% 0.018 40);
+  --c-gray-700: oklch(73% 0.012 45);
+  --c-slate-200: oklch(22% 0.035 30);
+  --c-slate-300: oklch(32% 0.028 33);
+  --c-slate-400: oklch(44% 0.022 38);
+  --c-white: oklch(18% 0.04 30);
+
+  --color-on-accent: oklch(97% 0.010 75);
+  --gradient-accent: linear-gradient(in oklch 90deg, var(--c-purple-vivid), var(--c-violet-500));
+  --gradient-lime: linear-gradient(in oklch 90deg, var(--c-lime-light), var(--c-lime-400));
+  --gradient-button: linear-gradient(90deg, oklch(50% 0.22 30), oklch(50% 0.22 30));
+}
+
+/* Amber (Bursztyn) — Baltic amber, the fossilized resin found along the Polish coast.
+   Deep forest-dark ground. Warm amber-gold primary. Orange-amber second glow. DARK theme. */
+[data-theme='amber'] {
+  --c-bg-0: oklch(11% 0.018 55);
+  --c-bg-1: oklch(14% 0.022 58);
+  --c-bg-2: oklch(17% 0.025 60);
+  --c-bg-3: oklch(15% 0.020 58);
+  --c-panel-1: oklch(16% 0.022 58);
+  --c-card: oklch(17% 0.024 59);
+  --c-card-2: oklch(20% 0.028 60);
+  --c-card-3: oklch(15% 0.020 58);
+  --c-head-dark: oklch(9% 0.014 50);
+  --c-ink-deep: oklch(11% 0.018 55);
+  --c-cookie: oklch(15% 0.020 57);
+  --c-hover-card: oklch(22% 0.032 62);
+  --c-quote-box: oklch(21% 0.028 61);
+
+  --c-purple-vivid: oklch(72% 0.18 68);   /* P: Baltic amber gold */
+  --c-violet-500: oklch(76% 0.14 90);    /* A: warm yellow, 22° adjacent — gradient endpoint */
+  --c-purple-light: oklch(82% 0.13 72);
+  --c-purple-400: oklch(76% 0.16 68);
+  --c-purple-300: oklch(86% 0.10 72);
+  --c-lavender: oklch(78% 0.12 70);
+  --c-purple-deep: oklch(54% 0.16 62);
+
+  --c-lime-500: oklch(55% 0.20 248);     /* C: deep blue, complement of amber — used flat */
+  --c-lime-400: oklch(60% 0.20 250);
+  --c-lime-light: oklch(70% 0.16 248);
+  --c-green-500: oklch(50% 0.22 246);
+
+  --c-text-100: oklch(93% 0.025 78);
+
+  --color-on-accent: oklch(15% 0.04 68);
+  --gradient-accent: linear-gradient(in oklch 90deg, var(--c-purple-vivid), var(--c-violet-500));
+  --gradient-lime: linear-gradient(in oklch 90deg, var(--c-lime-light), var(--c-lime-400));
+  --gradient-button: linear-gradient(90deg, oklch(72% 0.18 68), oklch(72% 0.18 68));
+}
+
+/* Wycinanki — Łowicz folk paper-cut art. Deep forest-green field. Vivid poppy red
+   cut-outs. Warm cream as the paper color. Graphic, flat, energetic. DARK theme. */
+[data-theme='wycinanki'] {
+  --c-bg-0: oklch(11% 0.012 148);
+  --c-bg-1: oklch(14% 0.015 148);
+  --c-bg-2: oklch(17% 0.018 146);
+  --c-bg-3: oklch(15% 0.014 147);
+  --c-panel-1: oklch(16% 0.016 148);
+  --c-card: oklch(17% 0.017 147);
+  --c-card-2: oklch(20% 0.020 146);
+  --c-card-3: oklch(15% 0.014 147);
+  --c-head-dark: oklch(9% 0.010 148);
+  --c-ink-deep: oklch(11% 0.012 148);
+  --c-cookie: oklch(15% 0.014 147);
+  --c-hover-card: oklch(22% 0.022 145);
+  --c-quote-box: oklch(21% 0.020 146);
+
+  --c-purple-vivid: oklch(60% 0.24 30);   /* P: vivid poppy red */
+  --c-violet-500: oklch(64% 0.20 52);    /* A: warm red-orange, 22° adjacent — gradient endpoint */
+  --c-purple-light: oklch(70% 0.20 34);
+  --c-purple-400: oklch(64% 0.22 30);
+  --c-purple-300: oklch(80% 0.13 35);
+  --c-lavender: oklch(68% 0.18 31);
+  --c-purple-deep: oklch(46% 0.22 26);
+
+  --c-lime-500: oklch(52% 0.16 148);     /* C: forest green, complement — used flat (bg also carries it) */
+  --c-lime-400: oklch(58% 0.16 150);
+  --c-lime-light: oklch(68% 0.12 148);
+  --c-green-500: oklch(48% 0.18 146);
+
+  --c-text-100: oklch(94% 0.020 82);
+
+  --color-on-accent: oklch(97% 0.010 80);
+  --gradient-accent: linear-gradient(in oklch 90deg, var(--c-purple-vivid), var(--c-violet-500));
+  --gradient-lime: linear-gradient(in oklch 90deg, var(--c-lime-light), var(--c-lime-400));
+  --gradient-button: linear-gradient(90deg, oklch(60% 0.24 30), oklch(60% 0.24 30));
+}
+
+/* Beton — Nowa Huta, Kraków's socialist-realist district (built 1949–1956). Cool raw
+   concrete ground. Soviet rust red. Faded mint tile as the architectural accent. DARK theme. */
+[data-theme='beton'] {
+  --c-bg-0: oklch(19% 0.008 250);
+  --c-bg-1: oklch(23% 0.010 248);
+  --c-bg-2: oklch(27% 0.012 247);
+  --c-bg-3: oklch(25% 0.010 248);
+  --c-panel-1: oklch(26% 0.012 248);
+  --c-card: oklch(27% 0.012 247);
+  --c-card-2: oklch(30% 0.014 246);
+  --c-card-3: oklch(25% 0.010 248);
+  --c-head-dark: oklch(16% 0.007 250);
+  --c-ink-deep: oklch(19% 0.008 250);
+  --c-cookie: oklch(24% 0.010 248);
+  --c-hover-card: oklch(32% 0.015 246);
+  --c-quote-box: oklch(31% 0.013 247);
+
+  --c-purple-vivid: oklch(56% 0.20 30);   /* P: Soviet rust red */
+  --c-violet-500: oklch(54% 0.17 12);    /* A: terracotta brick, 18° adjacent — gradient endpoint */
+  --c-purple-light: oklch(66% 0.16 32);
+  --c-purple-400: oklch(60% 0.18 30);
+  --c-purple-300: oklch(78% 0.10 35);
+  --c-lavender: oklch(64% 0.15 31);
+  --c-purple-deep: oklch(42% 0.20 26);
+
+  --c-lime-500: oklch(64% 0.12 185);     /* C: faded mint tile, complement — used flat */
+  --c-lime-400: oklch(68% 0.11 188);
+  --c-lime-light: oklch(76% 0.08 186);
+  --c-green-500: oklch(60% 0.14 192);
+
+  --c-text-100: oklch(92% 0.006 250);
+
+  --color-on-accent: oklch(97% 0.005 250);
+  --gradient-accent: linear-gradient(in oklch 90deg, var(--c-violet-500), var(--c-purple-vivid));
+  --gradient-lime: linear-gradient(in oklch 90deg, var(--c-lime-light), var(--c-lime-400));
+  --gradient-button: linear-gradient(90deg, oklch(56% 0.20 30), oklch(56% 0.20 30));
+}
+
+/* Ultraviolet — DARK, BOLD: saturated violet field carries the hue, electric violet
+   accent + hot-magenta neighbour. High chroma, still flat (no gradient soup). */
+[data-theme='ultraviolet'] {
+  --c-bg-0: oklch(16% 0.06 300);
+  --c-bg-1: oklch(18% 0.07 302);
+  --c-bg-2: oklch(22% 0.095 303);
+  --c-bg-3: oklch(19% 0.075 301);
+  --c-panel-1: oklch(21% 0.085 302);
+  --c-card: oklch(23% 0.095 302);
+  --c-card-2: oklch(26% 0.11 303);
+  --c-card-3: oklch(20% 0.08 301);
+  --c-head-dark: oklch(13% 0.05 300);
+  --c-ink-deep: oklch(16% 0.06 300);
+  --c-cookie: oklch(20% 0.08 301);
+  --c-hover-card: oklch(28% 0.12 303);
+  --c-quote-box: oklch(27% 0.1 303);
+
+  --c-purple-vivid: oklch(66% 0.24 300); /* P: electric violet */
+  --c-violet-500: oklch(62% 0.22 278);  /* A: blue-violet, 22° adjacent — gradient endpoint */
+  --c-purple-light: oklch(78% 0.18 300);
+  --c-purple-400: oklch(72% 0.21 300);
+  --c-purple-300: oklch(86% 0.12 300);
+  --c-lavender: oklch(78% 0.15 300);
+  --c-purple-deep: oklch(48% 0.20 303);
+
+  --c-lime-500: oklch(70% 0.22 120);  /* C: electric lime, complement of violet — used flat */
+  --c-lime-400: oklch(76% 0.22 122);
+  --c-lime-light: oklch(86% 0.18 124);
+  --c-green-500: oklch(65% 0.24 118);
+
+  --c-text-100: oklch(97% 0.01 300);
+
+  --color-on-accent: oklch(98% 0.02 300);
+  --gradient-accent: linear-gradient(in oklch 90deg, var(--c-violet-500), var(--c-purple-vivid));
+  --gradient-lime: linear-gradient(in oklch 90deg, var(--c-lime-light), var(--c-lime-400));
+  --gradient-button: linear-gradient(90deg, oklch(66% 0.24 300), oklch(66% 0.24 300));
 }
