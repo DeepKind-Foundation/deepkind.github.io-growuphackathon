@@ -23,6 +23,9 @@
   --c-yellow-dk: oklch(62% 0.140 78);
   --c-yellow-on: oklch(10% 0.010 50); /* dark text for use on yellow fills */
 
+  /* Blue — tertiary accent (mark only) */
+  --c-blue:     oklch(52% 0.22 258);
+
   /* Red — secondary accent */
   --c-red:      oklch(57% 0.22 27);
   --c-red-2:    oklch(64% 0.20 28);
@@ -89,6 +92,8 @@
   --c-yellow-2:  oklch(60% 0.16 197);
   --c-yellow-dk: oklch(46% 0.16 193);
   --c-yellow-on: oklch(97% 0.005 82);
+
+  --c-blue:     oklch(68% 0.19 68);
 
   --c-red:      oklch(61% 0.23 38);
   --c-red-2:    oklch(67% 0.21 40);
