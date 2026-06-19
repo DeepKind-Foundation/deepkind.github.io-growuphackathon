@@ -6,58 +6,39 @@ interface Props {
 }
 
 const { stages } = Astro.props;
-
-// Accent colour per step (presentational — not editorial content).
-const STAGE_ACCENTS = ['var(--stage-1)', 'var(--stage-2)', 'var(--stage-3)', 'var(--stage-4)'];
-
-const items = stages.items.map((item, index) => ({
-  ...item,
-  accent: STAGE_ACCENTS[index % STAGE_ACCENTS.length],
-}));
 ---
 
 <section id="etapy" class="section">
-  <div class="container container--md stages__shell section-shell reveal">
-    <header class="stages__header">
-      <h2 class="section-title stages__title">
-        {stages.titleLead} <span class="text-gradient">{stages.titleAccent}</span>
+  <div class="container container--md">
+    <div class="section-label" aria-hidden="true">03 / Etapy programu</div>
+
+    <header class="stages__header reveal">
+      <h2 class="section-title">
+        {stages.titleLead} <span class="text-accent">{stages.titleAccent}</span>
       </h2>
       <p class="stages__intro">{stages.intro}</p>
     </header>
 
-    <ol class="stages__rail" aria-hidden="true">
-      {
-        items.map((item, index) => (
-          <li class="stages__rail-item" style={`--accent: ${item.accent}`}>
-            <span class="stages__rail-dot">{item.step}</span>
-            <span class="stages__rail-date">{item.date}</span>
-            {index < items.length - 1 && <span class="stages__rail-line" />}
-          </li>
-        ))
-      }
-    </ol>
-
     <div class="stages__grid">
       {
-        items.map((item) => (
-          <article class="stages__card puzzle-block" style={`--accent: ${item.accent}`}>
+        stages.items.map((item) => (
+          <article class="stages__card card reveal">
             <div class="stages__card-head">
-              <span class="stages__card-icon icon-tile">
-                <i class={`ph-duotone ${item.icon}`} aria-hidden="true" />
-              </span>
-              <div class="stages__card-titles">
-                <span class="stages__card-step">Krok {item.step}</span>
-                <h3 class="stages__card-name">{item.title}</h3>
-              </div>
-              <span class="stages__card-date">{item.date}</span>
+              <span class="stages__step">{item.step}</span>
+              <span class="stages__date">{item.date}</span>
             </div>
 
-            <p class="stages__card-what">{item.what}</p>
+            <div class="stages__card-icon">
+              <i class={`ph-duotone ${item.icon}`} aria-hidden="true" />
+            </div>
 
-            <ul class="stages__card-list">
+            <h3 class="stages__name">{item.title}</h3>
+            <p class="stages__what">{item.what}</p>
+
+            <ul class="stages__list">
               {item.expect.map((entry) => (
                 <li>
-                  <i class="ph-fill ph-check-circle" aria-hidden="true" />
+                  <span class="stages__check" aria-hidden="true">—</span>
                   {entry}
                 </li>
               ))}
@@ -70,151 +51,99 @@ const items = stages.items.map((item, index) => ({
 </section>
 
 <style>
-  .stages__shell {
-    border-radius: var(--radius-xl);
-    padding: var(--space-12) var(--space-6);
-  }
   .stages__header {
-    text-align: center;
-    margin-bottom: var(--space-16);
-  }
-  .stages__title {
-    font-size: clamp(2.25rem, 5vw, 3rem);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-12);
   }
   .stages__intro {
-    color: var(--c-slate-400);
-    font-size: 1.125rem;
-  }
-
-  .stages__rail {
-    display: none;
+    margin-top: var(--space-4);
+    font-size: 0.8125rem;
+    color: var(--c-ink-3);
   }
 
   .stages__grid {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
 
   .stages__card {
-    border-radius: var(--radius-md);
     padding: var(--space-6);
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
   }
+
   .stages__card-head {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    justify-content: space-between;
   }
-  .stages__card-icon {
-    width: 3rem;
-    height: 3rem;
-    border-radius: var(--radius-sm);
-    font-size: 1.5rem;
-    color: var(--accent);
-    background: color-mix(in oklch, var(--accent) 12%, transparent);
-    border: 1px solid color-mix(in oklch, var(--accent) 28%, transparent);
-  }
-  .stages__card-step {
-    font-size: 0.75rem;
-    font-weight: 900;
+
+  .stages__step {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
+    color: var(--c-red);
   }
-  .stages__card-name {
-    font-size: 1.125rem;
-    color: var(--c-white);
-    line-height: 1.15;
-  }
-  .stages__card-date {
-    margin-left: auto;
-    flex-shrink: 0;
-    font-size: 0.75rem;
-    font-weight: 600;
-    white-space: nowrap;
+
+  .stages__date {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    color: var(--c-ink-3);
     padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-pill);
-    color: var(--c-slate-400);
-    background: color-mix(in oklch, var(--c-white) 5%, transparent);
-    border: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-sm);
   }
-  .stages__card-what {
-    font-size: 0.875rem;
-    line-height: 1.7;
-    color: var(--c-gray-400);
+
+  .stages__card-icon {
+    font-size: 1.75rem;
+    color: var(--c-ink-3);
   }
-  .stages__card-list {
+
+  .stages__name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    line-height: 1.2;
+  }
+
+  .stages__what {
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    color: var(--c-ink-2);
+  }
+
+  .stages__list {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--c-rule);
     margin-top: auto;
-    padding-top: var(--space-2);
-    border-top: 1px solid color-mix(in oklch, var(--c-white) 8%, transparent);
   }
-  .stages__card-list li {
+  .stages__list li {
     display: flex;
-    align-items: flex-start;
-    gap: var(--space-2);
-    font-size: 0.875rem;
-    color: var(--c-gray-300);
+    gap: var(--space-3);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--c-ink-2);
   }
-  .stages__card-list i {
-    color: var(--accent);
-    margin-top: 0.15rem;
+  .stages__check {
+    color: var(--c-red);
     flex-shrink: 0;
   }
 
   @media (min-width: 768px) {
-    .stages__shell {
-      padding: var(--space-16) var(--space-10);
-    }
-    .stages__rail {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: var(--space-10);
-      padding-inline: var(--space-8);
-    }
-    .stages__rail-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-2);
-      position: relative;
-    }
-    .stages__rail-dot {
-      width: 3.5rem;
-      height: 3.5rem;
-      border-radius: var(--radius-pill);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1.125rem;
-      color: var(--c-ink-deep);
-      background: var(--accent);
-      box-shadow: 0 0 24px color-mix(in oklch, var(--accent) 30%, transparent);
-    }
-    .stages__rail-date {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--c-slate-400);
-      white-space: nowrap;
-    }
-    .stages__rail-line {
-      position: absolute;
-      top: 1.75rem;
-      left: calc(50% + 2rem);
-      width: calc(100% - 4rem);
-      height: 1px;
-      background: linear-gradient(in oklch to right, var(--c-purple-vivid), var(--c-violet-500));
-      opacity: 0.4;
-    }
     .stages__grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .stages__grid {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>

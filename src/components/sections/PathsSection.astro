@@ -22,26 +22,34 @@ function classify(description: string): { text: string; kind: Kind }[] {
 }
 
 const items = paths.items.map((item) => ({ ...item, blocks: classify(item.description) }));
+
+const pathIcons: Record<string, string> = {
+  'ph-user': `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="7" fill="currentColor"/></svg>`,
+  'ph-users-three': `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="16" cy="28" r="11" stroke="currentColor" stroke-width="1.75"/><circle cx="32" cy="28" r="11" stroke="currentColor" stroke-width="1.75"/><circle cx="24" cy="14" r="11" stroke="currentColor" stroke-width="1.75"/></svg>`,
+  'ph-brain': `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="24,5 43,40 5,40" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><line x1="14" y1="31" x2="34" y2="31" stroke="currentColor" stroke-width="1.5"/><line x1="19" y1="22" x2="29" y2="22" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  'ph-globe-hemisphere-west': `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="24" cy="24" r="12" stroke="currentColor" stroke-width="2"/><line x1="24" y1="4" x2="24" y2="44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="39" y1="9" x2="33" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="39" x2="15" y2="33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="39" y1="39" x2="33" y2="33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  'ph-calendar-check': `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="6" y="6" width="16" height="16" stroke="currentColor" stroke-width="2"/><rect x="26" y="6" width="16" height="16" stroke="currentColor" stroke-width="2"/><rect x="6" y="26" width="16" height="16" stroke="currentColor" stroke-width="2"/><rect x="26" y="26" width="16" height="16" stroke="currentColor" stroke-width="2"/></svg>`,
+};
 ---
 
-<section id="sciezki" class="section paths">
-  <div class="paths__bg" aria-hidden="true"></div>
-  <div class="container paths__inner">
+<section id="sciezki" class="section">
+  <div class="container">
+    <div class="section-label" aria-hidden="true">02 / Ścieżki tematyczne</div>
+
     <header class="paths__header reveal">
-      <h2 class="section-title paths__title">
-        {paths.titleLead} <span class="text-gradient">{paths.titleAccent}</span>
+      <h2 class="section-title">
+        {paths.titleLead} <span class="text-accent">{paths.titleAccent}</span>
       </h2>
       <p class="paths__intro">{paths.intro}</p>
     </header>
 
     <div class="paths__list">
       {
-        items.map((item) => (
-          <article class="paths__card puzzle-block reveal">
+        items.map((item, i) => (
+          <article class="paths__card card reveal">
             <div class="paths__aside">
-              <span class="paths__icon icon-tile">
-                <i class={`ph-duotone ${item.icon}`} aria-hidden="true" />
-              </span>
+              <span class="paths__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="paths__icon" set:html={pathIcons[item.icon] ?? ''} />
               <h3 class="paths__name">{item.title}</h3>
             </div>
             <div class="paths__content">
@@ -49,7 +57,7 @@ const items = paths.items.map((item) => ({ ...item, blocks: classify(item.descri
                 block.kind === 'question' ? (
                   <p class="paths__question">{block.text}</p>
                 ) : block.kind === 'quote' ? (
-                  <p class="paths__quote">{block.text}</p>
+                  <blockquote class="paths__quote">{block.text}</blockquote>
                 ) : (
                   <p class="paths__text">{block.text}</p>
                 ),
@@ -63,92 +71,100 @@ const items = paths.items.map((item) => ({ ...item, blocks: classify(item.descri
 </section>
 
 <style>
-  .paths {
-    overflow: hidden;
-  }
-  .paths__bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 20% 20%, color-mix(in oklch, var(--c-purple-vivid) 18%, transparent), transparent 45%),
-      radial-gradient(circle at 80% 75%, color-mix(in oklch, var(--c-violet-500) 14%, transparent), transparent 40%);
-  }
-  .paths__inner {
-    position: relative;
-    z-index: 1;
-  }
   .paths__header {
-    text-align: center;
-    margin-bottom: var(--space-16);
-  }
-  .paths__title {
-    font-size: clamp(2.25rem, 5vw, 3rem);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-12);
   }
   .paths__intro {
-    color: var(--c-slate-300);
+    margin-top: var(--space-4);
+    font-size: 0.8125rem;
+    color: var(--c-ink-3);
   }
 
   .paths__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-8);
+    gap: var(--space-5);
   }
+
   .paths__card {
-    border-radius: var(--radius-lg);
     overflow: hidden;
   }
+
   .paths__aside {
-    padding: var(--space-8) var(--space-6);
-    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
-    background: color-mix(in oklch, var(--c-panel-1) 78%, transparent);
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--c-rule);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
   }
+
+  .paths__num {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: var(--c-rule);
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 0.1rem;
+  }
+
   .paths__icon {
-    width: 3.5rem;
-    height: 3.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    color: var(--c-yellow);
+    border: 1px solid color-mix(in oklch, var(--c-yellow) 28%, transparent);
     border-radius: var(--radius-sm);
-    margin-bottom: var(--space-5);
-    font-size: 1.875rem;
-    color: var(--c-lime-light);
-    background: color-mix(in oklch, var(--c-lime-500) 10%, transparent);
-    border: 1px solid color-mix(in oklch, var(--c-lime-500) 30%, transparent);
   }
+  .paths__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
   .paths__name {
-    font-size: 1.5rem;
-    color: var(--c-white);
-    line-height: 1.15;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    line-height: 1.2;
   }
 
   .paths__content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
-    padding: var(--space-8) var(--space-6);
+    gap: var(--space-4);
+    padding: var(--space-6);
   }
+
   .paths__question {
-    font-size: clamp(1.25rem, 3vw, 1.5rem);
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: var(--c-white);
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--c-ink);
   }
+
   .paths__quote {
+    margin: 0;
     white-space: pre-line;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.02rem;
-    line-height: 1.7;
-    color: var(--c-gray-300);
-    border-left: 4px solid var(--c-lavender);
+    font-weight: 400;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--c-ink-2);
+    border-left: 2px solid var(--c-rule);
     padding: var(--space-3) var(--space-4);
-    background: color-mix(in oklch, var(--c-white) 3%, transparent);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
+
   .paths__text {
     white-space: pre-line;
-    line-height: 1.7;
-    color: var(--c-gray-300);
+    font-size: 0.8125rem;
+    line-height: 1.85;
+    color: var(--c-ink-2);
   }
 
   @media (min-width: 1024px) {
@@ -157,8 +173,11 @@ const items = paths.items.map((item) => ({ ...item, blocks: classify(item.descri
       grid-template-columns: 220px 1fr;
     }
     .paths__aside {
+      flex-direction: column;
+      align-items: flex-start;
       border-bottom: 0;
-      border-right: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+      border-right: 1px solid var(--c-rule);
+      padding: var(--space-8) var(--space-6);
     }
     .paths__content {
       padding: var(--space-8);

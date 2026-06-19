@@ -9,37 +9,38 @@ const { organizers } = Astro.props;
 ---
 
 <section id="organizator" class="section">
-  <div class="container container--md organizers__shell section-shell reveal">
-    <h2 class="organizers__title">{organizers.title}</h2>
+  <div class="container container--md">
+    <div class="section-label" aria-hidden="true">06 / Organizatorzy</div>
 
     <div class="organizers__blocks">
       {
         organizers.blocks.map((block) => (
-          <div class="organizers__block">
+          <div class="organizers__block reveal">
             <div class="organizers__aside">
-              <h3 class="organizers__name">
+              <h2 class="organizers__name">
                 {block.accentFirst ? (
                   <>
-                    <span class="organizers__name-accent">{block.nameAccent}</span>
+                    <span class="text-accent">{block.nameAccent}</span>{' '}
                     <span>{block.nameLead}</span>
                   </>
                 ) : (
                   <>
-                    <span>{block.nameLead}</span>
-                    <span class="organizers__name-accent">{block.nameAccent}</span>
+                    <span>{block.nameLead}</span>{' '}
+                    <span class="text-accent">{block.nameAccent}</span>
                   </>
                 )}
-              </h3>
-              {block.subtitle ? (
+              </h2>
+              {block.subtitle && (
                 <p class="organizers__subtitle">{block.subtitle}</p>
-              ) : (
-                <span class="organizers__bar" aria-hidden="true" />
               )}
+              <span class="organizers__rule" aria-hidden="true" />
             </div>
 
             <div class="organizers__body">
               {block.paragraphs.map((paragraph) => (
-                <p class={`organizers__para organizers__para--${paragraph.variant}`}>{paragraph.text}</p>
+                <p class={`organizers__para organizers__para--${paragraph.variant}`}>
+                  {paragraph.text}
+                </p>
               ))}
             </div>
           </div>
@@ -50,74 +51,73 @@ const { organizers } = Astro.props;
 </section>
 
 <style>
-  .organizers__shell {
-    border-radius: var(--radius-xl);
-    padding: var(--space-12) var(--space-6);
-  }
-  .organizers__title {
-    font-size: clamp(2.25rem, 5vw, 3rem);
-    margin-bottom: var(--space-12);
-    padding-bottom: var(--space-6);
-    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
-  }
   .organizers__blocks {
     display: flex;
     flex-direction: column;
-    gap: var(--space-24);
+    gap: var(--space-20);
   }
+
   .organizers__block {
     display: grid;
-    gap: var(--space-12);
+    gap: var(--space-10);
+    padding-bottom: var(--space-20);
+    border-bottom: 1px solid var(--c-rule);
   }
+  .organizers__block:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
   .organizers__name {
-    font-size: 1.5rem;
-    color: var(--c-white);
-    line-height: 1.2;
-    display: flex;
-    flex-direction: column;
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: var(--c-ink);
+    line-height: 1.1;
   }
-  .organizers__name-accent {
-    color: var(--c-lime-light);
-  }
+
   .organizers__subtitle {
-    margin-top: var(--space-2);
-    font-size: 0.875rem;
-    color: var(--c-gray-500);
+    margin-top: var(--space-3);
+    font-size: 0.75rem;
+    color: var(--c-ink-3);
+    font-family: var(--font-body);
   }
-  .organizers__bar {
+
+  .organizers__rule {
     display: block;
-    width: 3rem;
-    height: 4px;
-    margin-top: var(--space-4);
-    border-radius: var(--radius-pill);
-    background: var(--c-lime-500);
+    width: 2rem;
+    height: 1px;
+    margin-top: var(--space-5);
+    background: var(--c-red);
   }
+
   .organizers__body {
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--c-gray-300);
+  }
+
+  .organizers__para {
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: var(--c-ink-2);
   }
   .organizers__para--note {
-    font-size: 1rem;
+    font-family: var(--font-display);
     font-style: italic;
-    color: var(--c-gray-500);
-    border-left: 2px solid var(--c-gray-700);
+    color: var(--c-ink-3);
     padding-left: var(--space-4);
+    border-left: 1px solid var(--c-rule);
   }
   .organizers__para--highlight {
     font-weight: 600;
-    color: var(--c-lime-light);
+    color: var(--c-ink);
   }
 
   @media (min-width: 768px) {
-    .organizers__shell {
-      padding: var(--space-16) var(--space-10);
-    }
     .organizers__block {
       grid-template-columns: 1fr 2fr;
+      align-items: start;
     }
   }
 </style>

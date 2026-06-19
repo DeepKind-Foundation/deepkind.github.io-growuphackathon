@@ -4,12 +4,9 @@
 // Remove this component (and the unused theme blocks in tokens.css) once a
 // direction is chosen.
 const themes = [
-  { id: 'neon',         label: 'Neon (obecny)',                    a: '#9d4edd', b: '#a3e635' },
-  { id: 'ultraviolet',  label: 'Ultraviolet — fiolet, bold',       a: '#a64dff', b: '#ff4dc4' },
-  { id: 'plakat',       label: 'Plakat — polska szkoła plakatów',  a: '#a83a22', b: '#2a7060' },
-  { id: 'amber',        label: 'Bursztyn — leśna ciemność, złoto', a: '#c49a2e', b: '#c0682a' },
-  { id: 'wycinanki',    label: 'Wycinanki — zieleń, mak, kremowy', a: '#d42020', b: '#2a6030' },
-  { id: 'beton',        label: 'Beton — Nowa Huta, rdza, miętowy', a: '#b83020', b: '#4a9a88' },
+  { id: 'plakat', label: 'Plakat — czerń, żółty, mak',  a: 'oklch(81% 0.175 82)', b: 'oklch(57% 0.22 27)' },
+  { id: 'riso',   label: 'Riso — krem, morski, koral',    a: 'oklch(54% 0.17 195)',  b: 'oklch(61% 0.23 38)' },
+  { id: 'lato',   label: 'Lato — kobalt, limonka, fiolet', a: 'oklch(78% 0.22 132)', b: 'oklch(68% 0.26 290)' },
 ] as const;
 ---
 
@@ -106,7 +103,7 @@ const themes = [
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.theme-switcher__btn'));
 
   function apply(id: string): void {
-    if (id === 'neon') {
+    if (id === 'plakat') {
       delete root.dataset.theme;
     } else {
       root.dataset.theme = id;
@@ -114,7 +111,7 @@ const themes = [
     buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeId === id)));
   }
 
-  const saved = localStorage.getItem(KEY) ?? 'neon';
+  const saved = localStorage.getItem(KEY) ?? 'plakat';
   apply(saved);
 
   buttons.forEach((b) => {

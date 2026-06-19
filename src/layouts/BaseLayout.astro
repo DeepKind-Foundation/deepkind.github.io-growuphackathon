@@ -1,10 +1,9 @@
 ---
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/500.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
-import '@fontsource/poppins/900.css';
+import '@fontsource/poltawski-nowy/400.css';
+import '@fontsource/poltawski-nowy/400-italic.css';
+import '@fontsource/poltawski-nowy/600.css';
+import '@fontsource/poltawski-nowy/600-italic.css';
+import '@fontsource-variable/martian-mono/wght.css';
 import '@phosphor-icons/web/regular';
 import '@phosphor-icons/web/bold';
 import '@phosphor-icons/web/fill';
@@ -70,13 +69,6 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 
     <script is:inline type="application/ld+json" set:html={jsonLdSafe} />
 
-    <script is:inline>
-      // Apply the saved palette-preview theme before first paint (no flash).
-      try {
-        var t = localStorage.getItem('gh-theme');
-        if (t && t !== 'neon') document.documentElement.dataset.theme = t;
-      } catch (e) {}
-    </script>
   </head>
   <body>
     <a class="skip-nav" href="#o-projekcie">Przejdź do treści</a>

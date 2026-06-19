@@ -10,9 +10,100 @@ const { nav } = Astro.props;
 ---
 
 <header class="site-header" id="site-header" data-scrolled="false">
-  <nav class="container site-header__nav" aria-label="Główna nawigacja">
+  <nav class="site-header__nav container" aria-label="Główna nawigacja">
     <a href="#" class="site-header__logo" aria-label="GrowUp Hackathon — strona główna">
-      <img src="/logos/logo_growup.png" alt="GrowUp Hackathon" width="160" height="56" />
+      <!-- Isometric staircase derived from stairs.svg — viewBox cropped to content, colours adapted for dark field -->
+      <!-- Strokes use field colour: invisible on background, visible as dark separators between coloured faces -->
+      <svg class="site-header__mark" viewBox="297 305 425 356" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="0" y="0" width="1024" height="1024" fill="var(--c-paper)"/>
+        <path d="M433.2 590V632H388V590H433.2Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M433.2 548V590H388V548H433.2Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M433.2 506V548H388V506H433.2Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M388 590L346.5 611L305 590V548L346.5 569L388 548V590Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M305 548L346.5 527L388 548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M305 590V632L346.5 653L388 632V590" fill="oklch(52% 0.22 258)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M346.5 611V653" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M433.2 506L480 482.5L526.8 506V548H433.2V506Z" fill="oklch(52% 0.22 258)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 482.5V506" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 548H480V590H526.8V548Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 590H433.2V632H480V590Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 506V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 464V506H480V464H526.8Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 422V464H480V422H526.8Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 422L573.6 398.5L620.4 422V464H526.8V422Z" fill="oklch(52% 0.22 258)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 398.5V422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 464H526.8V506H573.6V464Z" fill="oklch(52% 0.22 258)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 464V506" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 506V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 548H526.8" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 422V464" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 422L667.2 398.5L714 422V464H620.4V422Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 398.5V422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 398.5L667.2 375L620.4 398.5H620.4L667.2 422L714 398.5Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 375V398.5" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 336.5L667.2 313L714 336.5V379L667.2 402.5L620.4 379V336.5Z" fill="var(--c-yellow)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 313V355.5L714 379" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 379V422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 398.5H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 422L667.2 445.5L620.4 422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 355.5V398.5" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 379V422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 422V464" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 464H667.2V506H620.4V464Z" fill="oklch(52% 0.22 258)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 506H714V548H667.2V506Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 506H620.4V548H667.2V506Z" fill="oklch(52% 0.22 258)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 548V590" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 506V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 422V464" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 464H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 548H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 548H714V590H667.2V548Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 422V464" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 379L667.2 402.5" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M388 548H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M388 590H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M388 632H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M346.5 611H305" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M305 632V590" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M346.5 611L388 632" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 464H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M433.2 464V506" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 506H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 548H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 590H433.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 548H480" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 590H526.8" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 632H526.8" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 464H480" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 422V464" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 506V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M480 590V632" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 422H480" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 506V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 422H526.8" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 398.5V422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 422H620.4" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M526.8 464V506" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 464H573.6" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 506H620.4" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M573.6 548H620.4" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 422H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 464V422" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 464H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 506H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 548H667.2" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 506V464" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 548V506" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M714 590V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 464H714" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 506H714" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 548H714" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 590H714" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M667.2 590H620.4V548H667.2V590Z" fill="var(--c-red)" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M620.4 590V548" stroke="oklch(10% 0.010 50)" stroke-width="12"/>
+        <path d="M305 632V590V548L346.5 527L388 548V590H433.2V548V506L480 482.5L526.8 506V464V422L573.6 398.5L620.4 422H667.2H714V464H667.2H620.4V506H667.2H714V548V590V632L667.2 653L620.4 632H573.6H526.8H480H433.2H388V632L346.5 653L305 632Z" stroke="oklch(10% 0.010 50)" stroke-width="12" stroke-linejoin="round"/>
+      </svg>
+      <span class="site-header__wordmark">Grow<em>Up</em></span>
     </a>
     <ul class="site-header__menu">
       {
@@ -32,16 +123,14 @@ const { nav } = Astro.props;
     inset: 0 0 auto 0;
     z-index: 50;
     padding-block: var(--space-3);
-    background: color-mix(in oklch, var(--c-bg-1) 55%, transparent);
-    backdrop-filter: blur(4px);
-    transition: background 0.3s var(--ease-out), padding 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+    background: color-mix(in oklch, var(--c-paper) 70%, transparent);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid transparent;
+    transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
   }
   .site-header[data-scrolled='true'] {
-    padding-block: var(--space-2);
-    background: color-mix(in oklch, var(--c-head-dark) 95%, transparent);
-    backdrop-filter: blur(12px);
-    border-bottom-color: color-mix(in oklch, var(--c-white) 10%, transparent);
+    background: color-mix(in oklch, var(--c-paper) 92%, transparent);
+    border-bottom-color: var(--c-rule);
   }
 
   .site-header__nav {
@@ -53,48 +142,56 @@ const { nav } = Astro.props;
   .site-header__logo {
     display: inline-flex;
     align-items: center;
+    gap: var(--space-3);
     transition: opacity 0.2s var(--ease-out);
   }
-  .site-header__logo:hover {
-    opacity: 0.9;
-  }
-  .site-header__logo img {
-    height: 48px;
+  .site-header__logo:hover { opacity: 0.78; }
+
+  .site-header__mark {
+    height: 36px;
     width: auto;
-    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .site-header__wordmark {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--c-ink);
+  }
+  .site-header__wordmark em {
+    font-style: normal;
+    color: var(--c-yellow);
   }
 
   .site-header__menu {
     display: none;
     gap: var(--space-8);
     align-items: center;
-    font-size: 0.875rem;
-    font-weight: 500;
   }
   .site-header__menu a {
-    color: var(--c-gray-300);
-    transition: color 0.2s var(--ease-out);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-ink-2);
+    transition: color 0.15s var(--ease-out);
   }
-  .site-header__menu a:hover {
-    color: var(--c-lavender);
-  }
+  .site-header__menu a:hover { color: var(--c-yellow); }
 
   @media (min-width: 1024px) {
-    .site-header__menu {
-      display: flex;
-    }
-    .site-header__logo img {
-      height: 56px;
-    }
+    .site-header__menu { display: flex; }
+    .site-header__mark { height: 44px; }
+    .site-header__wordmark { font-size: 1.6rem; }
   }
 </style>
 
 <script>
   const header = document.getElementById('site-header');
   if (header) {
-    const onScroll = () => {
-      header.dataset.scrolled = window.scrollY > 50 ? 'true' : 'false';
-    };
+    const onScroll = () => { header.dataset.scrolled = window.scrollY > 40 ? 'true' : 'false'; };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }

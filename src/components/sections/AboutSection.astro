@@ -8,55 +8,69 @@ interface Props {
 const { about } = Astro.props;
 ---
 
-<section id="o-projekcie" class="section section-glow">
-  <div class="container about__shell section-shell reveal">
-    <div class="about__inner">
-      <h2 class="section-title about__title">
-        {about.titleLead} <span class="text-gradient">{about.titleAccent}</span>
-      </h2>
+<section id="o-projekcie" class="section">
+  <div class="container about__inner">
+    <div class="about__label section-label" aria-hidden="true">01 / O projekcie</div>
 
-      <div class="about__body">
-        {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-        <p class="about__highlight">{about.highlight}</p>
+    <div class="about__grid reveal">
+      <div class="about__title-col">
+        <h2 class="section-title">
+          {about.titleLead}<br /><span class="text-accent">{about.titleAccent}</span>
+        </h2>
+      </div>
+      <div class="about__body-col">
+        <div class="about__body">
+          {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <blockquote class="about__highlight">
+          {about.highlight}
+        </blockquote>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .about__shell {
-    max-width: var(--container-max);
-    border-radius: var(--radius-xl);
-    padding: var(--space-12) var(--space-6);
-  }
   .about__inner {
-    max-width: 56rem;
-    margin-inline: auto;
+    max-width: var(--container-max);
   }
-  .about__title {
-    font-size: clamp(1.875rem, 5vw, 3rem);
-    text-align: center;
-    margin-bottom: var(--space-8);
-    line-height: 1.15;
+
+  .about__grid {
+    display: grid;
+    gap: var(--space-12);
   }
+
+  .about__title-col .section-title {
+    line-height: 1.08;
+  }
+
   .about__body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--c-gray-300);
-  }
-  .about__highlight {
-    font-weight: 600;
-    color: var(--c-white);
-    border-left: 4px solid var(--c-lime-400);
-    padding-left: var(--space-4);
+    gap: var(--space-5);
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: var(--c-ink-2);
   }
 
-  @media (min-width: 768px) {
-    .about__shell {
-      padding: var(--space-16) var(--space-10);
+  .about__highlight {
+    margin: 0;
+    margin-top: var(--space-8);
+    padding-left: var(--space-5);
+    border-left: 2px solid var(--c-red);
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--c-ink);
+  }
+
+  @media (min-width: 900px) {
+    .about__grid {
+      grid-template-columns: 2fr 3fr;
+      gap: var(--space-16);
+      align-items: start;
     }
   }
 </style>

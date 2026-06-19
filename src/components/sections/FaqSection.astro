@@ -19,12 +19,13 @@ const faqSchema = {
 const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
 ---
 
-<section id="faq" class="section faq">
-  <div class="faq__bg" aria-hidden="true"></div>
-  <div class="container container--narrow faq__inner">
+<section id="faq" class="section">
+  <div class="container container--narrow">
+    <div class="section-label" aria-hidden="true">05 / Pytania i odpowiedzi</div>
+
     <header class="faq__header reveal">
-      <h2 class="section-title faq__title">
-        {faq.titleLead} <span class="text-gradient">{faq.titleAccent}</span>
+      <h2 class="section-title">
+        {faq.titleLead} <span class="text-accent">{faq.titleAccent}</span>
       </h2>
       <p class="faq__intro">{faq.intro}</p>
     </header>
@@ -32,7 +33,7 @@ const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
     <div class="faq__list">
       {
         faq.items.map((item) => (
-          <details class="faq__item puzzle-block">
+          <details class="faq__item reveal">
             <summary class="faq__summary">
               <span class="faq__question">{item.question}</span>
               <i class="ph-bold ph-caret-down faq__caret" aria-hidden="true" />
@@ -50,88 +51,62 @@ const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
 <script is:inline type="application/ld+json" set:html={faqSchemaSafe} />
 
 <style>
-  .faq {
-    overflow: hidden;
-  }
-  .faq__bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 80% 20%, color-mix(in oklch, var(--c-violet-500) 14%, transparent), transparent 45%),
-      radial-gradient(circle at 10% 80%, color-mix(in oklch, var(--c-purple-vivid) 12%, transparent), transparent 50%);
-  }
-  .faq__inner {
-    position: relative;
-    z-index: 1;
-  }
   .faq__header {
-    text-align: center;
-    margin-bottom: var(--space-16);
-  }
-  .faq__title {
-    font-size: clamp(2.25rem, 5vw, 3rem);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-10);
   }
   .faq__intro {
-    color: var(--c-slate-400);
+    margin-top: var(--space-4);
+    font-size: 0.8125rem;
+    color: var(--c-ink-3);
   }
 
   .faq__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
   }
+
   .faq__item {
-    border-radius: var(--radius-md);
-    overflow: hidden;
+    border-top: 1px solid var(--c-rule);
   }
+  .faq__item:last-child {
+    border-bottom: 1px solid var(--c-rule);
+  }
+
   .faq__summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-5) 0;
     cursor: pointer;
     list-style: none;
-    background: linear-gradient(to right, var(--c-card-2), var(--c-panel-1));
   }
-  .faq__summary::-webkit-details-marker {
-    display: none;
-  }
+  .faq__summary::-webkit-details-marker { display: none; }
+
   .faq__question {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--c-white);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    font-weight: 600;
+    color: var(--c-ink);
+    line-height: 1.3;
   }
+
   .faq__caret {
     flex-shrink: 0;
-    font-size: 1.5rem;
-    color: var(--c-lime-400);
-    transition: transform 0.3s var(--ease-out);
+    font-size: 1rem;
+    color: var(--c-red);
+    transition: transform 0.25s var(--ease-out);
   }
   .faq__item[open] .faq__caret {
     transform: rotate(180deg);
   }
+
   .faq__answer {
-    padding: var(--space-6);
-    border-top: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
-    background: color-mix(in oklch, var(--c-white) 2%, transparent);
+    padding-bottom: var(--space-5);
   }
   .faq__answer p {
-    line-height: 1.7;
-    color: var(--c-gray-300);
-  }
-
-  @media (min-width: 768px) {
-    .faq__summary {
-      padding: var(--space-6) var(--space-8);
-    }
-    .faq__question {
-      font-size: 1.25rem;
-    }
-    .faq__answer {
-      padding: var(--space-6) var(--space-8);
-    }
+    font-size: 0.8125rem;
+    line-height: 1.85;
+    color: var(--c-ink-2);
   }
 </style>
