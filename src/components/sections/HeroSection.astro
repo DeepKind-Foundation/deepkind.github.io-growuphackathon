@@ -13,8 +13,18 @@ const { hero, waitlistUrl } = Astro.props;
 <section class="hero" aria-labelledby="hero-heading">
   <div class="hero__bg-art" aria-hidden="true">
     <svg viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid slice">
-      <!-- Ascending diagonal band — bold single gesture along the GROWUP ascent axis -->
-      <polygon points="-83,843 1217,-16 1283,84 -17,943" class="art-band"/>
+      <!-- Left column rule — structural left edge of the type area made visible -->
+      <line x1="24" y1="116" x2="24" y2="672" class="art-rule"/>
+      <!-- Top junction — yellow T-bar where content begins -->
+      <line x1="10" y1="116" x2="42" y2="116" class="art-top"/>
+      <!-- Bottom junction — red T-bar at the section divider -->
+      <line x1="10" y1="672" x2="42" y2="672" class="art-bot"/>
+      <!-- Construction lines — opposite corner, delicate ascending parallels -->
+      <line x1="640" y1="900" x2="1200" y2="530" class="art-diag"/>
+      <line x1="700" y1="900" x2="1200" y2="570" class="art-diag"/>
+      <line x1="760" y1="900" x2="1200" y2="609" class="art-diag"/>
+      <line x1="820" y1="900" x2="1200" y2="649" class="art-diag"/>
+      <line x1="880" y1="900" x2="1200" y2="689" class="art-diag"/>
     </svg>
   </div>
 
@@ -88,7 +98,10 @@ const { hero, waitlistUrl } = Astro.props;
     width: 100%;
     height: 100%;
   }
-  .art-band { fill: var(--c-yellow); opacity: 0.35; }
+  .art-rule { stroke: var(--c-rule); stroke-width: 1; }
+  .art-top  { stroke: var(--c-yellow); stroke-width: 2; }
+  .art-bot  { stroke: var(--c-red); stroke-width: 2; }
+  .art-diag { stroke: var(--c-ink-3); stroke-width: 1; opacity: 0.35; }
 
   .hero__upper {
     position: relative;
