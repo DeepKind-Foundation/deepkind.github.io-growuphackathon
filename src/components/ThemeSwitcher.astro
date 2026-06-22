@@ -10,8 +10,13 @@ const themes = [
 ] as const;
 ---
 
-<aside class="theme-switcher" aria-label="Podgląd motywu kolorystycznego">
-  <p class="theme-switcher__title">Podgląd motywu</p>
+<button class="theme-switcher__tab" id="theme-switcher-tab" aria-label="Pokaż podgląd motywu" hidden>◐</button>
+
+<aside class="theme-switcher" id="theme-switcher-panel" aria-label="Podgląd motywu kolorystycznego">
+  <div class="theme-switcher__header">
+    <p class="theme-switcher__title">Podgląd motywu</p>
+    <button type="button" class="theme-switcher__close" id="theme-switcher-close" aria-label="Ukryj">✕</button>
+  </div>
   <div class="theme-switcher__list">
     {
       themes.map((t) => (
@@ -23,6 +28,53 @@ const themes = [
     }
   </div>
 </aside>
+
+<style>
+  .theme-switcher__tab {
+    position: fixed;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: oklch(18% 0.03 264 / 0.92);
+    border: 1px solid oklch(100% 0 0 / 0.14);
+    color: oklch(96% 0.003 264);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px oklch(0% 0 0 / 0.4);
+  }
+  .theme-switcher__tab:hover {
+    background: oklch(24% 0.03 264 / 0.95);
+  }
+
+  .theme-switcher__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+
+  .theme-switcher__close {
+    background: transparent;
+    border: none;
+    color: oklch(80% 0.02 264);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: var(--space-1);
+    line-height: 1;
+    border-radius: var(--radius-sm);
+  }
+  .theme-switcher__close:hover {
+    color: oklch(96% 0.003 264);
+    background: oklch(100% 0 0 / 0.07);
+  }
+</style>
 
 <style>
   .theme-switcher {
@@ -48,7 +100,7 @@ const themes = [
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: oklch(80% 0.02 264);
-    margin-bottom: var(--space-3);
+    margin-bottom: 0;
   }
   .theme-switcher__list {
     display: flex;
@@ -99,8 +151,12 @@ const themes = [
 
 <script>
   const KEY = 'gh-theme';
+  const OPEN_KEY = 'gh-theme-switcher-open';
   const root = document.documentElement;
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.theme-switcher__btn'));
+  const panel = document.getElementById('theme-switcher-panel') as HTMLElement;
+  const tab   = document.getElementById('theme-switcher-tab') as HTMLButtonElement;
+  const close = document.getElementById('theme-switcher-close') as HTMLButtonElement;
 
   function apply(id: string): void {
     if (id === 'plakat') {
@@ -111,12 +167,24 @@ const themes = [
     buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeId === id)));
   }
 
+  function setOpen(open: boolean): void {
+    panel.hidden = !open;
+    tab.hidden   = open;
+    localStorage.setItem(OPEN_KEY, open ? '1' : '0');
+  }
+
   const saved = localStorage.getItem(KEY) ?? 'plakat';
   apply(saved);
 
+  const savedOpen = localStorage.getItem(OPEN_KEY);
+  setOpen(savedOpen !== '0');
+
+  tab.addEventListener('click',   () => setOpen(true));
+  close.addEventListener('click', () => setOpen(false));
+
   buttons.forEach((b) => {
     b.addEventListener('click', () => {
-      const id = b.dataset.themeId ?? 'neon';
+      const id = b.dataset.themeId ?? 'plakat';
       localStorage.setItem(KEY, id);
       apply(id);
     });
