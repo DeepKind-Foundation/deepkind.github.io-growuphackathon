@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import ColumnHatch from '../ColumnHatch.astro';
 
 interface Props {
   about: HomeContent['about'];
@@ -8,12 +9,13 @@ interface Props {
 const { about } = Astro.props;
 ---
 
-<section id="o-projekcie" class="section">
+<section id="o-projekcie" class="section about">
   <div class="container about__inner">
     <div class="about__label section-label" aria-hidden="true">01 / O projekcie</div>
 
     <div class="about__grid reveal">
       <div class="about__title-col">
+        <ColumnHatch opacity={0.04} />
         <h2 class="section-title">
           {about.titleLead}<br /><span class="text-accent">{about.titleAccent}</span>
         </h2>
@@ -31,8 +33,15 @@ const { about } = Astro.props;
 </section>
 
 <style>
+  .about {
+    position: relative;
+    isolation: isolate;
+  }
+
   .about__inner {
     max-width: var(--container-max);
+    position: relative;
+    z-index: 1;
   }
 
   .about__grid {
@@ -40,6 +49,11 @@ const { about } = Astro.props;
     gap: var(--space-12);
   }
 
+  .about__title-col {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
   .about__title-col .section-title {
     line-height: 1.08;
   }
@@ -69,8 +83,15 @@ const { about } = Astro.props;
   @media (min-width: 900px) {
     .about__grid {
       grid-template-columns: 2fr 3fr;
-      gap: var(--space-16);
+      gap: 0;
       align-items: start;
+    }
+    .about__title-col {
+      padding-right: var(--space-12);
+    }
+    .about__body-col {
+      border-left: 1px solid var(--c-rule);
+      padding-left: var(--space-12);
     }
   }
 </style>

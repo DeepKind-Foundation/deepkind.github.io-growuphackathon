@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import SectionNoise from '../SectionNoise.astro';
 
 interface Props {
   faq: HomeContent['faq'];
@@ -19,7 +20,8 @@ const faqSchema = {
 const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
 ---
 
-<section id="faq" class="section">
+<section id="faq" class="section faq-section">
+  <SectionNoise opacity={0.03} />
   <div class="container container--narrow">
     <div class="section-label" aria-hidden="true">05 / Pytania i odpowiedzi</div>
 
@@ -51,8 +53,26 @@ const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
 <script is:inline type="application/ld+json" set:html={faqSchemaSafe} />
 
 <style>
+  .faq-section {
+    position: relative;
+    isolation: isolate;
+  }
+
   .faq__header {
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--c-rule);
+    position: relative;
+    z-index: 1;
+  }
+  .faq__header::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: var(--c-red);
   }
   .faq__intro {
     margin-top: var(--space-4);
@@ -95,7 +115,11 @@ const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
     flex-shrink: 0;
     font-size: 1rem;
     color: var(--c-red);
-    transition: transform 0.25s var(--ease-out);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .faq__caret {
+      transition: transform 0.25s var(--ease-out);
+    }
   }
   .faq__item[open] .faq__caret {
     transform: rotate(180deg);

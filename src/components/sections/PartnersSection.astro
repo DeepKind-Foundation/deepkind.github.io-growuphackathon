@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import SectionNoise from '../SectionNoise.astro';
 
 interface Props {
   partners: HomeContent['partners'];
@@ -10,7 +11,8 @@ const { partners } = Astro.props;
 const oddBenefits = partners.benefits.length % 2 !== 0;
 ---
 
-<section id="partnerzy" class="section">
+<section id="partnerzy" class="section partners-section">
+  <SectionNoise opacity={0.03} />
   <div class="container container--md">
     <div class="section-label" aria-hidden="true">07 / Partnerzy</div>
 
@@ -77,10 +79,26 @@ const oddBenefits = partners.benefits.length % 2 !== 0;
 </section>
 
 <style>
+  .partners-section {
+    position: relative;
+    isolation: isolate;
+  }
+
   .partners__current {
     padding-bottom: var(--space-16);
     margin-bottom: var(--space-16);
     border-bottom: 1px solid var(--c-rule);
+    position: relative;
+    z-index: 1;
+  }
+  .partners__current::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--c-red);
   }
 
   .partners__logos {
@@ -100,6 +118,11 @@ const oddBenefits = partners.benefits.length % 2 !== 0;
     max-width: 10rem;
     object-fit: contain;
     width: auto;
+  }
+
+  .partners__become {
+    position: relative;
+    z-index: 1;
   }
 
   .partners__become-head {

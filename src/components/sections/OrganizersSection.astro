@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import ColumnHatch from '../ColumnHatch.astro';
 
 interface Props {
   organizers: HomeContent['organizers'];
@@ -8,7 +9,7 @@ interface Props {
 const { organizers } = Astro.props;
 ---
 
-<section id="organizator" class="section">
+<section id="organizator" class="section organizers-section">
   <div class="container container--md">
     <div class="section-label" aria-hidden="true">06 / Organizatorzy</div>
 
@@ -17,6 +18,7 @@ const { organizers } = Astro.props;
         organizers.blocks.map((block) => (
           <div class="organizers__block reveal">
             <div class="organizers__aside">
+              <ColumnHatch opacity={0.04} />
               <h2 class="organizers__name">
                 {block.accentFirst ? (
                   <>
@@ -51,10 +53,22 @@ const { organizers } = Astro.props;
 </section>
 
 <style>
+  .organizers-section {
+    position: relative;
+  }
+
   .organizers__blocks {
     display: flex;
     flex-direction: column;
     gap: var(--space-20);
+    position: relative;
+    z-index: 1;
+  }
+
+  .organizers__aside {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
   }
 
   .organizers__block {
@@ -85,10 +99,20 @@ const { organizers } = Astro.props;
 
   .organizers__rule {
     display: block;
-    width: 2rem;
-    height: 1px;
+    width: 2.5rem;
+    height: 2px;
     margin-top: var(--space-5);
     background: var(--c-red);
+    position: relative;
+  }
+  .organizers__rule::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -2px;
+    width: 6px;
+    height: 6px;
+    background: var(--c-yellow);
   }
 
   .organizers__body {

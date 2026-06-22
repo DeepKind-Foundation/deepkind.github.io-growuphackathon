@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import ColumnHatch from '../ColumnHatch.astro';
 
 interface Props {
   paths: HomeContent['paths'];
@@ -48,6 +49,7 @@ const pathIcons: Record<string, string> = {
         items.map((item, i) => (
           <article class="paths__card card reveal">
             <div class="paths__aside">
+              <ColumnHatch opacity={0.04} />
               <span class="paths__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               <span class="paths__icon" set:html={pathIcons[item.icon] ?? ''} />
               <h3 class="paths__name">{item.title}</h3>
@@ -96,6 +98,9 @@ const pathIcons: Record<string, string> = {
     display: flex;
     align-items: center;
     gap: var(--space-4);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
   }
 
   .paths__num {

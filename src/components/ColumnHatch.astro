@@ -1,0 +1,21 @@
+---
+interface Props {
+  opacity?: number;
+}
+const { opacity = 0.04 } = Astro.props;
+---
+<svg class="col-hatch" aria-hidden="true" focusable="false">
+  <rect width="100%" height="100%" fill="url(#hatch-45)" />
+</svg>
+
+<style define:vars={{ hatchOp: opacity }}>
+  .col-hatch {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: var(--hatchOp);
+    z-index: -1;
+  }
+</style>

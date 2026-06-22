@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import SectionNoise from '../SectionNoise.astro';
 
 interface Props {
   benefits: HomeContent['benefits'];
@@ -10,7 +11,7 @@ interface Props {
 const { benefits, waitlistUrl } = Astro.props;
 ---
 
-<section id="nagrody" class="section">
+<section id="nagrody" class="section benefits-section">
   <div class="container">
     <div class="section-label" aria-hidden="true">04 / Co zdobywasz</div>
 
@@ -38,6 +39,7 @@ const { benefits, waitlistUrl } = Astro.props;
     </div>
 
     <div class="benefits__awards card reveal">
+      <SectionNoise opacity={0.05} />
       <div class="benefits__awards-body">
         <h3 class="benefits__awards-title">{benefits.awardsTitle}</h3>
       </div>
@@ -73,10 +75,16 @@ const { benefits, waitlistUrl } = Astro.props;
 </section>
 
 <style>
+  .benefits-section {
+    position: relative;
+    isolation: isolate;
+  }
   .benefits__grid {
     display: grid;
     gap: var(--space-12);
     margin-bottom: var(--space-16);
+    position: relative;
+    z-index: 1;
   }
 
   .benefits__list {
@@ -114,7 +122,12 @@ const { benefits, waitlistUrl } = Astro.props;
     gap: var(--space-8);
     padding: var(--space-8);
     margin-bottom: var(--space-16);
+    border-left: 4px solid var(--c-yellow);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
   }
+
   .benefits__awards-title {
     font-family: var(--font-display);
     font-size: clamp(1.25rem, 3vw, 1.875rem);

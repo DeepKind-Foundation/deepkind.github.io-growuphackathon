@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import SectionNoise from '../SectionNoise.astro';
 
 interface Props {
   bottomCta: HomeContent['bottomCta'];
@@ -13,19 +14,30 @@ const { bottomCta, waitlistUrl } = Astro.props;
 <section class="section bottom-cta">
   <div class="container container--narrow">
     <div class="bottom-cta__inner reveal">
-      <h2 class="bottom-cta__title">
-        {bottomCta.titleLead} <span class="text-accent">{bottomCta.titleAccent}</span>
-      </h2>
-      <p class="bottom-cta__text">{bottomCta.text}</p>
-      <a
-        class="btn-primary btn-primary--lg"
-        href={safeHref(waitlistUrl)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {bottomCta.ctaLabel}
-        <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
-      </a>
+      <SectionNoise opacity={0.05} />
+      <div class="bottom-cta__art" aria-hidden="true">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="30" height="30" fill="var(--c-yellow)" opacity="0.45"/>
+          <line x1="36" y1="0" x2="36" y2="30" stroke="var(--c-yellow)" stroke-width="1.5" opacity="0.50"/>
+          <line x1="0" y1="36" x2="30" y2="36" stroke="var(--c-yellow)" stroke-width="1.5" opacity="0.50"/>
+          <rect x="30" y="30" width="14" height="14" fill="var(--c-red)" opacity="0.60"/>
+        </svg>
+      </div>
+      <div class="bottom-cta__content">
+        <h2 class="bottom-cta__title">
+          {bottomCta.titleLead} <span class="text-accent">{bottomCta.titleAccent}</span>
+        </h2>
+        <p class="bottom-cta__text">{bottomCta.text}</p>
+        <a
+          class="btn-primary btn-primary--lg"
+          href={safeHref(waitlistUrl)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {bottomCta.ctaLabel}
+          <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -39,6 +51,29 @@ const { bottomCta, waitlistUrl } = Astro.props;
     padding: var(--space-16) var(--space-8);
     border: 1px solid var(--c-ink);
     border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .bottom-cta__art {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .bottom-cta__art svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .bottom-cta__content {
+    position: relative;
+    z-index: 1;
+    display: contents;
   }
 
   .bottom-cta__title {

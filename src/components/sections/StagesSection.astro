@@ -8,7 +8,7 @@ interface Props {
 const { stages } = Astro.props;
 ---
 
-<section id="etapy" class="section">
+<section id="etapy" class="section stages">
   <div class="container container--md">
     <div class="section-label" aria-hidden="true">03 / Etapy programu</div>
 
@@ -18,6 +18,23 @@ const { stages } = Astro.props;
       </h2>
       <p class="stages__intro">{stages.intro}</p>
     </header>
+
+    <div class="stages__track" aria-hidden="true">
+      <svg viewBox="0 0 1000 28" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <line x1="125" y1="14" x2="875" y2="14" stroke="var(--c-rule)" stroke-width="1"/>
+        <rect x="109" y="5" width="18" height="18" fill="var(--c-red)"/>
+        <rect x="359" y="5" width="18" height="18" fill="var(--c-red)"/>
+        <rect x="609" y="5" width="18" height="18" fill="var(--c-red)"/>
+        <rect x="859" y="5" width="18" height="18" fill="var(--c-red)"/>
+        <!-- scattered marks between stage markers — editorial track punctuation -->
+        <line x1="212" y1="9" x2="220" y2="19" stroke="var(--c-ink-3)" stroke-width="1" opacity="0.45"/>
+        <line x1="268" y1="19" x2="276" y2="9" stroke="var(--c-ink-3)" stroke-width="1" opacity="0.35"/>
+        <line x1="462" y1="10" x2="468" y2="18" stroke="var(--c-ink-3)" stroke-width="1" opacity="0.45"/>
+        <line x1="516" y1="18" x2="524" y2="10" stroke="var(--c-ink-3)" stroke-width="1" opacity="0.35"/>
+        <line x1="714" y1="9" x2="720" y2="19" stroke="var(--c-ink-3)" stroke-width="1" opacity="0.4"/>
+        <line x1="768" y1="19" x2="776" y2="9" stroke="var(--c-ink-3)" stroke-width="1" opacity="0.35"/>
+      </svg>
+    </div>
 
     <div class="stages__grid">
       {
@@ -51,6 +68,26 @@ const { stages } = Astro.props;
 </section>
 
 <style>
+  .stages {
+    position: relative;
+    isolation: isolate;
+  }
+  .stages__track {
+    display: none;
+    margin-bottom: var(--space-6);
+  }
+  .stages__track svg {
+    width: 100%;
+    height: 28px;
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .stages__track {
+      display: block;
+    }
+  }
+
   .stages__header {
     margin-bottom: var(--space-12);
   }
@@ -84,6 +121,16 @@ const { stages } = Astro.props;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--c-red);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .stages__step::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: currentColor;
+    flex-shrink: 0;
   }
 
   .stages__date {
@@ -98,7 +145,7 @@ const { stages } = Astro.props;
 
   .stages__card-icon {
     font-size: 1.75rem;
-    color: var(--c-ink-3);
+    color: var(--c-red);
   }
 
   .stages__name {
