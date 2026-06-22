@@ -7,6 +7,7 @@ node_modules
 /.pnp
 package-lock.json
 .pnpm-store
+pnpm-workspace.yaml
 
 # pnpm local store
 .pnpm-store/
