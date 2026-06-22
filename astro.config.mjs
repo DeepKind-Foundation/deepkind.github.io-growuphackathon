@@ -9,4 +9,11 @@ export default defineConfig({
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   integrations: [react(), keystatic()],
+  vite: {
+    optimizeDeps: {
+      // react-dom/client is CJS; force pre-bundling so Vite exposes named ESM exports
+      // (e.g. createRoot) that Keystatic's island hydration relies on.
+      include: ['react-dom/client'],
+    },
+  },
 });
