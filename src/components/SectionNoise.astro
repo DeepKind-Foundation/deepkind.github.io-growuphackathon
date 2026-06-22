@@ -2,7 +2,7 @@
 interface Props {
   opacity?: number;
 }
-const { opacity = 0.04 } = Astro.props;
+const { opacity = 0.08 } = Astro.props;
 ---
 <svg class="section-noise" aria-hidden="true" focusable="false">
   <rect width="100%" height="100%" filter="url(#paper-noise)" />
@@ -15,7 +15,7 @@ const { opacity = 0.04 } = Astro.props;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    mix-blend-mode: overlay;
+    mix-blend-mode: multiply;
     opacity: var(--noiseOp);
     z-index: -1;
   }

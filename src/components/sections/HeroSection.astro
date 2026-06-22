@@ -13,15 +13,8 @@ const { hero, waitlistUrl } = Astro.props;
 <section class="hero" aria-labelledby="hero-heading">
   <div class="hero__bg-art" aria-hidden="true">
     <svg viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid slice">
-      <!-- Primary arcs — upper right, yellow, two concentric rings suggesting a horizon/rising -->
-      <circle cx="1100" cy="-60" r="660" class="art-arc-outer"/>
-      <circle cx="1100" cy="-60" r="470" class="art-arc-inner"/>
-      <!-- Diagonal energy line — ascent from lower-left -->
-      <line x1="0" y1="860" x2="1180" y2="80" class="art-line-diag"/>
-      <!-- Small filled square — upper-right anchor / printer's registration mark -->
-      <rect x="1098" y="28" width="74" height="74" class="art-square"/>
-      <!-- Red arc — lower-left, counter-balances yellow upper-right -->
-      <circle cx="-30" cy="960" r="300" class="art-arc-red"/>
+      <!-- Ascending diagonal band — bold single gesture along the GROWUP ascent axis -->
+      <polygon points="-83,843 1217,-16 1283,84 -17,943" class="art-band"/>
     </svg>
   </div>
 
@@ -95,11 +88,7 @@ const { hero, waitlistUrl } = Astro.props;
     width: 100%;
     height: 100%;
   }
-  .art-arc-outer { stroke: var(--c-yellow); stroke-width: 1.5; opacity: 0.18; }
-  .art-arc-inner { stroke: var(--c-yellow); stroke-width: 1; opacity: 0.24; }
-  .art-line-diag { stroke: var(--c-yellow); stroke-width: 1; opacity: 0.12; }
-  .art-square { fill: var(--c-yellow); opacity: 0.45; }
-  .art-arc-red { stroke: var(--c-red); stroke-width: 2.5; opacity: 0.38; }
+  .art-band { fill: var(--c-yellow); opacity: 0.35; }
 
   .hero__upper {
     position: relative;

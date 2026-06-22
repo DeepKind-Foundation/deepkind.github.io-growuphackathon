@@ -49,7 +49,7 @@ const pathIcons: Record<string, string> = {
         items.map((item, i) => (
           <article class="paths__card card reveal">
             <div class="paths__aside">
-              <ColumnHatch opacity={0.04} />
+              <ColumnHatch opacity={0.10} />
               <span class="paths__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               <span class="paths__icon" set:html={pathIcons[item.icon] ?? ''} />
               <h3 class="paths__name">{item.title}</h3>
