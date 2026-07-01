@@ -5,18 +5,42 @@
     "ogImage": "https://growuphackathon.pl/logo.png"
   },
   "nav": [
-    { "label": "O projekcie", "href": "#o-projekcie" },
-    { "label": "Ścieżki", "href": "#sciezki" },
-    { "label": "Etapy", "href": "#etapy" },
-    { "label": "Korzyści", "href": "#nagrody" },
-    { "label": "FAQ", "href": "#faq" },
-    { "label": "Organizatorzy", "href": "#organizator" },
-    { "label": "Partnerzy", "href": "#partnerzy" },
-    { "label": "Kontakt", "href": "#kontakt" }
+    {
+      "label": "O projekcie",
+      "href": "#o-projekcie"
+    },
+    {
+      "label": "Ścieżki",
+      "href": "#sciezki"
+    },
+    {
+      "label": "Etapy",
+      "href": "#etapy"
+    },
+    {
+      "label": "Korzyści",
+      "href": "#nagrody"
+    },
+    {
+      "label": "FAQ",
+      "href": "#faq"
+    },
+    {
+      "label": "Organizatorzy",
+      "href": "#organizator"
+    },
+    {
+      "label": "Partnerzy",
+      "href": "#partnerzy"
+    },
+    {
+      "label": "Kontakt",
+      "href": "#kontakt"
+    }
   ],
   "links": {
     "waitlist": "https://forms.gle/pzrs6dqv7qyh9J5F6",
-    "facebook": "https://www.facebook.com/profile.php?id=61585845027175",
+    "facebook": "https://www.facebook.com/profile.php?id=61590562146621",
     "instagram": "https://www.instagram.com/growup_hackaton/",
     "regulamin": "#",
     "privacy": "/privacy-policy.pdf",
@@ -51,17 +75,17 @@
       {
         "title": "Grow Self",
         "icon": "ph-user",
-        "description": "Jak dorosnąć w XXI wieku i nie zwariować?\n\nW dobie niestabilności geopolitycznej, kryzysu klimatycznego i wszechobecnej presji sukcesu, odnalezienie własnej drogi staje się wyzwaniem ekstremalnym. Tradycyjne metody wsparcia często nie nadążają za tempem zmian. Twoim zadaniem jest zaprojektowanie rozwiązania, które pomoże naszym rówieśnikom zadbać o zdrowie psychiczne, wypracować autentyczną równowagę (work-life-tech balance) i głębiej poznać siebie.\n\n„Nie ma ucieczki przed formą, jak tylko w inną formę” – pisał Witold Gombrowicz. Skoro nie uciekniemy od technologii i współczesnych struktur, stwórzmy ich nową, lepszą formę: taką, która wspiera człowieka, zamiast go przytłaczać."
+        "description": "Jak dorosnąć w XXI wieku i nie zwariować?\n\nW dobie niestabilności geopolitycznej, kryzysu klimatycznego i wszechobecnej presji sukcesu, odnalezienie własnej drogi staje się wyzwaniem ekstremalnym. Tradycyjne metody wsparcia często nie nadążają za tempem zmian. Twoim zadaniem jest zaprojektowanie rozwiązania, które pomoże naszym rówieśnikom zadbać o zdrowie psychiczne, wypracować autentyczną równowagę (work-life-tech balance) i głębiej poznać siebie.\n"
       },
       {
         "title": "Grow Together",
         "icon": "ph-users-three",
-        "description": "Jak nie być samotnym w tłumie?\n\nLudzie to zwierzęta stadne, lecz w świecie algorytmów coraz częściej o tym zapominamy. Budowanie i utrzymywanie wartościowych relacji staje się trudniejsze niż kiedykolwiek, a ekrany, które miały nas łączyć, paradoksalnie wznoszą między nami bariery. Samotność stała się chorobą cywilizacyjną, dotykającą nas bez względu na liczbę \"znajomych\" w sieci.\n\n„Ludzie mają zbyt mało czasu, aby cokolwiek poznać. Kupują w sklepach rzeczy gotowe. A ponieważ nie ma magazynów z przyjaciółmi, więc ludzie nie mają przyjaciół” – pisał Antoine de Saint-Exupéry. W świecie nastawionym na szybką konsumpcję relacji, zapomnieliśmy o procesie ich uważnego budowania."
+        "description": "Jak nie być samotnym w tłumie?\n\nLudzie to zwierzęta stadne, lecz w świecie algorytmów coraz częściej o tym zapominamy. Budowanie i utrzymywanie wartościowych relacji staje się trudniejsze niż kiedykolwiek, a ekrany, które miały nas łączyć, paradoksalnie wznoszą między nami bariery. Samotność stała się chorobą cywilizacyjną, dotykającą nas bez względu na liczbę \"znajomych\" w sieci.\n"
       },
       {
         "title": "Grow Skills",
         "icon": "ph-brain",
-        "description": "Jak uczyć się jutra, które dzieje się dziś?\n\nSystem edukacji często przypomina mapę do świata, który już nie istnieje. W obliczu rewolucji AI i błyskawicznej dezaktualizacji wiedzy, kluczową kompetencją nie jest już \"wiedzieć\", ale \"potrafić się uczyć\" i krytycznie analizować rzeczywistość. Musimy wyposażyć się w narzędzia, które pozwolą nam nawigować po rynku pracy, który zmienia się na naszych oczach.\n\n„Wiedza to jedyna rzecz, która się mnoży, gdy się ją dzieli” – pisał Andrzej Majewski. W erze sztucznej inteligencji to współdzielenie wiedzy i umiejętność współpracy z technologią, a nie walka z nią, stanie się naszym największym atutem."
+        "description": "Jak uczyć się jutra, które dzieje się dziś?\n\nSystem edukacji często przypomina mapę do świata, który już nie istnieje. W obliczu rewolucji AI i błyskawicznej dezaktualizacji wiedzy, kluczową kompetencją nie jest już \"wiedzieć\", ale \"potrafić się uczyć\" i krytycznie analizować rzeczywistość. Musimy wyposażyć się w narzędzia, które pozwolą nam nawigować po rynku pracy, który zmienia się na naszych oczach."
       },
       {
         "title": "Grow Impact",
@@ -71,7 +95,7 @@
       {
         "title": "Grow Everyday",
         "icon": "ph-calendar-check",
-        "description": "Jak ogarnąć dorosłość i nie stracić sensu?\n\nDorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesami. Tymczasem większość naszego życia składa się z dużo prostszych rzeczy: zapłacenia rachunków, umówienia wizyty u lekarza, zorganizowania budżetu czy znalezienia czasu na odpoczynek. To właśnie w tej codzienności uczymy się samodzielności. Małe zadania potrafią być zaskakująco trudne - szczególnie gdy nikt wcześniej nie pokazał nam, jak je ogarnąć.\n\n\"Wszyscy powinniśmy przynajmniej raz w życiu dostać owację na stojąco, bo przecież każdy z nas zwycięża ten świat.\" - R. J. Palacio, \"Cudowny chłopak\". W tej ścieżce szukamy pomysłów, które pomagają ludziom lepiej radzić sobie z codziennością: upraszczają organizację życia, pomagają zarządzać finansami czy budować dobre nawyki. Bo czasem największą innowacją nie jest zmiana świata - tylko sprawienie, że zwykłe życie staje się trochę łatwiejsze."
+        "description": "Jak ogarnąć dorosłość i nie stracić sensu?\n\nDorosłość często kojarzy się z wielkimi decyzjami i spektakularnymi sukcesami. Tymczasem większość naszego życia składa się z dużo prostszych rzeczy: zapłacenia rachunków, umówienia wizyty u lekarza, zorganizowania budżetu czy znalezienia czasu na odpoczynek. To właśnie w tej codzienności uczymy się samodzielności. Małe zadania potrafią być zaskakująco trudne - szczególnie gdy nikt wcześniej nie pokazał nam, jak je ogarnąć."
       }
     ]
   },
@@ -84,33 +108,47 @@
         "step": "01",
         "icon": "ph-pencil-simple-line",
         "title": "Zapisujesz się",
-        "date": "14.09 – 23.10",
-        "what": "Rejestracja online — solo lub z gotowym zespołem (max 5 osób). Jeśli nie masz drużyny, połączymy Cię z innymi na Discordzie.",
-        "expect": ["Formularz zgłoszeniowy online", "Możliwość dołączenia bez zespołu"]
+        "date": "do 20 października",
+        "what": "Rejestracja online — solo lub z gotowym zespołem (max 5 osób). Jeśli nie masz drużyny, połączymy Cię z innymi osobami, które również szukają zespołu.",
+        "expect": [
+          "Formularz zgłoszeniowy online",
+          "Możliwość dołączenia bez zespołu"
+        ]
       },
       {
         "step": "02",
         "icon": "ph-flag-checkered",
         "title": "Kick-off & mentor",
-        "date": "7.11",
+        "date": "listopad",
         "what": "Inauguracja hackathonu online. Poznajesz swój zespół, dostajesz dedykowanego mentora i wybieracie ścieżkę tematyczną.",
-        "expect": ["Spotkanie otwierające online", "Przydzielenie mentora do zespołu"]
+        "expect": [
+          "Spotkanie otwierające online",
+          "Przydzielenie mentora do zespołu"
+        ]
       },
       {
         "step": "03",
         "icon": "ph-flask",
         "title": "Miesiąc rozwoju",
-        "date": "7.11 – 6.12",
+        "date": "listopad/grudzień",
         "what": "Cztery tygodnie intensywnej pracy online. Cotygodniowe check-iny z mentorem, dostęp do warsztatów z UX, marketingu i technologii. Budujesz działający prototyp.",
-        "expect": ["Cotygodniowe sesje z mentorem", "Warsztaty: UX, marketing, tech, prezentacje", "Wsparcie ekspertów i konsultantów"]
+        "expect": [
+          "Cotygodniowe sesje z mentorem",
+          "Warsztaty: UX, marketing, tech, prezentacje i inne",
+          "Wsparcie ekspertów i konsultantów"
+        ]
       },
       {
         "step": "04",
         "icon": "ph-trophy",
-        "title": "Finał w Krakowie",
-        "date": "12.12",
-        "what": "Top 5 zespołów prezentuje projekty przed jury ekspertów. Nagrody, networking z firmami i świętowanie.",
-        "expect": ["Prezentacje finałowe na żywo", "Jury złożone z ekspertów branży", "Nagrody, certyfikaty, networking"]
+        "title": "Wielki Finał w Krakowie",
+        "date": "styczeń 2027",
+        "what": "Zespoły zaprezentują swoje projekty przed jury ekspertów. Nagrody, networking z firmami i świętowanie!",
+        "expect": [
+          "Prezentacje finałowe na żywo",
+          "Jury złożone z ekspertów branży",
+          "Nagrody, certyfikaty, networking"
+        ]
       }
     ]
   },
@@ -118,21 +156,57 @@
     "titleLead": "Biorąc udział w GrowUp,",
     "titleAccent": "zdobywasz:",
     "items": [
-      { "bold": "Praktyczne kompetencje", "rest": "(technologia, współpraca, komunikacja, organizacja)" },
-      { "bold": "Wsparcie mentorów", "rest": "— technologicznych, społecznych i biznesowych" },
-      { "bold": "Doświadczenie projektowe", "rest": "które wykorzystasz na studiach i w pracy" },
-      { "bold": "Portfolio", "rest": "zrealizowanego projektu (robi wrażenie na rekruterach)" },
-      { "bold": "Możliwość przetestowania pomysłu", "rest": "w realnym środowisku" },
-      { "bold": "Networking z mentorami", "rest": "— zbuduj sieć kontaktów z ekspertami z czołowych firm, która pomoże Ci w karierze" },
-      { "bold": "Dołączenie do społeczności", "rest": "GrowUp Alumni" },
-      { "bold": "Certyfikat udziału", "rest": "potwierdzający umiejętności" }
+      {
+        "bold": "Praktyczne kompetencje",
+        "rest": "(technologia, współpraca, komunikacja, organizacja)"
+      },
+      {
+        "bold": "Wsparcie mentorów",
+        "rest": "— technologicznych, społecznych i biznesowych"
+      },
+      {
+        "bold": "Doświadczenie projektowe",
+        "rest": "które wykorzystasz na studiach i w pracy"
+      },
+      {
+        "bold": "Portfolio",
+        "rest": "zrealizowanego projektu (robi wrażenie na rekruterach)"
+      },
+      {
+        "bold": "Możliwość przetestowania pomysłu",
+        "rest": "w realnym środowisku"
+      },
+      {
+        "bold": "Networking z mentorami",
+        "rest": "— zbuduj sieć kontaktów z ekspertami z czołowych firm, która pomoże Ci w karierze"
+      },
+      {
+        "bold": "Dołączenie do społeczności",
+        "rest": "GrowUp Alumni"
+      },
+      {
+        "bold": "Certyfikat udziału",
+        "rest": "potwierdzający umiejętności"
+      }
     ],
     "awardsTitle": "A na zwycięzców czekają\ndodatkowe nagrody:",
     "awardsNote": "Dołącz do gry o przyszłość",
     "awards": [
-      { "icon": "ph-wallet", "title": "Mikrogranty", "description": "Dla zespołów z I, II i III miejsca." },
-      { "icon": "ph-stairs", "title": "Program rozwojowy", "description": "Wsparcie specjalistów w dopracowaniu i testowaniu projektu." },
-      { "icon": "ph-briefcase", "title": "Networking z liderami branży", "description": "Zbuduj sieć kontaktów z mentorami z czołowych firm — to często cenniejsze niż sama nagroda. Staże, „job shadowing” i połączenia, które otwierają drzwi." }
+      {
+        "icon": "ph-wallet",
+        "title": "Mikrogranty",
+        "description": "Dla zespołów z I, II i III miejsca."
+      },
+      {
+        "icon": "ph-stairs",
+        "title": "Program rozwojowy",
+        "description": "Wsparcie specjalistów w dopracowaniu i testowaniu projektu."
+      },
+      {
+        "icon": "ph-briefcase",
+        "title": "Networking z liderami branży",
+        "description": "Zbuduj sieć kontaktów z mentorami z czołowych firm — to często cenniejsze niż sama nagroda. Staże, „job shadowing” i połączenia, które otwierają drzwi."
+      }
     ],
     "ctaLabel": "Chcę wziąć udział"
   },
@@ -179,7 +253,6 @@
         "nameLead": "Fundacja",
         "nameAccent": "DeepKind",
         "accentFirst": false,
-        "subtitle": "",
         "paragraphs": [
           {
             "text": "Fundacja DeepKind wspiera osoby i społeczności, które chcą działać odpowiedzialnie i w zgodzie z wartościami. Tworzy inicjatywy rozwijające kompetencje, ułatwiające dostęp do wiedzy oraz pokazujące, jak technologia, edukacja i empatia mogą realnie wzmacniać ludzi i środowisko.",
@@ -221,16 +294,31 @@
     "partnersTitleLead": "Nasi",
     "partnersTitleAccent": "Partnerzy",
     "logos": [
-      { "image": "/logos/logo_allventures.jpg", "alt": "All Ventures" },
-      { "image": "/logos/logo_GI.png", "alt": "GI" }
+      {
+        "image": "/logos/logo_allventures.jpg",
+        "alt": "All Ventures"
+      },
+      {
+        "image": "/logos/logo_GI.png",
+        "alt": "GI"
+      }
     ],
     "becomeTitleLead": "Zostań",
     "becomeTitleAccent": "Partnerem",
     "becomeIntro": "Dołącz do grona firm i organizacji, które inwestują w kolejne pokolenie innowatorów.",
     "stats": [
-      { "value": "200+", "label": "przewidywanych uczestników" },
-      { "value": "30", "label": "drużyn z całej Polski" },
-      { "value": "10+", "label": "uczelni partnerskich" }
+      {
+        "value": "70+",
+        "label": "przewidywanych uczestników"
+      },
+      {
+        "value": "15",
+        "label": "drużyn z całej Polski"
+      },
+      {
+        "value": "10+",
+        "label": "uczelni partnerskich"
+      }
     ],
     "benefits": [
       {
@@ -273,7 +361,7 @@
     "copyright": "© 2026 GrowUp Hackathon. Powered by DeepKind."
   },
   "cookie": {
-    "text": "Ta strona używa plików cookies w celu świadczenia usług na najwyższym poziomie. Dalsze korzystanie ze strony oznacza, że zgadzasz się na ich użycie.",
+    "text": "Ta strona używa plików cookies w celu świadczenia usług na najwyższym poziomie. Dalsze korzystanie ze strony oznacza, że zgadzasz się na ich użycie. ",
     "accept": "Zgadzam się"
   }
 }
