@@ -53,11 +53,20 @@
     "wordmarkAccent": "Up",
     "taglinePurple": "Hackuj dorosłość,",
     "taglineLime": "wymyśl lepsze jutro",
-    "leadParagraph1": "Ogólnopolski hackathon dla młodych ludzi, który łączy technologię, innowacje i empatię, aby ułatwić wchodzenie w dorosłe życie.",
-    "leadParagraph2": "Pracuj w zespole, testuj pomysły, prototypuj, korzystaj z wiedzy mentorów i stwórz rozwiązanie, które może zmienić czyjeś (i Twoje) życie.",
+    "leadParagraph1": "Bezpłatny, ogólnopolski program, w którym przez miesiąc budujesz w zespole rozwiązanie realnego problemu swojego pokolenia.",
+    "leadParagraph2": "",
     "ctaLabel": "Chcę wziąć udział",
-    "ctaEnabled": true
+    "ctaEnabled": true,
+    "countdownTarget": "2026-10-20T23:59:00+02:00",
+    "countdownCaption": "do końca zgłoszeń"
   },
+  "heroStats": [
+    { "value": "70+", "label": "uczestników" },
+    { "value": "15", "label": "drużyn" },
+    { "value": "5", "label": "ścieżek" },
+    { "value": "30", "label": "dni pracy" },
+    { "value": "Kraków", "label": "Finał" }
+  ],
   "about": {
     "titleLead": "Praktyczne",
     "titleAccent": "laboratorium dorosłości",

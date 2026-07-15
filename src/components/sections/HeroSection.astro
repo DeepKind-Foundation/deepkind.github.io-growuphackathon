@@ -29,12 +29,8 @@ const { hero, waitlistUrl } = Astro.props;
       <span class="hero__tagline-lime">{hero.taglineLime}</span>
     </p>
 
-    <p class="hero__lead">
-      {hero.leadParagraph1}
-    </p>
-    <p class="hero__lead">
-      {hero.leadParagraph2}
-    </p>
+    <p class="hero__lead">{hero.leadParagraph1}</p>
+    {hero.leadParagraph2 && <p class="hero__lead">{hero.leadParagraph2}</p>}
 
     <div class="hero__actions">
       {
@@ -51,6 +47,32 @@ const { hero, waitlistUrl } = Astro.props;
         )
       }
     </div>
+
+    {
+      hero.countdownTarget && (
+        <div class="hero__countdown" data-countdown={hero.countdownTarget}>
+          <div class="hero__count-grid" role="timer" aria-live="off">
+            <div class="hero__count">
+              <span class="hero__count-num" data-unit="days">--</span>
+              <span class="hero__count-label">dni</span>
+            </div>
+            <div class="hero__count">
+              <span class="hero__count-num" data-unit="hours">--</span>
+              <span class="hero__count-label">godz.</span>
+            </div>
+            <div class="hero__count">
+              <span class="hero__count-num" data-unit="minutes">--</span>
+              <span class="hero__count-label">min</span>
+            </div>
+            <div class="hero__count">
+              <span class="hero__count-num" data-unit="seconds">--</span>
+              <span class="hero__count-label">sek.</span>
+            </div>
+          </div>
+          {hero.countdownCaption && <p class="hero__countdown-caption">{hero.countdownCaption}</p>}
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -147,9 +169,9 @@ const { hero, waitlistUrl } = Astro.props;
   }
 
   .hero__wordmark {
-    font-size: clamp(2.5rem, 9vw, 5rem);
+    font-size: clamp(3.5rem, 16vw, 10rem);
     font-weight: 400;
-    line-height: 0.94;
+    line-height: 0.92;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--c-white);
@@ -188,6 +210,50 @@ const { hero, waitlistUrl } = Astro.props;
     justify-content: center;
   }
 
+  .hero__countdown {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .hero__count-grid {
+    display: inline-flex;
+    gap: var(--space-2);
+  }
+  .hero__count {
+    min-width: 4.25rem;
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--c-white) 5%, transparent);
+    border: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+  }
+  .hero__count-num {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--c-lime-400);
+    font-variant-numeric: tabular-nums;
+  }
+  .hero__count-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--c-slate-400);
+  }
+  .hero__countdown-caption {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--c-gray-300);
+  }
+
   @media (min-width: 768px) {
     .hero {
       padding-top: 9rem;
@@ -197,3 +263,35 @@ const { hero, waitlistUrl } = Astro.props;
     }
   }
 </style>
+
+<script>
+  const el = document.querySelector<HTMLElement>('.hero__countdown');
+  const target = el?.dataset.countdown ? new Date(el.dataset.countdown).getTime() : NaN;
+
+  if (el && !Number.isNaN(target)) {
+    const units: Record<string, HTMLElement | null> = {
+      days: el.querySelector('[data-unit="days"]'),
+      hours: el.querySelector('[data-unit="hours"]'),
+      minutes: el.querySelector('[data-unit="minutes"]'),
+      seconds: el.querySelector('[data-unit="seconds"]'),
+    };
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    const tick = () => {
+      const diff = Math.max(0, target - Date.now());
+      const total = Math.floor(diff / 1000);
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      const minutes = Math.floor((total % 3600) / 60);
+      const seconds = total % 60;
+      if (units.days) units.days.textContent = String(days);
+      if (units.hours) units.hours.textContent = pad(hours);
+      if (units.minutes) units.minutes.textContent = pad(minutes);
+      if (units.seconds) units.seconds.textContent = pad(seconds);
+      if (diff === 0) clearInterval(timer);
+    };
+
+    tick();
+    const timer = setInterval(tick, 1000);
+  }
+</script>

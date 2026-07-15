@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import HeroSection from '../components/sections/HeroSection.astro';
+import StatsBar from '../components/sections/StatsBar.astro';
 import AboutSection from '../components/sections/AboutSection.astro';
 import PathsSection from '../components/sections/PathsSection.astro';
 import StagesSection from '../components/sections/StagesSection.astro';
@@ -23,6 +24,7 @@ const waitlistUrl = content.links.waitlist;
   <Header nav={content.nav} />
   <main>
     <HeroSection hero={content.hero} waitlistUrl={waitlistUrl} />
+    <StatsBar stats={content.heroStats} />
     <AboutSection about={content.about} />
     <PathsSection paths={content.paths} />
     <StagesSection stages={content.stages} />

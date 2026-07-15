@@ -6,6 +6,10 @@ interface Props {
 }
 
 const { about } = Astro.props;
+
+const visibleParagraphs = about.paragraphs.slice(0, 2);
+const moreParagraphs = about.paragraphs.slice(2);
+const hasMore = moreParagraphs.length > 0 || Boolean(about.highlight);
 ---
 
 <section id="o-projekcie" class="section section-glow">
@@ -16,8 +20,22 @@ const { about } = Astro.props;
       </h2>
 
       <div class="about__body">
-        {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-        <p class="about__highlight">{about.highlight}</p>
+        {visibleParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+
+        {
+          hasMore && (
+            <details class="about__more">
+              <summary class="about__more-toggle">
+                <span>Czytaj więcej</span>
+                <i class="ph-bold ph-caret-down" aria-hidden="true" />
+              </summary>
+              <div class="about__more-body">
+                {moreParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+                {about.highlight && <p class="about__highlight">{about.highlight}</p>}
+              </div>
+            </details>
+          )
+        }
       </div>
     </div>
   </div>
@@ -52,6 +70,39 @@ const { about } = Astro.props;
     color: var(--c-white);
     border-left: 4px solid var(--c-lime-400);
     padding-left: var(--space-4);
+  }
+
+  .about__more {
+    margin-top: calc(var(--space-6) * -1 + var(--space-2));
+  }
+  .about__more-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: var(--c-lavender);
+    padding: var(--space-2) 0;
+    transition: color 0.2s var(--ease-out);
+  }
+  .about__more-toggle::-webkit-details-marker {
+    display: none;
+  }
+  .about__more-toggle:hover {
+    color: var(--c-lime-400);
+  }
+  .about__more-toggle i {
+    transition: transform 0.25s var(--ease-out);
+  }
+  .about__more[open] .about__more-toggle i {
+    transform: rotate(180deg);
+  }
+  .about__more-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
   }
 
   @media (min-width: 768px) {

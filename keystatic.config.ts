@@ -61,14 +61,30 @@ export default config({
             taglinePurple: text("Tagline (purple)"),
             taglineLime: text("Tagline (lime)"),
             leadParagraph1: multiline("Lead paragraph 1"),
-            leadParagraph2: multiline("Lead paragraph 2"),
+            leadParagraph2: multiline("Lead paragraph 2 (optional)"),
             ctaLabel: text("CTA label"),
             ctaEnabled: fields.checkbox({
               label: "CTA enabled",
               defaultValue: false,
             }),
+            countdownTarget: text(
+              "Countdown target (ISO, e.g. 2026-10-20T23:59:00+02:00)",
+            ),
+            countdownCaption: text("Countdown caption"),
           },
           { label: "Hero" },
+        ),
+
+        heroStats: fields.array(
+          fields.object({
+            value: text("Value"),
+            label: text("Label"),
+          }),
+          {
+            label: "Hero stats bar",
+            itemLabel: (props) =>
+              `${props.fields.value.value} ${props.fields.label.value}`,
+          },
         ),
 
         about: fields.object(

@@ -5,6 +5,7 @@ export type { HomeContent };
 export type NavItem = HomeContent["nav"][number];
 export type PathItem = HomeContent["paths"]["items"][number];
 export type StageItem = HomeContent["stages"]["items"][number];
+export type HeroStat = HomeContent["heroStats"][number];
 export type BenefitItem = HomeContent["benefits"]["items"][number];
 export type AwardItem = HomeContent["benefits"]["awards"][number];
 export type FaqItem = HomeContent["faq"]["items"][number];
