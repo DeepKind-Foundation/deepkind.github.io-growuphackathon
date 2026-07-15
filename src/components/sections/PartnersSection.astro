@@ -8,25 +8,47 @@ interface Props {
 
 const { partners } = Astro.props;
 const oddBenefits = partners.benefits.length % 2 !== 0;
+
+// Fixed category order; heading shown above each row. Category is chosen per logo in Keystatic.
+const CATEGORIES = [
+  { key: 'program', heading: 'Partnerzy programu' },
+  { key: 'community', heading: 'Partnerzy społeczności' },
+  { key: 'patron', heading: 'Patroni honorowi i medialni' },
+] as const;
+
+const logos = partners.logos.filter((logo) => logo.image);
+const logoRows = CATEGORIES.map((cat) => ({
+  heading: cat.heading,
+  logos: logos.filter((logo) => logo.category === cat.key),
+})).filter((row) => row.logos.length > 0);
 ---
 
 <section id="partnerzy" class="section partners">
   <div class="partners__bg" aria-hidden="true"></div>
   <div class="container container--md partners__inner">
-    <div class="partners__panel section-shell reveal">
-      <h2 class="section-title partners__title">
-        {partners.partnersTitleLead} <span class="text-gradient">{partners.partnersTitleAccent}</span>
-      </h2>
-      <div class="partners__logos">
-        {
-          partners.logos.map((logo) => (
-            <div class="partners__logo">
-              <img src={logo.image} alt={logo.alt} loading="lazy" />
-            </div>
-          ))
-        }
-      </div>
-    </div>
+    {
+      logoRows.length > 0 && (
+        <div class="partners__panel section-shell reveal">
+          <h2 class="section-title partners__title">
+            {partners.partnersTitleLead} <span class="text-gradient">{partners.partnersTitleAccent}</span>
+          </h2>
+          <div class="partners__tiers">
+            {logoRows.map((row) => (
+              <div class="partners__tier">
+                <h3 class="partners__tier-heading">{row.heading}</h3>
+                <div class="partners__logos">
+                  {row.logos.map((logo) => (
+                    <div class="partners__logo">
+                      <img src={logo.image} alt={logo.alt} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
 
     <div class="partners__panel section-shell reveal">
       <header class="partners__become-head">
@@ -100,6 +122,18 @@ const oddBenefits = partners.benefits.length % 2 !== 0;
     font-size: clamp(2.25rem, 5vw, 3rem);
     text-align: center;
     margin-bottom: var(--space-12);
+  }
+
+  .partners__tiers {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+  .partners__tier-heading {
+    font-size: 1.125rem;
+    text-align: center;
+    color: var(--c-slate-400);
+    margin-bottom: var(--space-6);
   }
 
   .partners__logos {

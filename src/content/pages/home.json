@@ -39,10 +39,11 @@
     }
   ],
   "links": {
-    "waitlist": "https://forms.gle/pzrs6dqv7qyh9J5F6",
+    "waitlist": "https://forms.gle/NTtcg68N7odoFQqS8",
     "facebook": "https://www.facebook.com/profile.php?id=61590562146621",
     "instagram": "https://www.instagram.com/growup_hackaton/",
-    "regulamin": "#",
+    "regulamin": "/regulamin",
+    "regulaminPdf": "https://drive.google.com/file/d/1Ir7tV0p8OgEoP0MWNCO-2t2aOeaIFGG1/view?usp=drive_link",
     "privacy": "/privacy-policy.pdf",
     "contactEmail": "kontakt@growuphackathon.pl"
   },
@@ -211,9 +212,9 @@
     "ctaLabel": "Chcę wziąć udział"
   },
   "waitlist": {
-    "title": "Wkrótce uruchomimy zapisy!",
-    "text": "Nie przegap terminu i zapisz się na listę oczekujących!",
-    "ctaLabel": "Zapisz się na listę"
+    "title": "Zapisy są otwarte!",
+    "text": "Zgłoś swój zespół już teraz i zacznij hackować dorosłość.",
+    "ctaLabel": "Wypełnij zgłoszenie"
   },
   "faq": {
     "titleLead": "Pytania i",
@@ -291,16 +292,28 @@
     ]
   },
   "partners": {
-    "partnersTitleLead": "Nasi",
-    "partnersTitleAccent": "Partnerzy",
+    "partnersTitleLead": "Partnerzy",
+    "partnersTitleAccent": "i patroni",
     "logos": [
       {
-        "image": "/logos/logo_allventures.jpg",
-        "alt": "All Ventures"
+        "image": "/logos/partners/logos/0/image.png",
+        "alt": "Akademicki Inkubator UJ",
+        "category": "community"
       },
       {
-        "image": "/logos/logo_GI.png",
-        "alt": "GI"
+        "image": "/logos/partners/logos/1/image.png",
+        "alt": "Generacja Innowacja",
+        "category": "community"
+      },
+      {
+        "image": "/logos/partners/logos/2/image.png",
+        "alt": "Projektor",
+        "category": "community"
+      },
+      {
+        "image": "/logos/partners/logos/3/image.svg",
+        "alt": "Trawell",
+        "category": "community"
       }
     ],
     "becomeTitleLead": "Zostań",
@@ -353,7 +366,7 @@
   "bottomCta": {
     "titleLead": "Gotowy, żeby",
     "titleAccent": "hackować dorosłość?",
-    "text": "Dołącz do listy oczekujących i nie przegap startu zapisów.",
+    "text": "Zapisy są otwarte — zgłoś swój zespół i zacznij działać już dziś.",
     "ctaLabel": "Chcę wziąć udział"
   },
   "footer": {

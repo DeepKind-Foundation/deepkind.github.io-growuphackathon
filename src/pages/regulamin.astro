@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { getHomeContent } from '../lib/content';
+import { safeHref } from '../lib/url';
+
+const content = await getHomeContent();
+const title = 'Regulamin programu GrowUp Hackathon 2026';
+const description = 'Regulamin i zasady uczestnictwa w programie GrowUp Hackathon 2026.';
+
+const pdfUrl = content.links.regulaminPdf;
+const driveMatch = pdfUrl?.match(/\/file\/d\/([^/]+)/);
+const previewUrl = driveMatch ? `https://drive.google.com/file/d/${driveMatch[1]}/preview` : pdfUrl;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header nav={content.nav} />
+  <main class="regulamin">
+    <div class="container container--md regulamin__inner">
+      <p class="eyebrow"><span class="accent-dot" aria-hidden="true"></span>Dokument</p>
+      <h1 class="regulamin__title">
+        Regulamin programu <span class="text-gradient">GrowUp Hackathon 2026</span>
+      </h1>
+
+      <p class="regulamin__lead">
+        Pełny regulamin programu — warunki uczestnictwa, zasady zgłoszeń, prawa i obowiązki
+        uczestników oraz informacje o przetwarzaniu danych osobowych (RODO).
+      </p>
+
+      {
+        previewUrl && (
+          <div class="regulamin__doc">
+            <iframe
+              src={previewUrl}
+              title="Regulamin programu GrowUp Hackathon 2026"
+              loading="lazy"
+              allow="autoplay"
+            />
+          </div>
+        )
+      }
+
+      <p class="regulamin__actions">
+        {
+          pdfUrl && (
+            <a
+              class="btn-gradient btn-gradient--md"
+              href={safeHref(pdfUrl)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Otwórz regulamin w nowym oknie
+              <i class="ph-bold ph-arrow-square-out" aria-hidden="true" />
+            </a>
+          )
+        }
+      </p>
+
+      <p class="regulamin__back">
+        <a href="/">← Wróć na stronę główną</a>
+      </p>
+    </div>
+  </main>
+  <Footer footer={content.footer} links={content.links} />
+  <CookieBanner cookie={content.cookie} />
+</BaseLayout>
+
+<style>
+  .regulamin {
+    padding-block: 10rem var(--space-24);
+    padding-inline: var(--space-4);
+  }
+  .regulamin__inner {
+    max-width: 48rem;
+  }
+  .regulamin__title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.1;
+    color: var(--c-white);
+    margin-block: var(--space-5) var(--space-8);
+  }
+  .regulamin__lead {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--c-slate-300);
+    margin-bottom: var(--space-8);
+  }
+  .regulamin__doc {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    background: color-mix(in oklch, var(--c-white) 3%, transparent);
+    margin-bottom: var(--space-8);
+  }
+  .regulamin__doc iframe {
+    display: block;
+    width: 100%;
+    height: min(80vh, 900px);
+    border: 0;
+  }
+  .regulamin__actions {
+    margin-bottom: var(--space-10);
+  }
+  .regulamin__back a {
+    color: var(--c-lavender);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s var(--ease-out);
+  }
+  .regulamin__back a:hover {
+    color: var(--c-lime-400);
+  }
+</style>

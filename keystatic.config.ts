@@ -1,257 +1,313 @@
-import { config, singleton, fields } from '@keystatic/core';
+import { config, singleton, fields } from "@keystatic/core";
 
 const text = (label: string) => fields.text({ label });
 const multiline = (label: string) => fields.text({ label, multiline: true });
+const logoImage = () =>
+  fields.image({
+    label: "Logo",
+    directory: "public/logos",
+    publicPath: "/logos",
+  });
 
 export default config({
-  storage: { kind: 'local' },
+  storage: { kind: "local" },
   ui: {
-    brand: { name: 'GrowUp Hackathon' },
+    brand: { name: "GrowUp Hackathon" },
   },
   singletons: {
     home: singleton({
-      label: 'Home Page',
-      path: 'src/content/pages/home',
-      format: { data: 'json' },
+      label: "Home Page",
+      path: "src/content/pages/home",
+      format: { data: "json" },
       schema: {
         seo: fields.object(
           {
-            title: text('Page title'),
-            description: multiline('Meta description'),
-            ogImage: text('Open Graph image URL'),
+            title: text("Page title"),
+            description: multiline("Meta description"),
+            ogImage: text("Open Graph image URL"),
           },
-          { label: 'SEO' },
+          { label: "SEO" },
         ),
 
         nav: fields.array(
           fields.object({
-            label: text('Label'),
-            href: text('Anchor / URL'),
+            label: text("Label"),
+            href: text("Anchor / URL"),
           }),
-          { label: 'Navigation', itemLabel: (props) => props.fields.label.value },
+          {
+            label: "Navigation",
+            itemLabel: (props) => props.fields.label.value,
+          },
         ),
 
         links: fields.object(
           {
-            waitlist: text('Waitlist form URL'),
-            facebook: text('Facebook URL'),
-            instagram: text('Instagram URL'),
-            regulamin: text('Regulamin URL'),
-            privacy: text('Privacy policy URL'),
-            contactEmail: text('Contact email'),
+            waitlist: text("Waitlist form URL"),
+            facebook: text("Facebook URL"),
+            instagram: text("Instagram URL"),
+            regulamin: text("Regulamin URL"),
+            regulaminPdf: text("Regulamin PDF URL (Google Drive)"),
+            privacy: text("Privacy policy URL"),
+            contactEmail: text("Contact email"),
           },
-          { label: 'Global links' },
+          { label: "Global links" },
         ),
 
         hero: fields.object(
           {
-            eyebrow: text('Eyebrow'),
-            wordmarkLead: text('Wordmark (lead)'),
-            wordmarkAccent: text('Wordmark (accent)'),
-            taglinePurple: text('Tagline (purple)'),
-            taglineLime: text('Tagline (lime)'),
-            leadParagraph1: multiline('Lead paragraph 1'),
-            leadParagraph2: multiline('Lead paragraph 2'),
-            ctaLabel: text('CTA label'),
-            ctaEnabled: fields.checkbox({ label: 'CTA enabled', defaultValue: false }),
+            eyebrow: text("Eyebrow"),
+            wordmarkLead: text("Wordmark (lead)"),
+            wordmarkAccent: text("Wordmark (accent)"),
+            taglinePurple: text("Tagline (purple)"),
+            taglineLime: text("Tagline (lime)"),
+            leadParagraph1: multiline("Lead paragraph 1"),
+            leadParagraph2: multiline("Lead paragraph 2"),
+            ctaLabel: text("CTA label"),
+            ctaEnabled: fields.checkbox({
+              label: "CTA enabled",
+              defaultValue: false,
+            }),
           },
-          { label: 'Hero' },
+          { label: "Hero" },
         ),
 
         about: fields.object(
           {
-            titleLead: text('Title (lead)'),
-            titleAccent: text('Title (accent)'),
-            paragraphs: fields.array(multiline('Paragraph'), {
-              label: 'Paragraphs',
+            titleLead: text("Title (lead)"),
+            titleAccent: text("Title (accent)"),
+            paragraphs: fields.array(multiline("Paragraph"), {
+              label: "Paragraphs",
               itemLabel: (props) => props.value.slice(0, 48),
             }),
-            highlight: multiline('Highlight (callout)'),
+            highlight: multiline("Highlight (callout)"),
           },
-          { label: 'About' },
+          { label: "About" },
         ),
 
         paths: fields.object(
           {
-            titleLead: text('Title (lead)'),
-            titleAccent: text('Title (accent)'),
-            intro: text('Intro'),
+            titleLead: text("Title (lead)"),
+            titleAccent: text("Title (accent)"),
+            intro: text("Intro"),
             items: fields.array(
               fields.object({
-                title: text('Title'),
-                icon: text('Phosphor icon class'),
-                description: multiline('Description'),
+                title: text("Title"),
+                icon: text("Phosphor icon class"),
+                description: multiline("Description"),
               }),
-              { label: 'Paths', itemLabel: (props) => props.fields.title.value },
+              {
+                label: "Paths",
+                itemLabel: (props) => props.fields.title.value,
+              },
             ),
           },
-          { label: 'Thematic paths' },
+          { label: "Thematic paths" },
         ),
 
         stages: fields.object(
           {
-            titleLead: text('Title (lead)'),
-            titleAccent: text('Title (accent)'),
-            intro: text('Intro'),
+            titleLead: text("Title (lead)"),
+            titleAccent: text("Title (accent)"),
+            intro: text("Intro"),
             items: fields.array(
               fields.object({
-                step: text('Step number'),
-                icon: text('Phosphor icon class'),
-                title: text('Title'),
-                date: text('Date range'),
-                what: multiline('Description'),
-                expect: fields.array(text('Checklist item'), {
-                  label: 'Checklist',
+                step: text("Step number"),
+                icon: text("Phosphor icon class"),
+                title: text("Title"),
+                date: text("Date range"),
+                what: multiline("Description"),
+                expect: fields.array(text("Checklist item"), {
+                  label: "Checklist",
                   itemLabel: (props) => props.value,
                 }),
               }),
-              { label: 'Stages', itemLabel: (props) => props.fields.title.value },
+              {
+                label: "Stages",
+                itemLabel: (props) => props.fields.title.value,
+              },
             ),
           },
-          { label: 'Programme stages' },
+          { label: "Programme stages" },
         ),
 
         benefits: fields.object(
           {
-            titleLead: text('Title (lead)'),
-            titleAccent: text('Title (accent)'),
+            titleLead: text("Title (lead)"),
+            titleAccent: text("Title (accent)"),
             items: fields.array(
               fields.object({
-                bold: text('Bold lead'),
-                rest: multiline('Rest'),
+                bold: text("Bold lead"),
+                rest: multiline("Rest"),
               }),
-              { label: 'Benefits', itemLabel: (props) => props.fields.bold.value },
+              {
+                label: "Benefits",
+                itemLabel: (props) => props.fields.bold.value,
+              },
             ),
-            awardsTitle: multiline('Awards title'),
-            awardsNote: text('Awards note (disabled label)'),
+            awardsTitle: multiline("Awards title"),
+            awardsNote: text("Awards note (disabled label)"),
             awards: fields.array(
               fields.object({
-                icon: text('Phosphor icon class'),
-                title: text('Title'),
-                description: multiline('Description'),
+                icon: text("Phosphor icon class"),
+                title: text("Title"),
+                description: multiline("Description"),
               }),
-              { label: 'Awards', itemLabel: (props) => props.fields.title.value },
+              {
+                label: "Awards",
+                itemLabel: (props) => props.fields.title.value,
+              },
             ),
-            ctaLabel: text('CTA label'),
+            ctaLabel: text("CTA label"),
           },
-          { label: 'Benefits and awards' },
+          { label: "Benefits and awards" },
         ),
 
         waitlist: fields.object(
           {
-            title: multiline('Title'),
-            text: multiline('Text'),
-            ctaLabel: text('CTA label'),
+            title: multiline("Title"),
+            text: multiline("Text"),
+            ctaLabel: text("CTA label"),
           },
-          { label: 'Waitlist' },
+          { label: "Waitlist" },
         ),
 
         faq: fields.object(
           {
-            titleLead: text('Title (lead)'),
-            titleAccent: text('Title (accent)'),
-            intro: text('Intro'),
+            titleLead: text("Title (lead)"),
+            titleAccent: text("Title (accent)"),
+            intro: text("Intro"),
             items: fields.array(
               fields.object({
-                question: text('Question'),
-                answer: multiline('Answer'),
+                question: text("Question"),
+                answer: multiline("Answer"),
               }),
-              { label: 'FAQ', itemLabel: (props) => props.fields.question.value },
+              {
+                label: "FAQ",
+                itemLabel: (props) => props.fields.question.value,
+              },
             ),
           },
-          { label: 'FAQ' },
+          { label: "FAQ" },
         ),
 
         organizers: fields.object(
           {
-            title: text('Section title'),
+            title: text("Section title"),
             blocks: fields.array(
               fields.object({
-                nameLead: text('Name (lead)'),
-                nameAccent: text('Name (accent, lime)'),
-                accentFirst: fields.checkbox({ label: 'Accent word first', defaultValue: false }),
-                subtitle: text('Subtitle'),
+                nameLead: text("Name (lead)"),
+                nameAccent: text("Name (accent, lime)"),
+                accentFirst: fields.checkbox({
+                  label: "Accent word first",
+                  defaultValue: false,
+                }),
+                subtitle: text("Subtitle"),
                 paragraphs: fields.array(
                   fields.object({
-                    text: multiline('Text'),
+                    text: multiline("Text"),
                     variant: fields.select({
-                      label: 'Variant',
+                      label: "Variant",
                       options: [
-                        { label: 'Normal', value: 'normal' },
-                        { label: 'Note (italic)', value: 'note' },
-                        { label: 'Highlight (lime)', value: 'highlight' },
+                        { label: "Normal", value: "normal" },
+                        { label: "Note (italic)", value: "note" },
+                        { label: "Highlight (lime)", value: "highlight" },
                       ],
-                      defaultValue: 'normal',
+                      defaultValue: "normal",
                     }),
                   }),
-                  { label: 'Paragraphs', itemLabel: (props) => props.fields.text.value.slice(0, 48) },
+                  {
+                    label: "Paragraphs",
+                    itemLabel: (props) => props.fields.text.value.slice(0, 48),
+                  },
                 ),
               }),
-              { label: 'Organizer blocks', itemLabel: (props) => props.fields.nameLead.value },
+              {
+                label: "Organizer blocks",
+                itemLabel: (props) => props.fields.nameLead.value,
+              },
             ),
           },
-          { label: 'Organizers' },
+          { label: "Organizers" },
         ),
 
         partners: fields.object(
           {
-            partnersTitleLead: text('Partners title (lead)'),
-            partnersTitleAccent: text('Partners title (accent)'),
+            partnersTitleLead: text("Partners title (lead)"),
+            partnersTitleAccent: text("Partners title (accent)"),
             logos: fields.array(
               fields.object({
-                image: text('Logo path'),
-                alt: text('Alt text'),
+                image: logoImage(),
+                alt: text("Alt text"),
+                category: fields.select({
+                  label: "Rodzaj partnera",
+                  options: [
+                    { label: "Partnerzy programu", value: "program" },
+                    { label: "Partnerzy społeczności", value: "community" },
+                    { label: "Patroni honorowi i medialni", value: "patron" },
+                  ],
+                  defaultValue: "program",
+                }),
               }),
-              { label: 'Partner logos', itemLabel: (props) => props.fields.alt.value },
+              {
+                label: "Partner logos",
+                itemLabel: (props) =>
+                  `${props.fields.alt.value || "Logo"} — ${props.fields.category.value}`,
+              },
             ),
-            becomeTitleLead: text('Become title (lead)'),
-            becomeTitleAccent: text('Become title (accent)'),
-            becomeIntro: multiline('Become intro'),
+            becomeTitleLead: text("Become title (lead)"),
+            becomeTitleAccent: text("Become title (accent)"),
+            becomeIntro: multiline("Become intro"),
             stats: fields.array(
               fields.object({
-                value: text('Value'),
-                label: text('Label'),
+                value: text("Value"),
+                label: text("Label"),
               }),
-              { label: 'Stats', itemLabel: (props) => props.fields.value.value },
+              {
+                label: "Stats",
+                itemLabel: (props) => props.fields.value.value,
+              },
             ),
             benefits: fields.array(
               fields.object({
-                icon: text('Phosphor icon class'),
-                title: text('Title'),
-                description: multiline('Description'),
+                icon: text("Phosphor icon class"),
+                title: text("Title"),
+                description: multiline("Description"),
               }),
-              { label: 'Partner benefits', itemLabel: (props) => props.fields.title.value },
+              {
+                label: "Partner benefits",
+                itemLabel: (props) => props.fields.title.value,
+              },
             ),
-            ctaLabel: text('CTA label'),
-            ctaMailto: text('CTA mailto URL'),
+            ctaLabel: text("CTA label"),
+            ctaMailto: text("CTA mailto URL"),
           },
-          { label: 'Partners' },
+          { label: "Partners" },
         ),
 
         bottomCta: fields.object(
           {
-            titleLead: text('Title (lead)'),
-            titleAccent: text('Title (accent)'),
-            text: text('Text'),
-            ctaLabel: text('CTA label'),
+            titleLead: text("Title (lead)"),
+            titleAccent: text("Title (accent)"),
+            text: text("Text"),
+            ctaLabel: text("CTA label"),
           },
-          { label: 'Bottom CTA' },
+          { label: "Bottom CTA" },
         ),
 
         footer: fields.object(
           {
-            contactTitle: text('Contact title'),
-            copyright: text('Copyright'),
+            contactTitle: text("Contact title"),
+            copyright: text("Copyright"),
           },
-          { label: 'Footer' },
+          { label: "Footer" },
         ),
 
         cookie: fields.object(
           {
-            text: multiline('Text'),
-            accept: text('Accept label'),
+            text: multiline("Text"),
+            accept: text("Accept label"),
           },
-          { label: 'Cookie banner' },
+          { label: "Cookie banner" },
         ),
       },
     }),
