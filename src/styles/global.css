@@ -8,6 +8,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep anchored section headings clear of the fixed header on jump. */
+  scroll-padding-top: 6rem;
 }
 
 body {

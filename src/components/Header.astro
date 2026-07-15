@@ -9,7 +9,7 @@ interface Props {
 const { nav } = Astro.props;
 ---
 
-<header class="site-header" id="site-header" data-scrolled="false">
+<header class="site-header" id="site-header" data-scrolled="false" data-menu-open="false">
   <nav class="container site-header__nav" aria-label="Główna nawigacja">
     <a href="#" class="site-header__logo" aria-label="GrowUp Hackathon — strona główna">
       <img src="/logos/logo_growup.png" alt="GrowUp Hackathon" width="160" height="56" />
@@ -23,7 +23,29 @@ const { nav } = Astro.props;
         ))
       }
     </ul>
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-label="Otwórz menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+    >
+      <i class="ph-bold ph-list" aria-hidden="true"></i>
+      <i class="ph-bold ph-x" aria-hidden="true"></i>
+    </button>
   </nav>
+
+  <div class="site-header__mobile" id="mobile-menu" data-open="false">
+    <ul class="site-header__mobile-menu container">
+      {
+        nav.map((item) => (
+          <li>
+            <a href={safeHref(item.href)}>{item.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </header>
 
 <style>
@@ -37,7 +59,8 @@ const { nav } = Astro.props;
     transition: background 0.3s var(--ease-out), padding 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
     border-bottom: 1px solid transparent;
   }
-  .site-header[data-scrolled='true'] {
+  .site-header[data-scrolled='true'],
+  .site-header[data-menu-open='true'] {
     padding-block: var(--space-2);
     background: color-mix(in oklch, var(--c-head-dark) 95%, transparent);
     backdrop-filter: blur(12px);
@@ -79,6 +102,84 @@ const { nav } = Astro.props;
     color: var(--c-lavender);
   }
 
+  /* Hamburger toggle — mobile / tablet only */
+  .site-header__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 1px solid color-mix(in oklch, var(--c-white) 12%, transparent);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--c-white) 5%, transparent);
+    color: var(--c-text-100);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  }
+  .site-header__toggle:hover {
+    background: color-mix(in oklch, var(--c-white) 9%, transparent);
+    border-color: color-mix(in oklch, var(--c-purple-light) 45%, transparent);
+  }
+  .site-header__toggle .ph-x {
+    display: none;
+  }
+  .site-header[data-menu-open='true'] .site-header__toggle .ph-list {
+    display: none;
+  }
+  .site-header[data-menu-open='true'] .site-header__toggle .ph-x {
+    display: inline;
+  }
+
+  /* Slide-down mobile panel */
+  .site-header__mobile {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 100%);
+    overflow-y: auto;
+    background: color-mix(in oklch, var(--c-head-dark) 98%, transparent);
+    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out), visibility 0.25s;
+  }
+  .site-header__mobile[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .site-header__mobile-menu {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--space-3) var(--space-5);
+  }
+  .site-header__mobile-menu li {
+    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 6%, transparent);
+  }
+  .site-header__mobile-menu li:last-child {
+    border-bottom: 0;
+  }
+  .site-header__mobile-menu a {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding-inline: var(--space-2);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--c-slate-200);
+    transition: color 0.2s var(--ease-out);
+  }
+  .site-header__mobile-menu a:hover {
+    color: var(--c-lavender);
+  }
+
   @media (min-width: 1024px) {
     .site-header__menu {
       display: flex;
@@ -86,16 +187,53 @@ const { nav } = Astro.props;
     .site-header__logo img {
       height: 56px;
     }
+    .site-header__toggle,
+    .site-header__mobile {
+      display: none;
+    }
   }
 </style>
 
 <script>
   const header = document.getElementById('site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.site-header__toggle');
+  const panel = document.getElementById('mobile-menu');
+
   if (header) {
     const onScroll = () => {
       header.dataset.scrolled = window.scrollY > 50 ? 'true' : 'false';
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (header && toggle && panel) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+      panel.dataset.open = String(open);
+      header.dataset.menuOpen = String(open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    panel.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Reset when resizing up to the desktop breakpoint so the panel never sticks open.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    desktop.addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
   }
 </script>
