@@ -7,21 +7,24 @@ interface Props {
 
 const { paths } = Astro.props;
 
-type Kind = 'question' | 'quote' | 'normal';
+type Kind = 'quote' | 'normal';
 
-function classify(description: string): { text: string; kind: Kind }[] {
+function bodyBlocks(description: string): { text: string; kind: Kind }[] {
   return description
     .split('\n\n')
     .map((block) => block.trim())
     .filter(Boolean)
-    .map((text, index) => {
-      if (index === 0 && text.endsWith('?')) return { text, kind: 'question' as const };
-      if (text.startsWith('„') || text.startsWith('"')) return { text, kind: 'quote' as const };
-      return { text, kind: 'normal' as const };
-    });
+    .slice(1) // drop the leading question — it lives in the card head
+    .map((text) => ({
+      text,
+      kind: text.startsWith('„') || text.startsWith('"') ? ('quote' as const) : ('normal' as const),
+    }));
 }
 
-const items = paths.items.map((item) => ({ ...item, blocks: classify(item.description) }));
+const items = paths.items.map((item) => {
+  const question = item.description.split('\n\n')[0].trim();
+  return { ...item, question, blocks: bodyBlocks(item.description) };
+});
 ---
 
 <section id="sciezki" class="section paths">
@@ -34,31 +37,34 @@ const items = paths.items.map((item) => ({ ...item, blocks: classify(item.descri
       <p class="paths__intro">{paths.intro}</p>
     </header>
 
-    <div class="paths__list">
+    <div class="paths__list reveal">
       {
         items.map((item) => (
-          <article class="paths__card puzzle-block reveal">
-            <div class="paths__aside">
+          <details class="paths__card puzzle-block">
+            <summary class="paths__summary">
               <span class="paths__icon icon-tile">
                 <i class={`ph-duotone ${item.icon}`} aria-hidden="true" />
               </span>
-              <h3 class="paths__name">{item.title}</h3>
-            </div>
+              <span class="paths__head">
+                <h3 class="paths__name">{item.title}</h3>
+                <p class="paths__question">{item.question}</p>
+              </span>
+              <i class="paths__caret ph-bold ph-caret-down" aria-hidden="true" />
+            </summary>
             <div class="paths__content">
               {item.blocks.map((block) =>
-                block.kind === 'question' ? (
-                  <p class="paths__question">{block.text}</p>
-                ) : block.kind === 'quote' ? (
+                block.kind === 'quote' ? (
                   <p class="paths__quote">{block.text}</p>
                 ) : (
                   <p class="paths__text">{block.text}</p>
                 ),
               )}
             </div>
-          </article>
+          </details>
         ))
       }
     </div>
+    <p class="paths__hint" aria-hidden="true">Przesuń, aby zobaczyć więcej ścieżek →</p>
   </div>
 </section>
 
@@ -90,58 +96,91 @@ const items = paths.items.map((item) => ({ ...item, blocks: classify(item.descri
     color: var(--c-slate-300);
   }
 
+  /* Mobile: horizontal carousel */
   .paths__list {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
+    gap: var(--space-4);
+    align-items: start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-4);
+    padding-bottom: var(--space-4);
+    margin-inline: calc(var(--space-4) * -1);
+    padding-inline: var(--space-4);
   }
   .paths__card {
+    flex: 0 0 82%;
+    scroll-snap-align: center;
     border-radius: var(--radius-lg);
     overflow: hidden;
   }
-  .paths__aside {
-    padding: var(--space-8) var(--space-6);
-    border-bottom: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
-    background: color-mix(in oklch, var(--c-panel-1) 78%, transparent);
+  .paths__hint {
+    margin-top: var(--space-4);
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--c-slate-400);
+  }
+
+  .paths__summary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    cursor: pointer;
+    list-style: none;
+  }
+  .paths__summary::-webkit-details-marker {
+    display: none;
   }
   .paths__icon {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: var(--radius-sm);
-    margin-bottom: var(--space-5);
-    font-size: 1.875rem;
+    font-size: 1.625rem;
     color: var(--c-lime-light);
     background: color-mix(in oklch, var(--c-lime-500) 10%, transparent);
     border: 1px solid color-mix(in oklch, var(--c-lime-500) 30%, transparent);
   }
   .paths__name {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--c-white);
     line-height: 1.15;
+    margin-bottom: var(--space-1);
+  }
+  .paths__question {
+    font-size: 0.9rem;
+    line-height: 1.35;
+    color: var(--c-purple-300);
+    font-weight: 600;
+  }
+  .paths__caret {
+    font-size: 1.125rem;
+    color: var(--c-slate-400);
+    transition: transform 0.25s var(--ease-out);
+  }
+  .paths__card[open] .paths__caret {
+    transform: rotate(180deg);
   }
 
   .paths__content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
-    padding: var(--space-8) var(--space-6);
-  }
-  .paths__question {
-    font-size: clamp(1.25rem, 3vw, 1.5rem);
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: var(--c-white);
+    gap: var(--space-4);
+    padding: 0 var(--space-6) var(--space-6);
+    border-top: 1px solid color-mix(in oklch, var(--c-white) 8%, transparent);
+    padding-top: var(--space-5);
   }
   .paths__quote {
     white-space: pre-line;
-    font-family: Georgia, 'Times New Roman', serif;
     font-style: italic;
-    font-size: 1.02rem;
     line-height: 1.7;
     color: var(--c-gray-300);
     border-left: 4px solid var(--c-lavender);
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-2) var(--space-4);
     background: color-mix(in oklch, var(--c-white) 3%, transparent);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
@@ -149,19 +188,26 @@ const items = paths.items.map((item) => ({ ...item, blocks: classify(item.descri
     white-space: pre-line;
     line-height: 1.7;
     color: var(--c-gray-300);
+    font-size: 0.95rem;
   }
 
-  @media (min-width: 1024px) {
-    .paths__card {
+  /* Desktop: grid of cards, no carousel */
+  @media (min-width: 768px) {
+    .paths__list {
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-6);
+      overflow: visible;
+      align-items: start;
+      margin-inline: 0;
+      padding-inline: 0;
+      padding-bottom: 0;
     }
-    .paths__aside {
-      border-bottom: 0;
-      border-right: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    .paths__card {
+      flex: initial;
     }
-    .paths__content {
-      padding: var(--space-8);
+    .paths__hint {
+      display: none;
     }
   }
 </style>
