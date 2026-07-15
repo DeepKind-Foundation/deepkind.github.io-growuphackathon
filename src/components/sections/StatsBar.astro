@@ -14,7 +14,7 @@ const { stats } = Astro.props;
       <div class="container stats-bar__inner reveal">
         {stats.map((stat) => (
           <div class="stats-bar__item">
-            <span class="stats-bar__value text-gradient-lime">{stat.value}</span>
+            <span class="stats-bar__value text-gradient-lime" data-countup>{stat.value}</span>
             <span class="stats-bar__label">{stat.label}</span>
           </div>
         ))}

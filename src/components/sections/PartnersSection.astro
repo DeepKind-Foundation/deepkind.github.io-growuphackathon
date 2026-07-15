@@ -62,7 +62,7 @@ const logoRows = CATEGORIES.map((cat) => ({
         {
           partners.stats.map((stat) => (
             <div class="partners__stat puzzle-block">
-              <div class="partners__stat-value text-gradient-lime">{stat.value}</div>
+              <div class="partners__stat-value text-gradient-lime" data-countup>{stat.value}</div>
               <div class="partners__stat-label">{stat.label}</div>
             </div>
           ))
@@ -144,21 +144,26 @@ const logoRows = CATEGORIES.map((cat) => ({
     gap: var(--space-12);
   }
   .partners__logo {
-    width: 11rem;
-    height: 6rem;
+    height: 5rem;
+    min-width: 10rem;
+    padding: var(--space-3) var(--space-6);
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .partners__logo:hover {
+    border-color: color-mix(in oklch, var(--c-lime-400) 45%, transparent);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
   }
   .partners__logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    filter: brightness(0.9);
-    transition: filter 0.3s var(--ease-out);
-  }
-  .partners__logo img:hover {
-    filter: brightness(1.1);
   }
 
   .partners__become-head {

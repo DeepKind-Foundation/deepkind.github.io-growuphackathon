@@ -16,6 +16,7 @@
   --c-purple-300: oklch(82.0% 0.107 301.2); /* #d0b4ff */
   --c-lavender: oklch(76.3% 0.096 300.8); /* #bca4e6 */
   --c-purple-deep: oklch(38.4% 0.151 337.5); /* #71135f */
+  --c-magenta: oklch(62% 0.27 349); /* mesh glow */
 
   /* Brand — lime / green family */
   --c-lime-500: oklch(76.8% 0.204 130.8); /* #84cc16 */

@@ -79,6 +79,12 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     </script>
   </head>
   <body>
+    <div class="site-bg" aria-hidden="true">
+      <span class="site-bg__blob site-bg__blob--magenta"></span>
+      <span class="site-bg__blob site-bg__blob--lime"></span>
+      <span class="site-bg__blob site-bg__blob--violet"></span>
+      <span class="site-bg__grain"></span>
+    </div>
     <a class="skip-nav" href="#o-projekcie">Przejdź do treści</a>
     {import.meta.env.DEV && <ThemeSwitcher />}
     <slot />
@@ -102,6 +108,57 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
           { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
         );
         targets.forEach((el) => observer.observe(el));
+      }
+    </script>
+
+    <script>
+      // Count-up numbers when they scroll into view. Non-numeric values (e.g. "Kraków")
+      // are left untouched. Reduced-motion users see the final value immediately.
+      const reduceCount = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const counters = Array.from(document.querySelectorAll<HTMLElement>('[data-countup]'));
+      type CountData = { target: number; prefix: string; suffix: string };
+      const store = new Map<HTMLElement, CountData>();
+
+      for (const el of counters) {
+        const full = (el.textContent ?? '').trim();
+        const match = full.match(/\d[\d\s.,]*/);
+        if (!match || match.index === undefined) continue;
+        const target = parseInt(match[0].replace(/[^\d]/g, ''), 10);
+        if (Number.isNaN(target)) continue;
+        store.set(el, {
+          target,
+          prefix: full.slice(0, match.index),
+          suffix: full.slice(match.index + match[0].length),
+        });
+        if (!reduceCount) el.textContent = `${full.slice(0, match.index)}0${full.slice(match.index + match[0].length)}`;
+      }
+
+      if (!reduceCount && store.size > 0 && 'IntersectionObserver' in window) {
+        const run = (el: HTMLElement, data: CountData) => {
+          const duration = 1200;
+          let start: number | null = null;
+          const step = (now: number) => {
+            if (start === null) start = now;
+            const p = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = `${data.prefix}${Math.round(data.target * eased)}${data.suffix}`;
+            if (p < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        };
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              const data = store.get(entry.target as HTMLElement);
+              if (entry.isIntersecting && data) {
+                run(entry.target as HTMLElement, data);
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.4 },
+        );
+        store.forEach((_, el) => io.observe(el));
       }
     </script>
   </body>
