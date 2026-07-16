@@ -11,7 +11,7 @@ const { stats } = Astro.props;
 {
   stats.length > 0 && (
     <section class="stats-bar" aria-label="Program w liczbach">
-      <div class="container stats-bar__inner reveal">
+      <div class="container container--md stats-bar__inner reveal">
         {stats.map((stat) => (
           <div class="stats-bar__item">
             <span class="stats-bar__value text-gradient-lime" data-countup>{stat.value}</span>

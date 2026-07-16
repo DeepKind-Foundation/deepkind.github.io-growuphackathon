@@ -20,81 +20,47 @@ body {
   font-family: var(--font-body);
   color: var(--color-text);
   line-height: 1.5;
-  background: var(--c-bg-0);
+  background:
+    radial-gradient(circle at 0% 100%, color-mix(in oklch, var(--c-violet-500) 22%, transparent), transparent 28%),
+    radial-gradient(circle at 100% 88%, color-mix(in oklch, var(--c-purple-light) 18%, transparent), transparent 26%),
+    radial-gradient(circle at 14% 15%, color-mix(in oklch, var(--c-purple-vivid) 18%, transparent), transparent 24%),
+    linear-gradient(135deg, var(--c-bg-0) 0%, var(--c-bg-1) 35%, var(--c-bg-2) 70%, var(--c-bg-3) 100%);
 }
 
-/*
-  Gradient-mesh background: a dark-violet field with two drifting, heavily-blurred
-  glows (magenta + lime) and a faint film grain. Fixed behind all content.
-  The `.site-bg` element lives at the top of <body>.
-*/
-.site-bg {
+/* Fixed decorative beams + spark rings behind everything */
+body::before,
+body::after {
+  content: '';
   position: fixed;
   inset: 0;
-  z-index: -1;
-  overflow: hidden;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 55% at 12% 2%, color-mix(in oklch, var(--c-magenta) 30%, transparent), transparent 60%),
-    radial-gradient(ellipse 65% 55% at 92% 98%, color-mix(in oklch, var(--c-lime-500) 20%, transparent), transparent 60%),
-    linear-gradient(155deg, oklch(19% 0.1 318) 0%, oklch(16% 0.08 292) 52%, oklch(17% 0.09 268) 100%);
-}
-.site-bg__blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(130px);
-  opacity: 0.55;
-  will-change: transform;
-}
-.site-bg__blob--magenta {
-  width: 46vw;
-  height: 46vw;
-  top: -14%;
-  left: -10%;
-  background: radial-gradient(circle, oklch(66% 0.3 350), transparent 70%);
-  animation: bg-drift-a 25s ease-in-out infinite alternate;
-}
-.site-bg__blob--lime {
-  width: 40vw;
-  height: 40vw;
-  right: -12%;
-  bottom: -16%;
-  opacity: 0.45;
-  background: radial-gradient(circle, var(--c-lime-400), transparent 70%);
-  animation: bg-drift-b 29s ease-in-out infinite alternate;
-}
-.site-bg__blob--violet {
-  width: 42vw;
-  height: 42vw;
-  top: 34%;
-  left: 42%;
-  opacity: 0.42;
-  background: radial-gradient(circle, oklch(62% 0.28 300), transparent 70%);
-  animation: bg-drift-c 33s ease-in-out infinite alternate;
-}
-.site-bg__grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: -1;
 }
 
-@keyframes bg-drift-a {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(12%, 16%, 0); }
+body::before {
+  background:
+    linear-gradient(
+      130deg,
+      transparent 0 12%,
+      color-mix(in oklch, var(--c-purple-vivid) 14%, transparent) 12%,
+      color-mix(in oklch, var(--c-purple-vivid) 6%, transparent) 18%,
+      transparent 18% 100%
+    ),
+    linear-gradient(
+      130deg,
+      transparent 0 78%,
+      color-mix(in oklch, var(--c-violet-500) 18%, transparent) 78%,
+      color-mix(in oklch, var(--c-violet-500) 7%, transparent) 84%,
+      transparent 84% 100%
+    );
+  opacity: 0.95;
 }
-@keyframes bg-drift-b {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-14%, -10%, 0); }
-}
-@keyframes bg-drift-c {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-10%, 14%, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .site-bg__blob {
-    animation: none;
-  }
+
+body::after {
+  background:
+    radial-gradient(circle at 92% 18%, transparent 0 120px, color-mix(in oklch, var(--c-purple-400) 22%, transparent) 121px 123px, transparent 124px),
+    radial-gradient(circle at 4% 78%, transparent 0 92px, color-mix(in oklch, var(--c-purple-light) 20%, transparent) 93px 95px, transparent 96px),
+    radial-gradient(circle at 88% 78%, transparent 0 110px, color-mix(in oklch, var(--c-violet-500) 18%, transparent) 111px 113px, transparent 114px);
 }
 
 ::-webkit-scrollbar {

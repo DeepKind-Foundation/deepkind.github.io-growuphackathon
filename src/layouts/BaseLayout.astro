@@ -79,12 +79,6 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     </script>
   </head>
   <body>
-    <div class="site-bg" aria-hidden="true">
-      <span class="site-bg__blob site-bg__blob--magenta"></span>
-      <span class="site-bg__blob site-bg__blob--lime"></span>
-      <span class="site-bg__blob site-bg__blob--violet"></span>
-      <span class="site-bg__grain"></span>
-    </div>
     <a class="skip-nav" href="#o-projekcie">Przejdź do treści</a>
     {import.meta.env.DEV && <ThemeSwitcher />}
     <slot />
