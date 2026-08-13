@@ -12,6 +12,7 @@ import BenefitsSection from '../components/sections/BenefitsSection.astro';
 import WaitlistSection from '../components/sections/WaitlistSection.astro';
 import FaqSection from '../components/sections/FaqSection.astro';
 import OrganizersSection from '../components/sections/OrganizersSection.astro';
+import MentorsSection from '../components/sections/MentorsSection.astro';
 import PartnersSection from '../components/sections/PartnersSection.astro';
 import BottomCtaSection from '../components/sections/BottomCtaSection.astro';
 import { getHomeContent } from '../lib/content';
@@ -32,6 +33,7 @@ const waitlistUrl = content.links.waitlist;
     <WaitlistSection waitlist={content.waitlist} waitlistUrl={waitlistUrl} />
     <FaqSection faq={content.faq} />
     <OrganizersSection organizers={content.organizers} />
+    <MentorsSection />
     <PartnersSection partners={content.partners} />
     <BottomCtaSection bottomCta={content.bottomCta} waitlistUrl={waitlistUrl} />
   </main>
