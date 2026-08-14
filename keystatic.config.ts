@@ -312,8 +312,24 @@ export default config({
 
         footer: fields.object(
           {
-            contactTitle: text("Contact title"),
+            brandName: text("Brand name"),
+            brandDescription: multiline("Brand description"),
+            navTitle: text("Nav column title"),
+            navLinks: fields.array(
+              fields.object({
+                label: text("Label"),
+                href: text("Anchor / URL"),
+              }),
+              {
+                label: "Footer nav links",
+                itemLabel: (props) => props.fields.label.value,
+              },
+            ),
+            contactTitle: text("Contact column title"),
+            partnerLabel: text("Partner CTA label"),
+            partnerHref: text("Partner CTA URL"),
             copyright: text("Copyright"),
+            tagline: text("Tagline"),
           },
           { label: "Footer" },
         ),
