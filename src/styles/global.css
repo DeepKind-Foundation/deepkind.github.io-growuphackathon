@@ -281,7 +281,10 @@ ul {
   opacity: 1;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  /* Only start hidden when JS is available to reveal it (data-js is set inline
+     before first paint). Without JS the base `.reveal { opacity: 1 }` wins and
+     all content stays visible. */
+  :root[data-js] .reveal {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity var(--reveal-duration) var(--ease-out), transform var(--reveal-duration) var(--ease-out);

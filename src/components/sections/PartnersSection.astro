@@ -182,9 +182,14 @@ const logoRows = CATEGORIES.map((cat) => ({
 
   .partners__stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: var(--space-4);
     margin-bottom: var(--space-16);
+  }
+  @media (min-width: 480px) {
+    .partners__stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
   .partners__stat {
     border-radius: var(--radius-md);
