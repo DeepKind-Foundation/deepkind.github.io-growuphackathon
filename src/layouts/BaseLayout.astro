@@ -71,6 +71,9 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     <script is:inline type="application/ld+json" set:html={jsonLdSafe} />
 
     <script is:inline>
+      // Flag that JS is available so scroll-reveal can safely start hidden.
+      // Without this flag the content stays visible (see .reveal in global.css).
+      document.documentElement.dataset.js = '';
       // Apply the saved palette-preview theme before first paint (no flash).
       try {
         var t = localStorage.getItem('gh-theme');
@@ -79,7 +82,7 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     </script>
   </head>
   <body>
-    <a class="skip-nav" href="#o-projekcie">Przejdź do treści</a>
+    <a class="skip-nav" href="#main">Przejdź do treści</a>
     {import.meta.env.DEV && <ThemeSwitcher />}
     <slot />
 
@@ -102,6 +105,9 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
           { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
         );
         targets.forEach((el) => observer.observe(el));
+        // Failsafe: if the observer never fires (edge cases, JS hang), reveal
+        // everything after a short delay so content can never stay hidden.
+        window.setTimeout(() => targets.forEach((el) => el.classList.add('is-visible')), 3000);
       }
     </script>
 
