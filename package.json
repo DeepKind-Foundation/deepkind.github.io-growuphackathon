@@ -10,7 +10,8 @@
     "astro": "astro",
     "typecheck": "astro check",
     "recon": "node scripts/recon.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/node": "^10.1.4",
@@ -31,7 +32,8 @@
     "@types/node": "^25.9.3",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
