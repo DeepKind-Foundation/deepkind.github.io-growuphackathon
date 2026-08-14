@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   waitlist: HomeContent['waitlist'];
@@ -18,7 +19,7 @@ const { waitlist, waitlistUrl } = Astro.props;
       <p class="waitlist__text">{waitlist.text}</p>
       <a class="btn-gradient btn-gradient--md" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
         {waitlist.ctaLabel}
-        <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+        <Icon name="ph:arrow-right-bold" aria-hidden="true" />
       </a>
     </div>
   </div>

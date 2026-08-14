@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   benefits: HomeContent['benefits'];
@@ -28,7 +29,7 @@ const awards = benefits.awards.map((award, index) => ({
         {
           benefits.items.map((item) => (
             <li class="benefits__card puzzle-block">
-              <i class="ph-fill ph-check-circle benefits__check" aria-hidden="true" />
+              <Icon name="ph:check-circle-fill" class="benefits__check" aria-hidden="true" />
               <p>
                 <strong>{item.bold}</strong> {item.rest}
               </p>
@@ -45,7 +46,7 @@ const awards = benefits.awards.map((award, index) => ({
           <h3 class="benefits__awards-title">{benefits.awardsTitle}</h3>
           <span class="benefits__awards-note" aria-disabled="true">
             {benefits.awardsNote}
-            <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+            <Icon name="ph:arrow-right-bold" aria-hidden="true" />
           </span>
         </div>
 
@@ -54,7 +55,7 @@ const awards = benefits.awards.map((award, index) => ({
             awards.map((award) => (
               <li class="benefits__award" style={`--accent: ${award.accent}`}>
                 <span class="benefits__award-icon icon-tile">
-                  <i class={`ph-bold ${award.icon}`} aria-hidden="true" />
+                  <Icon name={`ph:${award.icon.replace(/^ph-/, '')}-bold`} aria-hidden="true" />
                 </span>
                 <div>
                   <h4 class="benefits__award-name">{award.title}</h4>
@@ -70,7 +71,7 @@ const awards = benefits.awards.map((award, index) => ({
     <div class="benefits__cta">
       <a class="btn-gradient btn-gradient--lg" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
         {benefits.ctaLabel}
-        <i class="ph-bold ph-paper-plane-right" aria-hidden="true"></i>
+        <Icon name="ph:paper-plane-right-bold" aria-hidden="true" />
       </a>
     </div>
   </div>

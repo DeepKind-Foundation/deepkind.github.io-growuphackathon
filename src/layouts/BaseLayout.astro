@@ -1,14 +1,12 @@
 ---
-import '@fontsource/poppins/300.css';
 import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
+import '@fontsource/poppins/800.css';
 import '@fontsource/poppins/900.css';
-import '@phosphor-icons/web/regular';
-import '@phosphor-icons/web/bold';
-import '@phosphor-icons/web/fill';
-import '@phosphor-icons/web/duotone';
+import poppins400 from '@fontsource/poppins/files/poppins-latin-400-normal.woff2?url';
+import poppins900 from '@fontsource/poppins/files/poppins-latin-900-normal.woff2?url';
 import '../styles/global.css';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 
@@ -29,8 +27,8 @@ const jsonLd = {
   description,
   eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
-  startDate: '2026-11-07',
-  endDate: '2026-12-12',
+  startDate: '2026-11-12',
+  endDate: '2027-01-14',
   location: [
     { '@type': 'VirtualLocation', url: canonical },
     {
@@ -53,6 +51,8 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/logos/logo_growup.png" />
+    <link rel="preload" href={poppins400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poppins900} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

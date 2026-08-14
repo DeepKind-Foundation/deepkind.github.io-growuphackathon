@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   paths: HomeContent['paths'];
@@ -43,13 +44,13 @@ const items = paths.items.map((item) => {
           <details class="paths__card puzzle-block">
             <summary class="paths__summary">
               <span class="paths__icon icon-tile">
-                <i class={`ph-duotone ${item.icon}`} aria-hidden="true" />
+                <Icon name={`ph:${item.icon.replace(/^ph-/, '')}-duotone`} aria-hidden="true" />
               </span>
               <span class="paths__head">
                 <h3 class="paths__name">{item.title}</h3>
                 <p class="paths__question">{item.question}</p>
               </span>
-              <i class="paths__caret ph-bold ph-caret-down" aria-hidden="true" />
+              <Icon name="ph:caret-down-bold" class="paths__caret" aria-hidden="true" />
             </summary>
             <div class="paths__content">
               {item.blocks.map((block) =>

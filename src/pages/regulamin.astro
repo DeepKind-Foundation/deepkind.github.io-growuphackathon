@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { getHomeContent } from '../lib/content';
 import { safeHref } from '../lib/url';
+import { Icon } from 'astro-icon/components';
 
 const content = await getHomeContent();
 const title = 'Regulamin programu GrowUp Hackathon 2026';
@@ -52,7 +53,7 @@ const previewUrl = driveMatch ? `https://drive.google.com/file/d/${driveMatch[1]
               rel="noopener noreferrer"
             >
               Otwórz regulamin w nowym oknie
-              <i class="ph-bold ph-arrow-square-out" aria-hidden="true" />
+              <Icon name="ph:arrow-square-out-bold" aria-hidden="true" />
             </a>
           )
         }

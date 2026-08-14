@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   bottomCta: HomeContent['bottomCta'];
@@ -19,7 +20,7 @@ const { bottomCta, waitlistUrl } = Astro.props;
     <p class="bottom-cta__text">{bottomCta.text}</p>
     <a class="btn-gradient btn-gradient--lg" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
       {bottomCta.ctaLabel}
-      <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+      <Icon name="ph:arrow-right-bold" aria-hidden="true" />
     </a>
   </div>
 </section>

@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   partners: HomeContent['partners'];
@@ -74,7 +75,7 @@ const logoRows = CATEGORIES.map((cat) => ({
           partners.benefits.map((benefit) => (
             <li class="partners__benefit puzzle-block">
               <span class="partners__benefit-icon icon-tile">
-                <i class={`ph-duotone ${benefit.icon}`} aria-hidden="true" />
+                <Icon name={`ph:${benefit.icon.replace(/^ph-/, '')}-duotone`} aria-hidden="true" />
               </span>
               <div>
                 <h4 class="partners__benefit-title">{benefit.title}</h4>
@@ -88,7 +89,7 @@ const logoRows = CATEGORIES.map((cat) => ({
       <div class="partners__cta">
         <a class="btn-gradient btn-gradient--md" href={safeHref(partners.ctaMailto)}>
           {partners.ctaLabel}
-          <i class="ph-bold ph-envelope-simple-open" aria-hidden="true"></i>
+          <Icon name="ph:envelope-simple-open-bold" aria-hidden="true" />
         </a>
       </div>
     </div>

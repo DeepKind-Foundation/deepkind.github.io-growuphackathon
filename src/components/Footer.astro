@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../lib/types';
 import { safeHref } from '../lib/url';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   footer: HomeContent['footer'];
@@ -24,7 +25,7 @@ const { footer, links } = Astro.props;
             aria-label="Instagram"
             class="footer__social-link footer__social-link--insta"
           >
-            <i class="ph-fill ph-instagram-logo" aria-hidden="true"></i>
+            <Icon name="ph:instagram-logo-fill" aria-hidden="true" />
           </a>
           <a
             href={safeHref(links.facebook)}
@@ -33,7 +34,7 @@ const { footer, links } = Astro.props;
             aria-label="Facebook"
             class="footer__social-link footer__social-link--fb"
           >
-            <i class="ph-fill ph-facebook-logo" aria-hidden="true"></i>
+            <Icon name="ph:facebook-logo-fill" aria-hidden="true" />
           </a>
         </div>
       </div>
@@ -54,12 +55,12 @@ const { footer, links } = Astro.props;
       <div class="footer__contact">
         <h2 class="footer__col-title">{footer.contactTitle}</h2>
         <a class="footer__email" href={safeHref(`mailto:${links.contactEmail}`)}>
-          <i class="ph-bold ph-envelope" aria-hidden="true"></i>
+          <Icon name="ph:envelope-bold" aria-hidden="true" />
           {links.contactEmail}
         </a>
         <a class="footer__partner" href={safeHref(footer.partnerHref)}>
           {footer.partnerLabel}
-          <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
+          <Icon name="ph:arrow-right-bold" aria-hidden="true" />
         </a>
       </div>
     </div>
