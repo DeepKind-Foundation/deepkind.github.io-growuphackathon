@@ -11,45 +11,66 @@ const { footer, links } = Astro.props;
 ---
 
 <footer id="kontakt" class="footer">
-  <div class="container container--md footer__shell section-shell reveal">
-    <h2 class="footer__title">{footer.contactTitle}</h2>
+  <div class="container container--full footer__shell section-shell reveal">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <p class="footer__wordmark">{footer.brandName}<span class="text-gradient-lime">.</span></p>
+        <p class="footer__desc">{footer.brandDescription}</p>
+        <div class="footer__social">
+          <a
+            href={safeHref(links.instagram)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            class="footer__social-link footer__social-link--insta"
+          >
+            <i class="ph-fill ph-instagram-logo" aria-hidden="true"></i>
+          </a>
+          <a
+            href={safeHref(links.facebook)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+            class="footer__social-link footer__social-link--fb"
+          >
+            <i class="ph-fill ph-facebook-logo" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
 
-    <div class="footer__contact">
-      <a class="footer__email" href={safeHref(`mailto:${links.contactEmail}`)}>
-        <i class="ph-bold ph-envelope" aria-hidden="true"></i>
-        {links.contactEmail}
-      </a>
-      <span class="footer__divider" aria-hidden="true">|</span>
-      <div class="footer__social">
-        <a
-          href={safeHref(links.instagram)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-          class="footer__social-link footer__social-link--insta"
-        >
-          <i class="ph-fill ph-instagram-logo" aria-hidden="true"></i>
+      <nav class="footer__nav" aria-label="Nawigacja w stopce">
+        <h2 class="footer__col-title">{footer.navTitle}</h2>
+        <ul>
+          {
+            footer.navLinks.map((link) => (
+              <li>
+                <a href={safeHref(link.href)}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="footer__contact">
+        <h2 class="footer__col-title">{footer.contactTitle}</h2>
+        <a class="footer__email" href={safeHref(`mailto:${links.contactEmail}`)}>
+          <i class="ph-bold ph-envelope" aria-hidden="true"></i>
+          {links.contactEmail}
         </a>
-        <a
-          href={safeHref(links.facebook)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Facebook"
-          class="footer__social-link footer__social-link--fb"
-        >
-          <i class="ph-fill ph-facebook-logo" aria-hidden="true"></i>
+        <a class="footer__partner" href={safeHref(footer.partnerHref)}>
+          {footer.partnerLabel}
+          <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
     </div>
 
-    <div class="footer__legal">
+    <div class="footer__bottom">
+      <p class="footer__copyright">{footer.copyright}</p>
       <div class="footer__legal-links">
         <a href={safeHref(links.regulamin)} target="_blank" rel="noopener noreferrer">Regulamin</a>
-        <a href={safeHref(links.privacy)} target="_blank" rel="noopener noreferrer">
-          Polityka Prywatności (RODO)
-        </a>
+        <a href={safeHref(links.privacy)} target="_blank" rel="noopener noreferrer">Polityka Prywatności (RODO)</a>
       </div>
-      <p class="footer__copyright">{footer.copyright}</p>
+      <p class="footer__tagline">{footer.tagline}</p>
     </div>
   </div>
 </footer>
@@ -57,40 +78,34 @@ const { footer, links } = Astro.props;
 <style>
   .footer {
     padding-block: var(--space-16) var(--space-8);
-    padding-inline: var(--space-4);
+    padding-inline: 0;
     border-top: 1px solid color-mix(in oklch, var(--c-white) 5%, transparent);
   }
   .footer__shell {
-    text-align: center;
     border-radius: var(--radius-xl);
-    padding: var(--space-10) var(--space-6);
+    padding: var(--space-12) var(--space-8);
   }
-  .footer__title {
-    font-size: 1.5rem;
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  .footer__wordmark {
+    font-size: 1.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
     color: var(--c-white);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-4);
   }
-  .footer__contact {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-4);
-    margin-bottom: var(--space-10);
-    color: var(--c-gray-300);
-  }
-  .footer__email {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    transition: color 0.2s var(--ease-out);
-  }
-  .footer__email:hover {
-    color: var(--c-lime-light);
-  }
-  .footer__divider {
-    display: none;
-    color: var(--c-gray-700);
+  .footer__desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--c-gray-400);
+    max-width: 34rem;
+    margin-bottom: var(--space-6);
   }
   .footer__social {
     display: flex;
@@ -103,6 +118,7 @@ const { footer, links } = Astro.props;
     min-width: 44px;
     min-height: 44px;
     font-size: 1.5rem;
+    color: var(--c-gray-300);
     transition: transform 0.2s var(--ease-out), color 0.2s var(--ease-out);
   }
   .footer__social-link:hover {
@@ -114,49 +130,117 @@ const { footer, links } = Astro.props;
   .footer__social-link--fb:hover {
     color: oklch(52% 0.22 264);
   }
-  .footer__legal {
-    border-top: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+
+  .footer__col-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--c-slate-400);
+    margin-bottom: var(--space-5);
+  }
+  .footer__nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .footer__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    color: var(--c-gray-300);
+    transition: color 0.2s var(--ease-out);
+  }
+  .footer__nav a:hover {
+    color: var(--c-lavender);
+  }
+
+  .footer__contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+  .footer__email {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--c-gray-300);
+    transition: color 0.2s var(--ease-out);
+  }
+  .footer__email:hover {
+    color: var(--c-lime-light);
+  }
+  .footer__partner {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    color: var(--c-lavender);
+    transition: color 0.2s var(--ease-out), gap 0.2s var(--ease-out);
+  }
+  .footer__partner:hover {
+    color: var(--c-lime-400);
+    gap: var(--space-3);
+  }
+
+  .footer__bottom {
+    margin-top: var(--space-12);
     padding-top: var(--space-8);
+    border-top: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+    text-align: center;
+  }
+  .footer__copyright {
+    font-size: 0.75rem;
+    color: var(--c-gray-500);
   }
   .footer__legal-links {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: var(--space-1);
-    font-size: 0.875rem;
-    color: var(--c-slate-300);
+    gap: var(--space-1) var(--space-4);
+    font-size: 0.8125rem;
   }
   .footer__legal-links a {
     display: inline-flex;
     align-items: center;
-    min-height: 44px;
-    padding-inline: var(--space-2);
+    min-height: 40px;
+    color: var(--c-slate-300);
     text-decoration: underline;
     text-underline-offset: 3px;
-    color: var(--c-slate-300);
     transition: color 0.2s var(--ease-out);
   }
   .footer__legal-links a:hover {
     color: var(--c-lavender);
   }
-  .footer__copyright {
-    margin-top: var(--space-4);
-    color: var(--c-gray-400);
-    font-size: 0.688rem;
+  .footer__tagline {
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.18em;
+    color: var(--c-purple-300);
   }
 
   @media (min-width: 768px) {
-    .footer__contact {
-      flex-direction: row;
+    .footer__grid {
+      grid-template-columns: 2fr 1fr 1.2fr;
+      gap: var(--space-12);
     }
-    .footer__divider {
-      display: inline;
+    .footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+      gap: var(--space-6);
     }
     .footer__legal-links {
-      flex-direction: row;
+      order: 3;
+    }
+    .footer__tagline {
+      order: 2;
     }
   }
 </style>

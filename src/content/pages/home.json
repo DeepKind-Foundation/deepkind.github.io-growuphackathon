@@ -72,7 +72,7 @@
     "titleAccent": "laboratorium dorosłości",
     "paragraphs": [
       "Nikt nie uczy nas, jak być dorosłym — szkoła nie tłumaczy, jak ogarnąć własny budżet, dbać o zdrowie psychiczne, kiedy wszystko dookoła stresuje, ani jak radzić sobie z presją internetu. Dlatego powstał GrowUp — praktyczne laboratorium dorosłości, w którym młodzi ludzie projektują technologiczne rozwiązania realnych problemów swojego pokolenia.",
-      "To nie jest zwykły hackathon: zamiast jednego intensywnego weekendu uczestnicy mają cały miesiąc pracy w pełni online, żeby rozwinąć swój pomysł od idei aż po działający prototyp. W tym czasie zespoły z całej Polski (łącznie 30 drużyn) pracują nad swoimi projektami, ucząc się jak prowadzić je krok po kroku pod okiem mentorów, ekspertów i konsultantów z branży.",
+      "To nie jest zwykły hackathon: zamiast jednego intensywnego weekendu uczestnicy mają cały miesiąc pracy w pełni online, żeby rozwinąć swój pomysł od idei aż po działający prototyp. W tym czasie zespoły z całej Polski (łącznie 20 drużyn) pracują nad swoimi projektami, ucząc się jak prowadzić je krok po kroku pod okiem mentorów, ekspertów i konsultantów z branży.",
       "Wpadacie ze swoimi pomysłami albo dołączacie do innych, tworzycie zespoły i wspólnie budujecie aplikacje, strony lub narzędzia — może to być aplikacja wspierająca zdrowie psychiczne, narzędzie do nauki finansów osobistych albo system, który krok po kroku tłumaczy pierwsze podatki."
     ],
     "highlight": "Na końcu 5 najlepszych zespołów prezentuje swoje projekty podczas finału w Krakowie, gdzie mają szansę pokazać swoje rozwiązania, zdobyć feedback i rozwinąć je dalej."
@@ -379,8 +379,21 @@
     "ctaLabel": "Chcę wziąć udział"
   },
   "footer": {
+    "brandName": "GrowUp",
+    "brandDescription": "Bezpłatny, ogólnopolski hackathon dla młodych dorosłych. Organizowany przez Fundację DeepKind i GrowUp Team.",
+    "navTitle": "Nawigacja",
+    "navLinks": [
+      { "label": "O projekcie", "href": "#o-projekcie" },
+      { "label": "Ścieżki", "href": "#sciezki" },
+      { "label": "Harmonogram", "href": "#etapy" },
+      { "label": "FAQ", "href": "#faq" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ],
     "contactTitle": "Kontakt",
-    "copyright": "© 2026 GrowUp Hackathon. Powered by DeepKind."
+    "partnerLabel": "Zostań partnerem",
+    "partnerHref": "#partnerzy",
+    "copyright": "© 2026 GrowUp Hackathon · Fundacja DeepKind",
+    "tagline": "Hackuj dorosłość ✦ wymyśl lepsze jutro"
   },
   "cookie": {
     "text": "Ta strona używa plików cookies w celu świadczenia usług na najwyższym poziomie. Dalsze korzystanie ze strony oznacza, że zgadzasz się na ich użycie. ",
