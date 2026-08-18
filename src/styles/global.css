@@ -289,7 +289,10 @@ ul {
     transform: translateY(20px);
     transition: opacity var(--reveal-duration) var(--ease-out), transform var(--reveal-duration) var(--ease-out);
   }
-  .reveal.is-visible {
+  /* Must out-specify the hidden rule above (:root[data-js] .reveal), so the
+     revealed state also carries the :root[data-js] prefix — otherwise the
+     hidden rule wins on specificity and content never appears. */
+  :root[data-js] .reveal.is-visible {
     opacity: 1;
     transform: none;
   }
