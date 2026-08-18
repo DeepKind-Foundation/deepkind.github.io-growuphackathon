@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   stages: HomeContent['stages'];
@@ -40,7 +41,7 @@ const items = stages.items.map((item, index) => ({
           >
             <div class="stages__node">
               <span class="stages__dot">
-                {item.finale ? <i class="ph-fill ph-trophy" aria-hidden="true" /> : item.step}
+                {item.finale ? <Icon name="ph:trophy-fill" aria-hidden="true" /> : item.step}
               </span>
             </div>
 
@@ -51,13 +52,13 @@ const items = stages.items.map((item, index) => ({
                 <p class="stages__what">{item.what}</p>
                 <span class="stages__toggle">
                   Co Cię czeka
-                  <i class="ph-bold ph-caret-down" aria-hidden="true" />
+                  <Icon name="ph:caret-down-bold" aria-hidden="true" />
                 </span>
               </summary>
               <ul class="stages__list">
                 {item.expect.map((entry) => (
                   <li>
-                    <i class="ph-fill ph-check-circle" aria-hidden="true" />
+                    <Icon name="ph:check-circle-fill" aria-hidden="true" />
                     <span>{entry}</span>
                   </li>
                 ))}

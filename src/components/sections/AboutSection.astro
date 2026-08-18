@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   about: HomeContent['about'];
@@ -27,7 +28,7 @@ const hasMore = moreParagraphs.length > 0 || Boolean(about.highlight);
             <details class="about__more">
               <summary class="about__more-toggle">
                 <span>Czytaj więcej</span>
-                <i class="ph-bold ph-caret-down" aria-hidden="true" />
+                <Icon name="ph:caret-down-bold" aria-hidden="true" />
               </summary>
               <div class="about__more-body">
                 {moreParagraphs.map((paragraph) => <p>{paragraph}</p>)}

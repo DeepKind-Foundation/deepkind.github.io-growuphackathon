@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   hero: HomeContent['hero'];
@@ -37,12 +38,12 @@ const { hero, waitlistUrl } = Astro.props;
         hero.ctaEnabled ? (
           <a class="btn-gradient btn-gradient--md" href={safeHref(waitlistUrl)} target="_blank" rel="noopener noreferrer">
             {hero.ctaLabel}
-            <i class="ph-bold ph-arrow-right" aria-hidden="true" />
+            <Icon name="ph:arrow-right-bold" aria-hidden="true" />
           </a>
         ) : (
           <button class="btn-gradient btn-gradient--md" type="button" disabled>
             {hero.ctaLabel}
-            <i class="ph-bold ph-arrow-right" aria-hidden="true" />
+            <Icon name="ph:arrow-right-bold" aria-hidden="true" />
           </button>
         )
       }

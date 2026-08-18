@@ -1,5 +1,5 @@
-// CSS-only side-effect imports from the Phosphor icon font package carry no types.
-declare module '@phosphor-icons/web/regular';
-declare module '@phosphor-icons/web/bold';
-declare module '@phosphor-icons/web/fill';
-declare module '@phosphor-icons/web/duotone';
+// Type the `?url` suffixed font-asset imports used for <link rel="preload">.
+declare module "*.woff2?url" {
+  const url: string;
+  export default url;
+}

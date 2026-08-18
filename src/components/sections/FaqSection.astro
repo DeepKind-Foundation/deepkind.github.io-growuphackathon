@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../../lib/types';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   faq: HomeContent['faq'];
@@ -35,7 +36,7 @@ const faqSchemaSafe = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
           <details class="faq__item puzzle-block">
             <summary class="faq__summary">
               <span class="faq__question">{item.question}</span>
-              <i class="ph-bold ph-caret-down faq__caret" aria-hidden="true" />
+              <Icon name="ph:caret-down-bold" class="faq__caret" aria-hidden="true" />
             </summary>
             <div class="faq__answer">
               <p>{item.answer}</p>
