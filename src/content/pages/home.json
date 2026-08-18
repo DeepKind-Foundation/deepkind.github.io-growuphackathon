@@ -54,18 +54,32 @@
     "taglinePurple": "Hackuj dorosłość,",
     "taglineLime": "wymyśl lepsze jutro",
     "leadParagraph1": "Bezpłatny, ogólnopolski program, w którym przez miesiąc budujesz w zespole rozwiązanie realnego problemu swojego pokolenia.",
-    "leadParagraph2": "",
     "ctaLabel": "Chcę wziąć udział",
     "ctaEnabled": true,
     "countdownTarget": "2026-10-20T23:59:00+02:00",
     "countdownCaption": "do końca zgłoszeń"
   },
   "heroStats": [
-    { "value": "70+", "label": "uczestników" },
-    { "value": "15", "label": "drużyn" },
-    { "value": "5", "label": "ścieżek" },
-    { "value": "30", "label": "dni pracy" },
-    { "value": "Kraków", "label": "Finał" }
+    {
+      "value": "70+",
+      "label": "uczestników"
+    },
+    {
+      "value": "15",
+      "label": "drużyn"
+    },
+    {
+      "value": "5",
+      "label": "ścieżek"
+    },
+    {
+      "value": "30",
+      "label": "dni pracy"
+    },
+    {
+      "value": "Kraków",
+      "label": "Finał"
+    }
   ],
   "about": {
     "titleLead": "Praktyczne",
@@ -305,23 +319,38 @@
     "partnersTitleAccent": "i patroni",
     "logos": [
       {
-        "image": "/logos/partners/logos/0/image.png",
+        "image": "/logos/partners/logos/0/image.svg",
+        "alt": "Fundacja PFR",
+        "category": "program"
+      },
+      {
+        "image": "/logos/partners/logos/1/image.svg",
+        "alt": "ABB",
+        "category": "program"
+      },
+      {
+        "image": "/logos/partners/logos/2/image.png",
         "alt": "Akademicki Inkubator UJ",
         "category": "community"
       },
       {
-        "image": "/logos/partners/logos/1/image.png",
+        "image": "/logos/partners/logos/3/image.png",
         "alt": "Generacja Innowacja",
         "category": "community"
       },
       {
-        "image": "/logos/partners/logos/2/image.png",
+        "image": "/logos/partners/logos/4/image.png",
         "alt": "Projektor",
         "category": "community"
       },
       {
-        "image": "/logos/partners/logos/3/image.svg",
+        "image": "/logos/partners/logos/5/image.svg",
         "alt": "Trawell",
+        "category": "community"
+      },
+      {
+        "image": "/logos/partners/logos/6/image.svg",
+        "alt": "Fundacja Innovation Hub",
         "category": "community"
       }
     ],
@@ -383,11 +412,26 @@
     "brandDescription": "Bezpłatny, ogólnopolski hackathon dla młodych dorosłych. Organizowany przez Fundację DeepKind i GrowUp Team.",
     "navTitle": "Nawigacja",
     "navLinks": [
-      { "label": "O projekcie", "href": "#o-projekcie" },
-      { "label": "Ścieżki", "href": "#sciezki" },
-      { "label": "Harmonogram", "href": "#etapy" },
-      { "label": "FAQ", "href": "#faq" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      {
+        "label": "O projekcie",
+        "href": "#o-projekcie"
+      },
+      {
+        "label": "Ścieżki",
+        "href": "#sciezki"
+      },
+      {
+        "label": "Harmonogram",
+        "href": "#etapy"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "contactTitle": "Kontakt",
     "partnerLabel": "Zostań partnerem",
