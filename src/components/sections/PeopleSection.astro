@@ -1,0 +1,64 @@
+---
+import { getPeople } from '../../lib/people';
+import PeopleGroup from '../PeopleGroup.astro';
+
+// The three people groups are sourced from src/data/{group}.csv (see
+// src/lib/people.ts), not Keystatic — a spreadsheet export is the easiest
+// format for organizers to maintain a roster in. Photos live at
+// public/images/{group}/{index}.png.
+const mentors = getPeople('mentors');
+const experts = getPeople('experts');
+const trainers = getPeople('trainers');
+
+const totalCount = mentors.length + experts.length + trainers.length;
+---
+
+{
+  totalCount > 0 && (
+    <section id="mentoring" class="section people">
+      <div class="container container--md people__inner section-shell reveal">
+        <h2 class="section-title people__title"><span class="text-gradient">Mentoring</span></h2>
+        <p class="people__lead">Poznajcie osoby, które…</p>
+
+        <div class="people__groups">
+          <PeopleGroup id="opieka-zespolow" subheading="będą się opiekowały zespołami" people={mentors} />
+          <PeopleGroup id="doradztwo" subheading="będą Wam doradzały" people={experts} />
+          <PeopleGroup id="warsztaty" subheading="będą prowadziły warsztaty" people={trainers} />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .people__inner {
+    border-radius: var(--radius-xl);
+    padding: var(--space-12) var(--space-6);
+  }
+  .people__title {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    text-align: center;
+    margin-bottom: var(--space-4);
+  }
+  .people__lead {
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--c-slate-200);
+    margin-bottom: var(--space-12);
+  }
+
+  .people__groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .people__inner {
+      padding: var(--space-16) var(--space-10);
+    }
+  }
+</style>

@@ -1,0 +1,150 @@
+---
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import type { Person } from '../lib/people';
+
+interface Props {
+  id: string;
+  /** Completes the section lead sentence "Poznajcie osoby, które…", e.g. "będą Wam doradzały". */
+  subheading: string;
+  people: Person[];
+}
+
+const { id, subheading, people } = Astro.props;
+
+const withPhotos = people.map((person) => ({
+  ...person,
+  hasPhoto: existsSync(path.join(process.cwd(), 'public', person.image)),
+  initials: person.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join(''),
+}));
+---
+
+{
+  withPhotos.length > 0 && (
+    <div id={id} class="people-group">
+      <h3 class="people-group__title">
+        <span class="text-gradient">{subheading}</span>
+      </h3>
+
+      <div class="people-group__grid">
+        {withPhotos.map((person) => (
+          <div class="people-group__card puzzle-block">
+            <div class="people-group__photo">
+              {person.hasPhoto ? (
+                <img src={person.image} alt={person.name} loading="lazy" />
+              ) : (
+                <span class="people-group__initials" aria-hidden="true">
+                  {person.initials}
+                </span>
+              )}
+            </div>
+            <h4 class="people-group__name">{person.name}</h4>
+            {person.role && <p class="people-group__role">{person.role}</p>}
+            {person.bio && <p class="people-group__bio">{person.bio}</p>}
+            {person.linkedin && (
+              <a class="people-group__link" href={person.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+                <i class="ph-bold ph-arrow-up-right" aria-hidden="true" />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .people-group__title {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .people-group__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  .people-group__card {
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .people-group__photo {
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+    background: color-mix(in oklch, var(--c-purple-vivid) 18%, transparent);
+    border: 1px solid color-mix(in oklch, var(--c-white) 12%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .people-group__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .people-group__initials {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--c-lime-light);
+  }
+
+  .people-group__name {
+    font-size: 1.125rem;
+    color: var(--c-white);
+  }
+  .people-group__role {
+    margin-top: var(--space-1);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-lime-light);
+  }
+  .people-group__bio {
+    margin-top: var(--space-3);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--c-gray-400);
+  }
+  .people-group__link {
+    margin-top: var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--c-slate-200);
+    transition: color 0.2s var(--ease-out);
+  }
+  .people-group__link:hover {
+    color: var(--c-lavender);
+  }
+
+  @media (min-width: 640px) {
+    .people-group__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .people-group__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
