@@ -1,6 +1,7 @@
 ---
 import type { HomeContent } from '../../lib/types';
 import { safeHref } from '../../lib/url';
+import { getPartnerLogos } from '../../lib/content';
 import { Icon } from 'astro-icon/components';
 
 interface Props {
@@ -10,17 +11,25 @@ interface Props {
 const { partners } = Astro.props;
 const oddBenefits = partners.benefits.length % 2 !== 0;
 
-// Fixed category order; heading shown above each row. Category is chosen per logo in Keystatic.
-const CATEGORIES = [
-  { key: 'program', heading: 'Partnerzy programu' },
-  { key: 'community', heading: 'Partnerzy społeczności' },
-  { key: 'patron', heading: 'Patroni honorowi i medialni' },
-] as const;
+// Partner logos are sourced from the Keystatic `partnerLogos` collection
+// (src/content/partners/*.json) via the admin UI at /admin, not the
+// Keystatic editor UI itself — see src/lib/content.ts. Fixed category
+// order/headings; add a new category here and in keystatic.config.ts if
+// one is ever needed. Order within a category follows each entry's `order`
+// field.
+const CATEGORIES: { slug: string; heading: string }[] = [
+  { slug: 'program', heading: 'Partnerzy programu' },
+  { slug: 'community', heading: 'Partnerzy społeczności' },
+  { slug: 'patron', heading: 'Patroni honorowi i medialni' },
+];
 
-const logos = partners.logos.filter((logo) => logo.image);
+const allLogos = await getPartnerLogos();
+
 const logoRows = CATEGORIES.map((cat) => ({
   heading: cat.heading,
-  logos: logos.filter((logo) => logo.category === cat.key),
+  logos: allLogos
+    .filter((logo) => logo.category === cat.slug && logo.logo)
+    .sort((a, b) => a.order - b.order),
 })).filter((row) => row.logos.length > 0);
 ---
 
@@ -40,7 +49,7 @@ const logoRows = CATEGORIES.map((cat) => ({
                 <div class="partners__logos">
                   {row.logos.map((logo) => (
                     <div class="partners__logo">
-                      <img src={logo.image} alt={logo.alt} loading="lazy" />
+                      <img src={logo.logo} alt={logo.name} loading="lazy" />
                     </div>
                   ))}
                 </div>

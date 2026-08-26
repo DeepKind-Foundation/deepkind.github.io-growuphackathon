@@ -1,14 +1,18 @@
 ---
-import { getPeople } from '../../lib/people';
+import { getPeople } from '../../lib/content';
 import PeopleGroup from '../PeopleGroup.astro';
 
-// The three people groups are sourced from src/data/{group}.csv (see
-// src/lib/people.ts), not Keystatic — a spreadsheet export is the easiest
-// format for organizers to maintain a roster in. Photos live at
-// public/images/{group}/{index}.png.
-const mentors = getPeople('mentors');
-const experts = getPeople('experts');
-const trainers = getPeople('trainers');
+// The three people groups are sourced from the Keystatic `people`
+// collection (src/content/people/*.json) via the admin UI at /admin, not
+// the Keystatic editor UI itself — see src/lib/content.ts.
+const allPeople = await getPeople();
+
+const byGroup = (group: string) =>
+  allPeople.filter((person) => person.group === group).sort((a, b) => a.order - b.order);
+
+const mentors = byGroup('mentors');
+const experts = byGroup('experts');
+const trainers = byGroup('trainers');
 
 const totalCount = mentors.length + experts.length + trainers.length;
 ---

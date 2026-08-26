@@ -1,0 +1,110 @@
+/* Shared styles for /admin/** — an internal tool, not the marketing site's design system. */
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 32rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #1a1a1a;
+}
+h1 {
+  font-size: 1.5rem;
+}
+h2 {
+  font-size: 1.1rem;
+  margin-top: 2.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+}
+th,
+td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+img.thumb {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
+img.current {
+  max-width: 6rem;
+  max-height: 3rem;
+  display: block;
+  margin-top: 0.5rem;
+}
+img.current.round {
+  max-width: 5rem;
+  max-height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+label {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+button,
+a.button {
+  padding: 0.6rem 1.2rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+form button {
+  margin-top: 1.5rem;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+.result.ok {
+  background: #efe;
+  border: 1px solid #9c9;
+}
+.result.err {
+  background: #fee;
+  border: 1px solid #f99;
+}
+.error {
+  background: #fee;
+  border: 1px solid #f99;
+  padding: 1rem;
+  border-radius: 4px;
+  color: #900;
+}
+a.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}

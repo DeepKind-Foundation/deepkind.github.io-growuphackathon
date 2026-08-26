@@ -17,6 +17,12 @@ import PartnersSection from '../components/sections/PartnersSection.astro';
 import BottomCtaSection from '../components/sections/BottomCtaSection.astro';
 import { getHomeContent } from '../lib/content';
 
+// Always prerendered at build time (real filesystem access for Keystatic's
+// local-storage reader) — redundant under the main static build, but
+// required under the admin/Cloudflare build (output: 'server'), where
+// per-route SSR has no filesystem to read from at request time.
+export const prerender = true;
+
 const content = await getHomeContent();
 const waitlistUrl = content.links.waitlist;
 ---

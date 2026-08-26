@@ -11,7 +11,9 @@
     "typecheck": "astro check",
     "recon": "node scripts/recon.mjs",
     "test:e2e": "playwright test",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:admin": "astro build --config astro.config.cloudflare.mjs",
+    "dev:admin": "wrangler pages dev -- astro dev --config astro.config.cloudflare.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^10.1.4",
@@ -20,6 +22,8 @@
     "@iconify-json/ph": "^1.2.2",
     "@keystatic/astro": "^5.0.0",
     "@keystatic/core": "^0.5.0",
+    "@octokit/auth-app": "^8.3.0",
+    "@octokit/core": "^7.0.7",
     "astro": "^6.1.10",
     "astro-icon": "^1.1.5",
     "react": "^19.0.0",
@@ -28,13 +32,15 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^13.7.0",
     "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.9.3",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.126.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

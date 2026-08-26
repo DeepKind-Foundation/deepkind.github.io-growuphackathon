@@ -1,20 +1,19 @@
 ---
-import { existsSync } from 'node:fs';
-import path from 'node:path';
-import type { Person } from '../lib/people';
+import type { PersonEntry } from '../lib/content';
 
 interface Props {
   id: string;
   /** Completes the section lead sentence "Poznajcie osoby, które…", e.g. "będą Wam doradzały". */
   subheading: string;
-  people: Person[];
+  people: PersonEntry[];
 }
 
 const { id, subheading, people } = Astro.props;
 
 const withPhotos = people.map((person) => ({
   ...person,
-  hasPhoto: existsSync(path.join(process.cwd(), 'public', person.image)),
+  hasPhoto: person.photo !== '',
+  image: person.photo,
   initials: person.name
     .split(/\s+/)
     .filter(Boolean)

@@ -1,0 +1,7 @@
+/** Standard JSON API response used by every /admin/api/* route. */
+export function jsonResponse(body: unknown, status: number): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}

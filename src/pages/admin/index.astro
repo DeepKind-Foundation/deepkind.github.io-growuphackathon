@@ -1,0 +1,79 @@
+---
+import { createInstallationOctokit, listJsonEntries } from '../../lib/admin/github';
+import { getGitHubAppCredentials, REPO } from '../../lib/admin/env';
+import { PARTNER_IMAGES_PATH, PEOPLE_IMAGES_PATH, type PartnerData, type PersonData } from '../../lib/admin/types';
+
+export const prerender = false;
+
+let partners: { slug: string; data: PartnerData }[] = [];
+let people: { slug: string; data: PersonData }[] = [];
+let loadError: string | undefined;
+
+try {
+  const octokit = createInstallationOctokit(getGitHubAppCredentials());
+  const [partnerEntries, peopleEntries] = await Promise.all([
+    listJsonEntries<PartnerData>(octokit, REPO, 'src/content/partners'),
+    listJsonEntries<PersonData>(octokit, REPO, 'src/content/people'),
+  ]);
+  partners = partnerEntries.sort((a, b) => a.data.order - b.data.order);
+  people = peopleEntries.sort((a, b) => a.data.order - b.data.order);
+} catch (error) {
+  loadError = error instanceof Error ? error.message : 'Unknown error loading content.';
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>GrowUp Admin</title>
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body>
+    <h1>GrowUp Admin</h1>
+
+    {loadError && (
+      <div class="error">
+        Could not load content from GitHub: {loadError}
+      </div>
+    )}
+
+    <h2>
+      Partner logos
+      <a class="button" href="/admin/partners/new" style="float: right;">Add partner</a>
+    </h2>
+    <table>
+      <thead><tr><th>Logo</th><th>Name</th><th>Category</th><th></th></tr></thead>
+      <tbody>
+        {partners.map((p) => (
+          <tr>
+            <td>{p.data.logo && <img class="thumb" src={`${PARTNER_IMAGES_PATH}${p.data.logo}`} alt="" />}</td>
+            <td>{p.data.name}</td>
+            <td>{p.data.category}</td>
+            <td><a href={`/admin/partners/${p.slug}/edit`}>Edit</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <h2>
+      Mentors, experts &amp; trainers
+      <a class="button" href="/admin/people/new" style="float: right;">Add person</a>
+    </h2>
+    <table>
+      <thead><tr><th>Photo</th><th>Name</th><th>Group</th><th></th></tr></thead>
+      <tbody>
+        {people.map((p) => (
+          <tr>
+            <td>{p.data.photo && <img class="thumb" src={`${PEOPLE_IMAGES_PATH}${p.data.photo}`} alt="" />}</td>
+            <td>{p.data.name}</td>
+            <td>{p.data.group}</td>
+            <td><a href={`/admin/people/${p.slug}/edit`}>Edit</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </body>
+</html>

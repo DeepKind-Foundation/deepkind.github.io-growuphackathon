@@ -321,43 +321,6 @@
   "partners": {
     "partnersTitleLead": "Partnerzy",
     "partnersTitleAccent": "i patroni",
-    "logos": [
-      {
-        "image": "/logos/partners/logos/0/image.svg",
-        "alt": "Fundacja PFR",
-        "category": "program"
-      },
-      {
-        "image": "/logos/partners/logos/1/image.svg",
-        "alt": "ABB",
-        "category": "program"
-      },
-      {
-        "image": "/logos/partners/logos/2/image.png",
-        "alt": "Akademicki Inkubator UJ",
-        "category": "community"
-      },
-      {
-        "image": "/logos/partners/logos/3/image.png",
-        "alt": "Generacja Innowacja",
-        "category": "community"
-      },
-      {
-        "image": "/logos/partners/logos/4/image.png",
-        "alt": "Projektor",
-        "category": "community"
-      },
-      {
-        "image": "/logos/partners/logos/5/image.svg",
-        "alt": "Trawell",
-        "category": "community"
-      },
-      {
-        "image": "/logos/partners/logos/6/image.svg",
-        "alt": "Fundacja Innovation Hub",
-        "category": "community"
-      }
-    ],
     "becomeTitleLead": "Zostań",
     "becomeTitleAccent": "Partnerem",
     "becomeIntro": "Dołącz do grona firm i organizacji, które inwestują w kolejne pokolenie innowatorów.",
