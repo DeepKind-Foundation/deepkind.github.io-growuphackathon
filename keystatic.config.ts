@@ -1,18 +1,72 @@
-import { config, singleton, fields } from "@keystatic/core";
+import { config, singleton, collection, fields } from "@keystatic/core";
 
 const text = (label: string) => fields.text({ label });
 const multiline = (label: string) => fields.text({ label, multiline: true });
-const logoImage = () =>
-  fields.image({
-    label: "Logo",
-    directory: "public/logos",
-    publicPath: "/logos",
-  });
 
 export default config({
   storage: { kind: "local" },
   ui: {
     brand: { name: "GrowUp Hackathon" },
+  },
+  collections: {
+    partnerLogos: collection({
+      label: "Partner logos",
+      path: "src/content/partners/*",
+      format: { data: "json" },
+      slugField: "name",
+      schema: {
+        name: fields.slug({ name: { label: "Partner name" } }),
+        category: fields.select({
+          label: "Category",
+          options: [
+            { label: "Partnerzy programu", value: "program" },
+            { label: "Partnerzy społeczności", value: "community" },
+            { label: "Patroni honorowi i medialni", value: "patron" },
+          ],
+          defaultValue: "program",
+        }),
+        order: fields.integer({
+          label: "Sort order within category",
+          defaultValue: 0,
+        }),
+        logo: fields.image({
+          label: "Logo",
+          directory: "public/images/partners",
+          publicPath: "/images/partners/",
+        }),
+      },
+    }),
+
+    people: collection({
+      label: "Mentors, experts & trainers",
+      path: "src/content/people/*",
+      format: { data: "json" },
+      slugField: "name",
+      schema: {
+        name: fields.slug({ name: { label: "Full name" } }),
+        group: fields.select({
+          label: "Group",
+          options: [
+            { label: "Mentor", value: "mentors" },
+            { label: "Expert", value: "experts" },
+            { label: "Trainer", value: "trainers" },
+          ],
+          defaultValue: "mentors",
+        }),
+        order: fields.integer({
+          label: "Sort order within group",
+          defaultValue: 0,
+        }),
+        role: text("Role"),
+        bio: multiline("Bio"),
+        linkedin: text("LinkedIn URL (optional)"),
+        photo: fields.image({
+          label: "Photo",
+          directory: "public/images/people",
+          publicPath: "/images/people/",
+        }),
+      },
+    }),
   },
   singletons: {
     home: singleton({
@@ -250,26 +304,6 @@ export default config({
           {
             partnersTitleLead: text("Partners title (lead)"),
             partnersTitleAccent: text("Partners title (accent)"),
-            logos: fields.array(
-              fields.object({
-                image: logoImage(),
-                alt: text("Alt text"),
-                category: fields.select({
-                  label: "Rodzaj partnera",
-                  options: [
-                    { label: "Partnerzy programu", value: "program" },
-                    { label: "Partnerzy społeczności", value: "community" },
-                    { label: "Patroni honorowi i medialni", value: "patron" },
-                  ],
-                  defaultValue: "program",
-                }),
-              }),
-              {
-                label: "Partner logos",
-                itemLabel: (props) =>
-                  `${props.fields.alt.value || "Logo"} — ${props.fields.category.value}`,
-              },
-            ),
             becomeTitleLead: text("Become title (lead)"),
             becomeTitleAccent: text("Become title (accent)"),
             becomeIntro: multiline("Become intro"),

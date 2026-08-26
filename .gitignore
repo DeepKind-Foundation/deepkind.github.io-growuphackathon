@@ -32,6 +32,10 @@ package-lock.json
 .env
 .env.local
 .env.*.local
+.dev.vars
+
+# Wrangler local dev state
+/.wrangler
 
 # Logs
 npm-debug.log*

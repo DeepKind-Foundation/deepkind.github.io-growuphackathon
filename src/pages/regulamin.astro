@@ -7,6 +7,9 @@ import { getHomeContent } from '../lib/content';
 import { safeHref } from '../lib/url';
 import { Icon } from 'astro-icon/components';
 
+// See src/pages/index.astro for why this is explicit.
+export const prerender = true;
+
 const content = await getHomeContent();
 const title = 'Regulamin programu GrowUp Hackathon 2026';
 const description = 'Regulamin i zasady uczestnictwa w programie GrowUp Hackathon 2026.';

@@ -16,5 +16,17 @@ export default defineConfig({
       // (e.g. createRoot) that Keystatic's island hydration relies on.
       include: ['react-dom/client'],
     },
+    build: {
+      rollupOptions: {
+        // src/pages/admin/** (built by astro.config.cloudflare.mjs, deployed
+        // separately to Cloudflare) is still discovered by this config since
+        // it shares the same src/pages tree. Its routes are all
+        // `prerender = false`, so they're never invoked by the GitHub Pages
+        // static output — but Rollup still needs to resolve their imports at
+        // bundle time. cloudflare:workers only exists in the Workers
+        // runtime; externalize it here rather than resolve it.
+        external: ['cloudflare:workers'],
+      },
+    },
   },
 });
