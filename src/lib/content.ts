@@ -1,6 +1,6 @@
 import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
-import { PARTNER_IMAGES_PATH, PEOPLE_IMAGES_PATH } from "./admin/types";
+import { PARTNER_IMAGES_PATH, PEOPLE_IMAGES_PATH } from "./image-paths";
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
