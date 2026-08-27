@@ -45,13 +45,27 @@ export function createInstallationOctokit(
   });
 }
 
-function toBase64(bytes: ArrayBuffer): string {
+export function toBase64(bytes: ArrayBuffer): string {
   let binary = "";
   const view = new Uint8Array(bytes);
   for (let i = 0; i < view.length; i += 1) {
     binary += String.fromCharCode(view[i]);
   }
   return btoa(binary);
+}
+
+/**
+ * Decodes a base64 string to UTF-8 text. `atob` alone only understands
+ * Latin-1 — decoding multi-byte UTF-8 content (e.g. Polish diacritics)
+ * with it directly mangles every non-ASCII character, since each UTF-8
+ * byte gets treated as its own Latin-1 code point instead of being
+ * recombined. Re-interpreting the decoded bytes through TextDecoder
+ * fixes that.
+ */
+export function fromBase64(base64: string): string {
+  const binary = atob(base64);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes);
 }
 
 function sleep(ms: number): Promise<void> {
@@ -99,7 +113,7 @@ export async function listJsonEntries<T>(
       ) {
         throw new Error(`Expected a file at ${file.path}`);
       }
-      const raw = atob(fileData.content.replace(/\n/g, ""));
+      const raw = fromBase64(fileData.content.replace(/\n/g, ""));
       const slug = file.name.replace(/\.json$/, "");
       return { slug, path: file.path, data: JSON.parse(raw) as T };
     }),
@@ -230,7 +244,7 @@ export async function getJsonEntry<T>(
     if (Array.isArray(data) || data.type !== "file" || !data.content) {
       return undefined;
     }
-    const raw = atob(data.content.replace(/\n/g, ""));
+    const raw = fromBase64(data.content.replace(/\n/g, ""));
     return { slug, path, data: JSON.parse(raw) as T };
   } catch {
     return undefined;
