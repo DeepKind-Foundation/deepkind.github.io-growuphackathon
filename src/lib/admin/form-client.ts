@@ -6,6 +6,26 @@ interface SaveResponse {
 }
 
 /**
+ * Wires a file input to a live `<img>` preview: as soon as an image is
+ * chosen, it's shown immediately (via a local object URL — no upload
+ * happens yet) instead of the editor only finding out what they picked
+ * after saving. No-ops if either element is missing.
+ */
+export function wireImagePreview(inputId: string, previewImgId: string): void {
+  const input = document.getElementById(inputId) as HTMLInputElement | null;
+  const img = document.getElementById(previewImgId) as HTMLImageElement | null;
+  if (!input || !img) return;
+
+  input.addEventListener("change", () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    img.src = URL.createObjectURL(file);
+    img.hidden = false;
+    img.closest(".entry-thumb")?.classList.remove("empty");
+  });
+}
+
+/**
  * Wires a "Publish all pending changes" button: calls the global publish
  * endpoint (no body — publishing is never scoped to one entry) and
  * redirects to /admin on success. Shared by the per-save result panel

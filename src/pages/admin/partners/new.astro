@@ -15,31 +15,43 @@ export const prerender = false;
     <a class="back" href="/admin">&larr; Back</a>
     <h1>Add partner logo</h1>
 
-    <form id="form">
-      <label for="name">Partner name</label>
-      <input type="text" id="name" name="name" required />
+    <div class="form-card">
+      <form id="form" class="form-layout">
+        <div>
+          <label for="name">Partner name</label>
+          <input type="text" id="name" name="name" required />
 
-      <label for="category">Category</label>
-      <select id="category" name="category" required>
-        <option value="program">Partnerzy programu</option>
-        <option value="community">Partnerzy społeczności</option>
-        <option value="patron">Patroni honorowi i medialni</option>
-      </select>
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="program">Partnerzy programu</option>
+            <option value="community">Partnerzy społeczności</option>
+            <option value="patron">Patroni honorowi i medialni</option>
+          </select>
 
-      <label for="order">Sort order within category</label>
-      <input type="number" id="order" name="order" value="0" />
+          <label for="order">Sort order within category</label>
+          <input type="number" id="order" name="order" value="0" />
 
-      <label for="logo">Logo image (SVG or PNG, under 2MB)</label>
-      <input type="file" id="logo" name="logo" accept="image/*" required />
+          <label for="logo">Logo image (SVG or PNG, under 2MB)</label>
+          <input type="file" id="logo" name="logo" accept="image/*" required />
 
-      <button type="submit">Save &amp; create preview</button>
-    </form>
+          <button type="submit">Save &amp; create preview</button>
+        </div>
+
+        <div class="form-preview">
+          <div class="entry-thumb empty">
+            <img id="logo-preview" alt="" hidden />
+          </div>
+          <p>Preview</p>
+        </div>
+      </form>
+    </div>
 
     <div id="result"></div>
 
     <script>
-      import { wireAdminForm } from '../../../lib/admin/form-client';
+      import { wireAdminForm, wireImagePreview } from '../../../lib/admin/form-client';
       wireAdminForm('/admin/api/partners');
+      wireImagePreview('logo', 'logo-preview');
     </script>
   </body>
 </html>

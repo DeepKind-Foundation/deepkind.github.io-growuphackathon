@@ -35,48 +35,59 @@ try {
     {loadError && <div class="error">{loadError}</div>}
 
     {entry && (
-      <form id="form">
-        <input type="hidden" name="slug" value={slug} />
-        <input type="hidden" name="existingPhoto" value={entry.photo} />
+      <div class="form-card">
+        <form id="form" class="form-layout">
+          <div>
+            <input type="hidden" name="slug" value={slug} />
+            <input type="hidden" name="existingPhoto" value={entry.photo} />
 
-        <label for="name">Full name</label>
-        <input type="text" id="name" name="name" required value={entry.name} />
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" required value={entry.name} />
 
-        <label for="group">Group</label>
-        <select id="group" name="group" required>
-          <option value="mentors" selected={entry.group === 'mentors'}>Mentor</option>
-          <option value="experts" selected={entry.group === 'experts'}>Expert</option>
-          <option value="trainers" selected={entry.group === 'trainers'}>Trainer</option>
-        </select>
+            <label for="group">Group</label>
+            <select id="group" name="group" required>
+              <option value="mentors" selected={entry.group === 'mentors'}>Mentor</option>
+              <option value="experts" selected={entry.group === 'experts'}>Expert</option>
+              <option value="trainers" selected={entry.group === 'trainers'}>Trainer</option>
+            </select>
 
-        <label for="order">Sort order within group</label>
-        <input type="number" id="order" name="order" value={entry.order} />
+            <label for="order">Sort order within group</label>
+            <input type="number" id="order" name="order" value={entry.order} />
 
-        <label for="role">Role</label>
-        <input type="text" id="role" name="role" value={entry.role} />
+            <label for="role">Role</label>
+            <input type="text" id="role" name="role" value={entry.role} />
 
-        <label for="bio">Bio</label>
-        <textarea id="bio" name="bio">{entry.bio}</textarea>
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio">{entry.bio}</textarea>
 
-        <label for="linkedin">LinkedIn URL (optional)</label>
-        <input type="url" id="linkedin" name="linkedin" value={entry.linkedin} />
+            <label for="linkedin">LinkedIn URL (optional)</label>
+            <input type="url" id="linkedin" name="linkedin" value={entry.linkedin} />
 
-        <label for="photo">Replace photo (optional — leave empty to keep current)</label>
-        {entry.photo && <img class="current round" src={`${PEOPLE_IMAGES_PATH}${entry.photo}`} alt="Current photo" />}
-        <input type="file" id="photo" name="photo" accept="image/*" />
+            <label for="photo">Replace photo (optional — leave empty to keep current)</label>
+            <input type="file" id="photo" name="photo" accept="image/*" />
 
-        <button type="submit">Save &amp; create preview</button>
-      </form>
+            <button type="submit">Save &amp; create preview</button>
+          </div>
 
-      <button id="delete" type="button" class="danger" data-slug={slug} data-label={entry.name}>Delete this person</button>
+          <div class="form-preview">
+            <div class={`entry-thumb round ${entry.photo ? '' : 'empty'}`}>
+              <img id="photo-preview" alt="" src={entry.photo ? `${PEOPLE_IMAGES_PATH}${entry.photo}` : undefined} hidden={!entry.photo} />
+            </div>
+            <p>Preview</p>
+          </div>
+        </form>
+
+        <button id="delete" type="button" class="danger" data-slug={slug} data-label={entry.name}>Delete this person</button>
+      </div>
     )}
 
     <div id="result"></div>
 
     <script>
-      import { wireAdminForm, wireDeleteButton } from '../../../../lib/admin/form-client';
+      import { wireAdminForm, wireDeleteButton, wireImagePreview } from '../../../../lib/admin/form-client';
       wireAdminForm('/admin/api/people');
       wireDeleteButton('/admin/api/people');
+      wireImagePreview('photo', 'photo-preview');
     </script>
   </body>
 </html>
