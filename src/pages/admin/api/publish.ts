@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import {
   createInstallationOctokit,
-  publishBranch,
+  publishDev,
 } from "../../../lib/admin/github";
 import { getGitHubAppCredentials, REPO } from "../../../lib/admin/env";
 import { jsonResponse } from "../../../lib/admin/http";
@@ -9,25 +9,16 @@ import { jsonResponse } from "../../../lib/admin/http";
 export const prerender = false;
 
 /**
- * Self-publish: squash-merges the PR for a branch into `main`, which
- * triggers the existing GitHub Pages deploy workflow. Shown to the editor
- * only after they've opened the branch's preview link.
+ * Self-publish: squash-merges the shared `dev` branch's PR into `main`,
+ * publishing every currently pending change at once — then resets `dev`
+ * to `main`'s new tip. Triggers the existing GitHub Pages deploy
+ * workflow. A global action, not scoped to any one entry.
  */
-export const POST: APIRoute = async ({ request }) => {
-  const body = await request.json().catch(() => null);
-  const branch =
-    body && typeof (body as { branch?: unknown }).branch === "string"
-      ? (body as { branch: string }).branch
-      : undefined;
-
-  if (!branch) {
-    return jsonResponse({ error: "Missing branch." }, 400);
-  }
-
+export const POST: APIRoute = async () => {
   try {
     const octokit = createInstallationOctokit(getGitHubAppCredentials());
-    await publishBranch(octokit, REPO, branch);
-    return jsonResponse({ published: true }, 200);
+    const { discardedConcurrentSave } = await publishDev(octokit, REPO);
+    return jsonResponse({ published: true, discardedConcurrentSave }, 200);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown error publishing.";

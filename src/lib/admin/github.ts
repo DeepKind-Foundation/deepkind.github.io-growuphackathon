@@ -1,6 +1,9 @@
 import { Octokit } from "@octokit/core";
 import { createAppAuth } from "@octokit/auth-app";
 
+/** The single shared branch every admin save/delete commits to. Reset to `main`'s tip after every publish — never deleted, always reused. */
+export const DEV_BRANCH = "dev";
+
 /** GitHub App credentials, read from Worker env — never hardcoded. */
 export interface GitHubAppCredentials {
   appId: string;
@@ -20,13 +23,12 @@ export interface RemoteEntry<T> {
   data: T;
 }
 
-/** The result of saving a change: the branch it landed on and its PR number/URL. */
+/** The result of saving a change: the pending PR and how many files it now touches in total. */
 export interface SaveResult {
-  branch: string;
   prNumber: number;
   prUrl: string;
-  /** True if this save reused an already-open PR (e.g. someone else's pending edit for the same entry). */
-  reusedExistingPr: boolean;
+  /** Total files changed across every pending edit on `dev`, not just this one — publishing is a global action. */
+  pendingChangeCount: number;
 }
 
 /** Creates an Octokit client authenticated as the GitHub App installation (short-lived token, not a stored PAT). */
@@ -52,12 +54,16 @@ function toBase64(bytes: ArrayBuffer): string {
   return btoa(binary);
 }
 
-/** Lists every `*.json` entry in a collection directory on a given ref (defaults to `main`). */
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/** Lists every `*.json` entry in a collection directory on a given ref (defaults to the shared `dev` branch, so editors always see pending state). */
 export async function listJsonEntries<T>(
   octokit: Octokit,
   repo: RepoRef,
   dirPath: string,
-  ref = "main",
+  ref: string = DEV_BRANCH,
 ): Promise<RemoteEntry<T>[]> {
   const { data } = await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
@@ -120,13 +126,100 @@ async function getFileSha(
     .catch(() => undefined);
 }
 
-/** Fetches a single collection entry by slug, or `undefined` if it doesn't exist on the given ref. */
+/**
+ * True only for errors that actually indicate a branch-level sha/ref
+ * conflict worth retrying — a 409 always does; a 422 is GitHub's generic
+ * "unprocessable" status covering many unrelated failure modes (bad
+ * base64, path collisions, oversized payloads), so it's only treated as
+ * a conflict when the message itself mentions the sha not matching.
+ * Blindly retrying every 422 would silently retry — and waste latency
+ * on — real caller bugs that can never succeed on retry.
+ */
+function isShaConflict(error: unknown): boolean {
+  const status = (error as { status?: number })?.status;
+  if (status === 409) return true;
+  if (status !== 422) return false;
+  const message = (error as { message?: string })?.message ?? "";
+  return /sha/i.test(message);
+}
+
+/**
+ * Runs `attempt` up to `attempts` times, refetching the current file sha
+ * before each try, retrying with linear backoff on a sha/ref conflict.
+ * `dev` is now a single branch shared by every editor, so two
+ * near-simultaneous saves to *different* entries can occasionally race
+ * on GitHub's branch-level locking even though they never touch the
+ * same file.
+ */
+async function withShaConflictRetry(
+  octokit: Octokit,
+  repo: RepoRef,
+  path: string,
+  branch: string,
+  attempt: (sha: string | undefined) => Promise<void>,
+  attempts = 3,
+): Promise<void> {
+  for (let i = 0; i < attempts; i += 1) {
+    const sha = await getFileSha(octokit, repo, path, branch);
+    try {
+      await attempt(sha);
+      return;
+    } catch (error) {
+      if (!isShaConflict(error) || i === attempts - 1) throw error;
+      await sleep(250 * (i + 1));
+    }
+  }
+}
+
+/** PUTs a file's content, retrying on a transient sha/ref conflict — see `withShaConflictRetry`. */
+async function putContentWithRetry(
+  octokit: Octokit,
+  repo: RepoRef,
+  opts: { path: string; message: string; bytes: ArrayBuffer; branch: string },
+): Promise<void> {
+  await withShaConflictRetry(octokit, repo, opts.path, opts.branch, (sha) =>
+    octokit
+      .request("PUT /repos/{owner}/{repo}/contents/{path}", {
+        owner: repo.owner,
+        repo: repo.repo,
+        path: opts.path,
+        message: opts.message,
+        content: toBase64(opts.bytes),
+        branch: opts.branch,
+        sha,
+      })
+      .then(() => undefined),
+  );
+}
+
+/** Same retry treatment as `putContentWithRetry`, for deletes. A missing file (already gone) is treated as success, not an error. */
+async function deleteContentWithRetry(
+  octokit: Octokit,
+  repo: RepoRef,
+  opts: { path: string; message: string; branch: string },
+): Promise<void> {
+  await withShaConflictRetry(octokit, repo, opts.path, opts.branch, (sha) => {
+    if (!sha) return Promise.resolve(); // already gone
+    return octokit
+      .request("DELETE /repos/{owner}/{repo}/contents/{path}", {
+        owner: repo.owner,
+        repo: repo.repo,
+        path: opts.path,
+        message: opts.message,
+        sha,
+        branch: opts.branch,
+      })
+      .then(() => undefined);
+  });
+}
+
+/** Fetches a single collection entry by slug, or `undefined` if it doesn't exist on the given ref (defaults to `dev`). */
 export async function getJsonEntry<T>(
   octokit: Octokit,
   repo: RepoRef,
   dirPath: string,
   slug: string,
-  ref = "main",
+  ref: string = DEV_BRANCH,
 ): Promise<RemoteEntry<T> | undefined> {
   const path = `${dirPath}/${slug}.json`;
   try {
@@ -145,111 +238,159 @@ export async function getJsonEntry<T>(
 }
 
 /**
- * Creates (or reuses) a branch off `main`, commits a JSON entry — and
- * optionally an image file alongside it — then opens or updates a PR
- * against `main`. This is the entire "save" operation for one editor
- * action; it never commits directly to `main`.
+ * Ensures the shared `dev` branch exists, forked from `main`'s current
+ * tip (a 422 on create means it already exists, which is the normal case
+ * after the first-ever call). Also checks — concurrently, since neither
+ * depends on the other — whether a `dev`→`main` PR is already open.
  */
-export async function saveEntry(
+async function ensureDevBranch(
   octokit: Octokit,
   repo: RepoRef,
-  opts: {
-    branch: string;
-    jsonPath: string;
-    jsonContent: unknown;
-    image?: { path: string; bytes: ArrayBuffer };
-    prTitle: string;
-    prBody: string;
-  },
-): Promise<SaveResult> {
+): Promise<{ existingPr: Awaited<ReturnType<typeof findOpenPullRequest>> }> {
   const { owner, repo: name } = repo;
 
-  // Independent reads — neither depends on the other, so fetch concurrently.
-  // Checking for an already-open PR up front (rather than only after
-  // writing) lets the caller know this save is landing on top of someone
-  // else's pending edit for the same entry, instead of silently reusing it.
-  const [mainRef, existingPrBefore] = await Promise.all([
+  const [mainRef, existingPr] = await Promise.all([
     octokit.request("GET /repos/{owner}/{repo}/git/ref/{ref}", {
       owner,
       repo: name,
       ref: "heads/main",
     }),
-    findOpenPullRequest(octokit, repo, opts.branch),
+    findOpenPullRequest(octokit, repo, DEV_BRANCH),
   ]);
-  const mainSha = mainRef.data.object.sha;
 
-  // Create the branch; a 422 means it already exists, which is fine — no
-  // separate existence probe needed.
   await octokit
     .request("POST /repos/{owner}/{repo}/git/refs", {
       owner,
       repo: name,
-      ref: `refs/heads/${opts.branch}`,
-      sha: mainSha,
+      ref: `refs/heads/${DEV_BRANCH}`,
+      sha: mainRef.data.object.sha,
     })
     .catch((error) => {
       if (error?.status !== 422) throw error;
     });
 
-  const jsonBody = `${JSON.stringify(opts.jsonContent, null, 2)}\n`;
-  const [existingJsonSha, existingImageSha] = await Promise.all([
-    getFileSha(octokit, repo, opts.jsonPath, opts.branch),
-    opts.image
-      ? getFileSha(octokit, repo, opts.image.path, opts.branch)
-      : undefined,
-  ]);
+  return { existingPr };
+}
 
-  // Two writes to the same branch race on the branch ref if issued
-  // concurrently — these stay sequential.
-  await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
-    owner,
-    repo: name,
-    path: opts.jsonPath,
-    message: opts.prTitle,
-    content: toBase64(new TextEncoder().encode(jsonBody).buffer as ArrayBuffer),
-    branch: opts.branch,
-    sha: existingJsonSha,
-  });
+const DEV_PR_TITLE = "Pending admin content changes (dev → main)";
+const DEV_PR_BODY =
+  "Opened automatically by the /admin app. Every save/delete from partner logo and people editing lands here — merging this publishes everything currently pending at once.";
 
-  if (opts.image) {
-    await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
-      owner,
-      repo: name,
-      path: opts.image.path,
-      message: `${opts.prTitle} (image)`,
-      content: toBase64(opts.image.bytes),
-      branch: opts.branch,
-      sha: existingImageSha,
-    });
-  }
-
-  if (existingPrBefore) {
+/**
+ * Opens the `dev`→`main` PR if none is open yet, or returns the existing
+ * one. Unlike the old per-entry model, the PR's title/body is fixed and
+ * set only once at creation — it accumulates changes from every editor,
+ * so it must not carry any single entry's title.
+ */
+async function finalizePr(
+  octokit: Octokit,
+  repo: RepoRef,
+  existingPr: Awaited<ReturnType<typeof findOpenPullRequest>>,
+): Promise<SaveResult> {
+  if (existingPr) {
     return {
-      branch: opts.branch,
-      prNumber: existingPrBefore.number,
-      prUrl: existingPrBefore.html_url,
-      reusedExistingPr: true,
+      prNumber: existingPr.number,
+      prUrl: existingPr.html_url,
+      pendingChangeCount: await getChangedFileCount(
+        octokit,
+        repo,
+        existingPr.number,
+      ),
     };
   }
 
   const { data: pr } = await octokit.request(
     "POST /repos/{owner}/{repo}/pulls",
     {
-      owner,
-      repo: name,
-      title: opts.prTitle,
-      body: opts.prBody,
-      head: opts.branch,
+      owner: repo.owner,
+      repo: repo.repo,
+      title: DEV_PR_TITLE,
+      body: DEV_PR_BODY,
+      head: DEV_BRANCH,
       base: "main",
     },
   );
 
   return {
-    branch: opts.branch,
     prNumber: pr.number,
     prUrl: pr.html_url,
-    reusedExistingPr: false,
+    pendingChangeCount: pr.changed_files ?? 1,
   };
+}
+
+/**
+ * Commits a JSON entry — and optionally an image file alongside it — to
+ * the shared `dev` branch, opening the `dev`→`main` PR if this is the
+ * first pending change. Never commits directly to `main`. `commitMessage`
+ * is per-entry (used only for the git commit, not the PR itself).
+ */
+export async function saveEntry(
+  octokit: Octokit,
+  repo: RepoRef,
+  opts: {
+    jsonPath: string;
+    jsonContent: unknown;
+    image?: { path: string; bytes: ArrayBuffer };
+    commitMessage: string;
+  },
+): Promise<SaveResult> {
+  const { existingPr } = await ensureDevBranch(octokit, repo);
+
+  const jsonBody = `${JSON.stringify(opts.jsonContent, null, 2)}\n`;
+
+  // Two writes to the same branch race on the branch ref if issued
+  // concurrently — these stay sequential (each internally retries on its
+  // own transient conflicts, see putContentWithRetry).
+  await putContentWithRetry(octokit, repo, {
+    path: opts.jsonPath,
+    message: opts.commitMessage,
+    bytes: new TextEncoder().encode(jsonBody).buffer as ArrayBuffer,
+    branch: DEV_BRANCH,
+  });
+
+  if (opts.image) {
+    await putContentWithRetry(octokit, repo, {
+      path: opts.image.path,
+      message: `${opts.commitMessage} (image)`,
+      bytes: opts.image.bytes,
+      branch: DEV_BRANCH,
+    });
+  }
+
+  return finalizePr(octokit, repo, existingPr);
+}
+
+/**
+ * Deletes a JSON entry — and its image file, if any — from the shared
+ * `dev` branch. Mirrors `saveEntry`'s mechanics; never deletes from
+ * `main` directly.
+ */
+export async function deleteEntry(
+  octokit: Octokit,
+  repo: RepoRef,
+  opts: {
+    jsonPath: string;
+    imagePath?: string;
+    commitMessage: string;
+  },
+): Promise<SaveResult> {
+  const { existingPr } = await ensureDevBranch(octokit, repo);
+
+  await deleteContentWithRetry(octokit, repo, {
+    path: opts.jsonPath,
+    message: opts.commitMessage,
+    branch: DEV_BRANCH,
+  });
+
+  if (opts.imagePath) {
+    await deleteContentWithRetry(octokit, repo, {
+      path: opts.imagePath,
+      message: `${opts.commitMessage} (image)`,
+      branch: DEV_BRANCH,
+    });
+  }
+
+  return finalizePr(octokit, repo, existingPr);
 }
 
 /** Finds the open PR for a branch, if one exists. */
@@ -267,20 +408,83 @@ export async function findOpenPullRequest(
   return data[0];
 }
 
-/** Squash-merges the open PR for a branch into `main` — the self-publish action. */
-export async function publishBranch(
+/**
+ * The `GET /pulls` list endpoint (used by findOpenPullRequest) doesn't
+ * include `changed_files` — only the single-PR endpoint does. A small
+ * follow-up call for the cases that actually need the count.
+ */
+export async function getChangedFileCount(
   octokit: Octokit,
   repo: RepoRef,
-  branch: string,
-): Promise<void> {
-  const pr = await findOpenPullRequest(octokit, repo, branch);
+  pullNumber: number,
+): Promise<number> {
+  const { data } = await octokit.request(
+    "GET /repos/{owner}/{repo}/pulls/{pull_number}",
+    { owner: repo.owner, repo: repo.repo, pull_number: pullNumber },
+  );
+  return data.changed_files ?? 0;
+}
+
+/** The result of a publish: whether a concurrent save landed in the merge/reset window and got discarded by the `dev` reset. */
+export interface PublishResult {
+  discardedConcurrentSave: boolean;
+}
+
+/**
+ * Squash-merges the `dev`→`main` PR — publishing every currently pending
+ * change at once — then resets `dev` back to `main`'s new tip. The reset
+ * is mandatory, not cleanup: a squash merge produces a new commit object
+ * that `dev`'s own history doesn't contain, so without it the next save
+ * would build on stale history and silently no-op against the real
+ * `main` on its next publish (the exact bug this design replaces).
+ * Force-updates the ref (one atomic call, no window where `dev` doesn't
+ * exist) rather than deleting and recreating it.
+ */
+export async function publishDev(
+  octokit: Octokit,
+  repo: RepoRef,
+): Promise<PublishResult> {
+  const pr = await findOpenPullRequest(octokit, repo, DEV_BRANCH);
   if (!pr) {
-    throw new Error(`No open PR found for branch "${branch}"`);
+    throw new Error(`No open PR from "${DEV_BRANCH}" to publish.`);
   }
+
   await octokit.request("PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge", {
     owner: repo.owner,
     repo: repo.repo,
     pull_number: pr.number,
     merge_method: "squash",
   });
+
+  // Independent reads — fetched concurrently.
+  const [{ data: mainRef }, { data: devRefBeforeReset }] = await Promise.all([
+    octokit.request("GET /repos/{owner}/{repo}/git/ref/{ref}", {
+      owner: repo.owner,
+      repo: repo.repo,
+      ref: "heads/main",
+    }),
+    octokit.request("GET /repos/{owner}/{repo}/git/ref/{ref}", {
+      owner: repo.owner,
+      repo: repo.repo,
+      ref: `heads/${DEV_BRANCH}`,
+    }),
+  ]);
+
+  // Safety net: if dev's tip no longer matches what we just merged, a
+  // save landed in the merge/reset window and is about to be discarded
+  // by the force-reset below. Nothing to roll back (the merge already
+  // happened) — surface it to the caller instead of only logging, since
+  // the editor would otherwise see their save silently vanish with no
+  // explanation.
+  const discardedConcurrentSave = devRefBeforeReset.object.sha !== pr.head.sha;
+
+  await octokit.request("PATCH /repos/{owner}/{repo}/git/refs/{ref}", {
+    owner: repo.owner,
+    repo: repo.repo,
+    ref: `heads/${DEV_BRANCH}`,
+    sha: mainRef.object.sha,
+    force: true,
+  });
+
+  return { discardedConcurrentSave };
 }

@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import {
   createInstallationOctokit,
+  deleteEntry,
+  getJsonEntry,
   saveEntry,
 } from "../../../lib/admin/github";
 import {
@@ -10,7 +12,7 @@ import {
   REPO,
 } from "../../../lib/admin/env";
 import { slugify } from "../../../lib/admin/slug";
-import { jsonResponse } from "../../../lib/admin/http";
+import { jsonResponse, parseSlugFromRequest } from "../../../lib/admin/http";
 import { PARTNER_IMAGES_DIR, type PartnerData } from "../../../lib/admin/types";
 
 export const prerender = false;
@@ -19,9 +21,9 @@ const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const CATEGORIES = ["program", "community", "patron"];
 
 /**
- * Creates or updates one partner logo entry. Always writes to a branch +
- * PR against `main` — never commits directly. Called from the /admin
- * partner forms; the editor never touches GitHub directly.
+ * Creates or updates one partner logo entry. Always writes to the shared
+ * `dev` branch — never commits directly to `main`. Called from the
+ * /admin partner forms; the editor never touches GitHub directly.
  */
 export const POST: APIRoute = async ({ request }) => {
   const form = await request.formData();
@@ -77,26 +79,62 @@ export const POST: APIRoute = async ({ request }) => {
       logoFilename ?? (typeof existingLogo === "string" ? existingLogo : ""),
   };
 
-  const branch = `admin-partner-${slug}`;
   const editorEmail = getEditorEmail(request);
 
   try {
     const octokit = createInstallationOctokit(getGitHubAppCredentials());
     const result = await saveEntry(octokit, REPO, {
-      branch,
       jsonPath: `src/content/partners/${slug}.json`,
       jsonContent,
       image,
-      prTitle: `Partner logo: ${name}`,
-      prBody: `Submitted by ${editorEmail} via /admin.`,
+      commitMessage: `Partner logo: ${name} (by ${editorEmail})`,
     });
-    return jsonResponse(
-      { ...result, previewUrl: getPreviewUrl(result.branch) },
-      200,
-    );
+    return jsonResponse({ ...result, previewUrl: getPreviewUrl() }, 200);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown error saving partner.";
+    return jsonResponse({ error: message }, 500);
+  }
+};
+
+/**
+ * Deletes one partner logo entry (and its image, if any) from the shared
+ * `dev` branch — never commits directly to `main`.
+ */
+export const DELETE: APIRoute = async ({ request }) => {
+  const slug = await parseSlugFromRequest(request);
+
+  if (!slug) return jsonResponse({ error: "Missing slug." }, 400);
+
+  const editorEmail = getEditorEmail(request);
+
+  try {
+    const octokit = createInstallationOctokit(getGitHubAppCredentials());
+    const existing = await getJsonEntry<PartnerData>(
+      octokit,
+      REPO,
+      "src/content/partners",
+      slug,
+    );
+    if (!existing)
+      return jsonResponse(
+        { error: `No partner found with slug "${slug}".` },
+        404,
+      );
+
+    const result = await deleteEntry(octokit, REPO, {
+      jsonPath: `src/content/partners/${slug}.json`,
+      imagePath: existing.data.logo
+        ? `${PARTNER_IMAGES_DIR}/${existing.data.logo}`
+        : undefined,
+      commitMessage: `Delete partner logo: ${existing.data.name} (by ${editorEmail})`,
+    });
+    return jsonResponse({ ...result, previewUrl: getPreviewUrl() }, 200);
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Unknown error deleting partner.";
     return jsonResponse({ error: message }, 500);
   }
 };
