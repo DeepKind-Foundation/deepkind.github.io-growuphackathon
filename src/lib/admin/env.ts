@@ -41,23 +41,13 @@ export function getEditorEmail(request: Request): string {
 }
 
 /**
- * Preview URL for a branch, once the marketing-site "dev" Cloudflare Pages
- * project exists (set DEV_PAGES_PROJECT to enable). Returns `null` until
- * then — a guessed URL that might 404 is worse than admitting there's no
- * preview yet; callers should fall back to pointing the editor at the PR.
- * Once DEV_PAGES_PROJECT is set, replace this branch-alias guess with a
- * real lookup via Cloudflare's API
- * (GET /accounts/{account_id}/pages/projects/{project}/deployments), since
- * branch-name sanitization isn't fully guaranteed to match this pattern.
+ * The live preview URL for pending changes: the `dev` branch's Cloudflare
+ * Pages production deployment. Set DEV_PREVIEW_URL once that project's
+ * custom domain exists — a single shared branch means a single, static
+ * URL, not something to guess per save. Returns `null` until then;
+ * callers fall back to linking the PR instead of showing a URL that
+ * might 404.
  */
-export function getPreviewUrl(branch: string): string | null {
-  const devProject = getEnvVar("DEV_PAGES_PROJECT");
-  if (!devProject) return null;
-
-  const alias = branch
-    .toLowerCase()
-    .replace(/[^a-z0-9-]+/g, "-")
-    .slice(0, 28)
-    .replace(/^-+|-+$/g, "");
-  return `https://${alias}.${devProject}.pages.dev`;
+export function getPreviewUrl(): string | null {
+  return getEnvVar("DEV_PREVIEW_URL") ?? null;
 }

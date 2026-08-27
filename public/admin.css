@@ -15,6 +15,20 @@ h2 {
   border-bottom: 1px solid #ddd;
   padding-bottom: 0.5rem;
 }
+.banner {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #eef6ff;
+  border: 1px solid #9cc4e8;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.banner button {
+  margin-left: auto;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -78,6 +92,15 @@ a.button {
 }
 form button {
   margin-top: 1.5rem;
+}
+button.danger {
+  margin-top: 2.5rem;
+  background: #fff;
+  color: #900;
+  border: 1px solid #900;
+}
+button.danger:hover {
+  background: #fee;
 }
 button:disabled {
   opacity: 0.5;

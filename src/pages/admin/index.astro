@@ -1,6 +1,6 @@
 ---
-import { createInstallationOctokit, listJsonEntries } from '../../lib/admin/github';
-import { getGitHubAppCredentials, REPO } from '../../lib/admin/env';
+import { createInstallationOctokit, findOpenPullRequest, getChangedFileCount, listJsonEntries, DEV_BRANCH } from '../../lib/admin/github';
+import { getGitHubAppCredentials, getPreviewUrl, REPO } from '../../lib/admin/env';
 import { PARTNER_IMAGES_PATH, PEOPLE_IMAGES_PATH, type PartnerData, type PersonData } from '../../lib/admin/types';
 
 export const prerender = false;
@@ -8,18 +8,27 @@ export const prerender = false;
 let partners: { slug: string; data: PartnerData }[] = [];
 let people: { slug: string; data: PersonData }[] = [];
 let loadError: string | undefined;
+let pendingPr: Awaited<ReturnType<typeof findOpenPullRequest>> | undefined;
+let pendingChangeCount = 0;
 
 try {
   const octokit = createInstallationOctokit(getGitHubAppCredentials());
-  const [partnerEntries, peopleEntries] = await Promise.all([
+  const [partnerEntries, peopleEntries, devPr] = await Promise.all([
     listJsonEntries<PartnerData>(octokit, REPO, 'src/content/partners'),
     listJsonEntries<PersonData>(octokit, REPO, 'src/content/people'),
+    findOpenPullRequest(octokit, REPO, DEV_BRANCH),
   ]);
   partners = partnerEntries.sort((a, b) => a.data.order - b.data.order);
   people = peopleEntries.sort((a, b) => a.data.order - b.data.order);
+  pendingPr = devPr;
+  if (pendingPr) {
+    pendingChangeCount = await getChangedFileCount(octokit, REPO, pendingPr.number);
+  }
 } catch (error) {
   loadError = error instanceof Error ? error.message : 'Unknown error loading content.';
 }
+
+const previewUrl = getPreviewUrl();
 ---
 
 <!doctype html>
@@ -37,6 +46,18 @@ try {
     {loadError && (
       <div class="error">
         Could not load content from GitHub: {loadError}
+      </div>
+    )}
+
+    {pendingPr && (
+      <div class="banner">
+        <strong>{pendingChangeCount} file(s) pending.</strong>
+        {previewUrl ? (
+          <a href={previewUrl} target="_blank" rel="noopener">Open live preview</a>
+        ) : (
+          <a href={pendingPr.html_url} target="_blank" rel="noopener">View pending PR</a>
+        )}
+        <button id="publish-all" type="button">Publish all pending changes</button>
       </div>
     )}
 
@@ -75,5 +96,11 @@ try {
         ))}
       </tbody>
     </table>
+
+    <script>
+      import { wirePublishButton } from '../../lib/admin/form-client';
+      const btn = document.getElementById('publish-all');
+      if (btn) wirePublishButton(btn as HTMLButtonElement);
+    </script>
   </body>
 </html>

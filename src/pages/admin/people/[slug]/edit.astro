@@ -67,13 +67,16 @@ try {
 
         <button type="submit">Save &amp; create preview</button>
       </form>
+
+      <button id="delete" type="button" class="danger" data-slug={slug} data-label={entry.name}>Delete this person</button>
     )}
 
     <div id="result"></div>
 
     <script>
-      import { wireAdminForm } from '../../../../lib/admin/form-client';
+      import { wireAdminForm, wireDeleteButton } from '../../../../lib/admin/form-client';
       wireAdminForm('/admin/api/people');
+      wireDeleteButton('/admin/api/people');
     </script>
   </body>
 </html>
