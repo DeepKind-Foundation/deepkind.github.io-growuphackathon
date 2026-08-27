@@ -172,29 +172,33 @@ const logoRows = CATEGORIES.map((cat) => ({
     justify-content: center;
     border-radius: var(--radius-pill);
     /*
-     * A literal light color, not var(--c-white) — that token gets
-     * remapped to a dark ink under the light "plakat" theme preview, but
-     * a logo card needs a backdrop that's always actually light,
-     * independent of the site's own theme, since most partner logo
-     * assets assume a white background regardless of what site they're
-     * placed on.
+     * Translucent white, not var(--c-white) — that token gets remapped to
+     * a dark ink under the light "plakat" theme preview, but a logo card
+     * needs a backdrop that reads as actually light regardless of the
+     * site's own theme, since most partner logo assets assume a white
+     * background. Kept as a glass panel (color-mix + blur + soft border),
+     * matching .section-shell/.puzzle-block elsewhere, rather than a flat
+     * opaque card — just at high enough opacity to still give real
+     * contrast, unlike the original 5% tint this replaced.
      */
-    background: oklch(96% 0 0);
-    border: 1px solid oklch(85% 0 0);
+    background: color-mix(in oklch, white 82%, transparent);
+    border: 1px solid color-mix(in oklch, white 30%, transparent);
+    box-shadow: 0 8px 24px color-mix(in oklch, black 20%, transparent);
+    backdrop-filter: blur(10px);
     transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
   }
   .partners__logo:hover {
     border-color: color-mix(in oklch, var(--c-lime-400) 45%, transparent);
-    background: oklch(99% 0 0);
+    background: color-mix(in oklch, white 90%, transparent);
     transform: translateY(-3px);
   }
   /* The couple of logos that only exist as light/white artwork — see DARK_CARD_LOGOS above. */
   .partners__logo--dark {
-    background: oklch(16% 0 0);
-    border-color: oklch(32% 0 0);
+    background: color-mix(in oklch, black 55%, transparent);
+    border-color: color-mix(in oklch, white 10%, transparent);
   }
   .partners__logo--dark:hover {
-    background: oklch(22% 0 0);
+    background: color-mix(in oklch, black 68%, transparent);
   }
   .partners__logo img {
     max-width: 100%;
