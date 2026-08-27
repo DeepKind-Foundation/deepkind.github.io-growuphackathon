@@ -25,6 +25,16 @@ const CATEGORIES: { slug: string; heading: string }[] = [
 
 const allLogos = await getPartnerLogos();
 
+// Most partner logo assets assume a light backdrop, so the default card
+// (see .partners__logo below) is deliberately light regardless of the
+// site's own dark theme. A couple of logos only exist as light/white
+// artwork on transparent, invisible on a light card — those need the dark
+// variant instead. Verified against the actual logo files, not guessed:
+// each was checked on both a light and a dark swatch before deciding.
+// If a newly added logo turns out invisible on the light card, add its
+// slug here.
+const DARK_CARD_LOGOS = new Set(['inkubator-uj', 'generacja-innowacja']);
+
 const logoRows = CATEGORIES.map((cat) => ({
   heading: cat.heading,
   logos: allLogos
@@ -48,7 +58,7 @@ const logoRows = CATEGORIES.map((cat) => ({
                 <h3 class="partners__tier-heading">{row.heading}</h3>
                 <div class="partners__logos">
                   {row.logos.map((logo) => (
-                    <div class="partners__logo">
+                    <div class={`partners__logo${DARK_CARD_LOGOS.has(logo.slug) ? ' partners__logo--dark' : ''}`}>
                       <img src={logo.logo} alt={logo.name} loading="lazy" />
                     </div>
                   ))}
@@ -161,14 +171,30 @@ const logoRows = CATEGORIES.map((cat) => ({
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    /*
+     * A literal light color, not var(--c-white) — that token gets
+     * remapped to a dark ink under the light "plakat" theme preview, but
+     * a logo card needs a backdrop that's always actually light,
+     * independent of the site's own theme, since most partner logo
+     * assets assume a white background regardless of what site they're
+     * placed on.
+     */
+    background: oklch(96% 0 0);
+    border: 1px solid oklch(85% 0 0);
     transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
   }
   .partners__logo:hover {
     border-color: color-mix(in oklch, var(--c-lime-400) 45%, transparent);
-    background: rgba(255, 255, 255, 0.08);
+    background: oklch(99% 0 0);
     transform: translateY(-3px);
+  }
+  /* The couple of logos that only exist as light/white artwork — see DARK_CARD_LOGOS above. */
+  .partners__logo--dark {
+    background: oklch(16% 0 0);
+    border-color: oklch(32% 0 0);
+  }
+  .partners__logo--dark:hover {
+    background: oklch(22% 0 0);
   }
   .partners__logo img {
     max-width: 100%;
