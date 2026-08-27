@@ -35,39 +35,50 @@ try {
     {loadError && <div class="error">{loadError}</div>}
 
     {entry && (
-      <form id="form">
-        <input type="hidden" name="slug" value={slug} />
-        <input type="hidden" name="existingLogo" value={entry.logo} />
+      <div class="form-card">
+        <form id="form" class="form-layout">
+          <div>
+            <input type="hidden" name="slug" value={slug} />
+            <input type="hidden" name="existingLogo" value={entry.logo} />
 
-        <label for="name">Partner name</label>
-        <input type="text" id="name" name="name" required value={entry.name} />
+            <label for="name">Partner name</label>
+            <input type="text" id="name" name="name" required value={entry.name} />
 
-        <label for="category">Category</label>
-        <select id="category" name="category" required>
-          <option value="program" selected={entry.category === 'program'}>Partnerzy programu</option>
-          <option value="community" selected={entry.category === 'community'}>Partnerzy społeczności</option>
-          <option value="patron" selected={entry.category === 'patron'}>Patroni honorowi i medialni</option>
-        </select>
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+              <option value="program" selected={entry.category === 'program'}>Partnerzy programu</option>
+              <option value="community" selected={entry.category === 'community'}>Partnerzy społeczności</option>
+              <option value="patron" selected={entry.category === 'patron'}>Patroni honorowi i medialni</option>
+            </select>
 
-        <label for="order">Sort order within category</label>
-        <input type="number" id="order" name="order" value={entry.order} />
+            <label for="order">Sort order within category</label>
+            <input type="number" id="order" name="order" value={entry.order} />
 
-        <label for="logo">Replace logo (optional — leave empty to keep current)</label>
-        {entry.logo && <img class="current" src={`${PARTNER_IMAGES_PATH}${entry.logo}`} alt="Current logo" />}
-        <input type="file" id="logo" name="logo" accept="image/*" />
+            <label for="logo">Replace logo (optional — leave empty to keep current)</label>
+            <input type="file" id="logo" name="logo" accept="image/*" />
 
-        <button type="submit">Save &amp; create preview</button>
-      </form>
+            <button type="submit">Save &amp; create preview</button>
+          </div>
 
-      <button id="delete" type="button" class="danger" data-slug={slug} data-label={entry.name}>Delete this partner</button>
+          <div class="form-preview">
+            <div class={`entry-thumb ${entry.logo ? '' : 'empty'}`}>
+              <img id="logo-preview" alt="" src={entry.logo ? `${PARTNER_IMAGES_PATH}${entry.logo}` : undefined} hidden={!entry.logo} />
+            </div>
+            <p>Preview</p>
+          </div>
+        </form>
+
+        <button id="delete" type="button" class="danger" data-slug={slug} data-label={entry.name}>Delete this partner</button>
+      </div>
     )}
 
     <div id="result"></div>
 
     <script>
-      import { wireAdminForm, wireDeleteButton } from '../../../../lib/admin/form-client';
+      import { wireAdminForm, wireDeleteButton, wireImagePreview } from '../../../../lib/admin/form-client';
       wireAdminForm('/admin/api/partners');
       wireDeleteButton('/admin/api/partners');
+      wireImagePreview('logo', 'logo-preview');
     </script>
   </body>
 </html>

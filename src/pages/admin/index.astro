@@ -41,7 +41,12 @@ const previewUrl = getPreviewUrl();
     <link rel="stylesheet" href="/admin.css" />
   </head>
   <body>
-    <h1>GrowUp Admin</h1>
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">GrowUp Hackathon</p>
+        <h1>Content Admin</h1>
+      </div>
+    </header>
 
     {loadError && (
       <div class="error">
@@ -61,41 +66,46 @@ const previewUrl = getPreviewUrl();
       </div>
     )}
 
-    <h2>
-      Partner logos
-      <a class="button" href="/admin/partners/new" style="float: right;">Add partner</a>
-    </h2>
-    <table>
-      <thead><tr><th>Logo</th><th>Name</th><th>Category</th><th></th></tr></thead>
-      <tbody>
-        {partners.map((p) => (
-          <tr>
-            <td>{p.data.logo && <img class="thumb" src={`${PARTNER_IMAGES_PATH}${p.data.logo}`} alt="" />}</td>
-            <td>{p.data.name}</td>
-            <td>{p.data.category}</td>
-            <td><a href={`/admin/partners/${p.slug}/edit`}>Edit</a></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <h2>Partner logos</h2>
+    <ul class="entry-grid">
+      {partners.map((p) => (
+        <li>
+          <a class="entry-card" href={`/admin/partners/${p.slug}/edit`}>
+            <div class={`entry-thumb ${p.data.logo ? '' : 'empty'}`}>
+              {p.data.logo && <img src={`${PARTNER_IMAGES_PATH}${p.data.logo}`} alt="" />}
+            </div>
+            <div class="entry-body">
+              <p class="entry-name">{p.data.name}</p>
+              <span class={`badge cat-${p.data.category}`}>{p.data.category}</span>
+            </div>
+          </a>
+        </li>
+      ))}
+      <li>
+        <a class="add-tile" href="/admin/partners/new" aria-label="Add partner">+</a>
+      </li>
+    </ul>
 
-    <h2>
-      Mentors, experts &amp; trainers
-      <a class="button" href="/admin/people/new" style="float: right;">Add person</a>
-    </h2>
-    <table>
-      <thead><tr><th>Photo</th><th>Name</th><th>Group</th><th></th></tr></thead>
-      <tbody>
-        {people.map((p) => (
-          <tr>
-            <td>{p.data.photo && <img class="thumb" src={`${PEOPLE_IMAGES_PATH}${p.data.photo}`} alt="" />}</td>
-            <td>{p.data.name}</td>
-            <td>{p.data.group}</td>
-            <td><a href={`/admin/people/${p.slug}/edit`}>Edit</a></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <h2>Mentors, experts &amp; trainers</h2>
+    <ul class="entry-grid">
+      {people.map((p) => (
+        <li>
+          <a class="entry-card" href={`/admin/people/${p.slug}/edit`}>
+            <div class={`entry-thumb round ${p.data.photo ? '' : 'empty'}`}>
+              {p.data.photo && <img src={`${PEOPLE_IMAGES_PATH}${p.data.photo}`} alt="" />}
+            </div>
+            <div class="entry-body">
+              <p class="entry-name">{p.data.name}</p>
+              {p.data.role && <p class="entry-role">{p.data.role}</p>}
+              <span class={`badge cat-${p.data.group}`}>{p.data.group}</span>
+            </div>
+          </a>
+        </li>
+      ))}
+      <li>
+        <a class="add-tile" href="/admin/people/new" aria-label="Add person">+</a>
+      </li>
+    </ul>
 
     <script>
       import { wirePublishButton } from '../../lib/admin/form-client';
