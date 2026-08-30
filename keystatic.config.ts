@@ -94,6 +94,10 @@ export default config({
           },
         ),
 
+        teamCount: text(
+          "Number of teams (single source — reference it elsewhere by writing {{teamCount}} in a stat value or paragraph, instead of typing the number again)",
+        ),
+
         links: fields.object(
           {
             waitlist: text("Waitlist form URL"),
