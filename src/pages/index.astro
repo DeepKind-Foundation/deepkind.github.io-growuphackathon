@@ -42,5 +42,5 @@ const waitlistUrl = content.links.waitlist;
     <BottomCtaSection bottomCta={content.bottomCta} waitlistUrl={waitlistUrl} />
   </main>
   <Footer footer={content.footer} links={content.links} />
-  <CookieBanner cookie={content.cookie} />
+  <CookieBanner cookie={content.cookie} gaMeasurementId={content.analytics.gaMeasurementId} />
 </BaseLayout>

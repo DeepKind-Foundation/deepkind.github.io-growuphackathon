@@ -98,6 +98,15 @@ export default config({
           "Number of teams (single source — reference it elsewhere by writing {{teamCount}} in a stat value or paragraph, instead of typing the number again)",
         ),
 
+        analytics: fields.object(
+          {
+            gaMeasurementId: text(
+              "Google Analytics Measurement ID (G-XXXXXXXXXX). Leave empty to keep analytics fully disabled — no script is ever loaded without one, regardless of cookie consent.",
+            ),
+          },
+          { label: "Analytics" },
+        ),
+
         links: fields.object(
           {
             waitlist: text("Waitlist form URL"),
@@ -367,6 +376,7 @@ export default config({
           {
             text: multiline("Text"),
             accept: text("Accept label"),
+            decline: text("Decline label"),
           },
           { label: "Cookie banner" },
         ),
