@@ -236,15 +236,6 @@ export default config({
           { label: "Benefits and awards" },
         ),
 
-        waitlist: fields.object(
-          {
-            title: multiline("Title"),
-            text: multiline("Text"),
-            ctaLabel: text("CTA label"),
-          },
-          { label: "Waitlist" },
-        ),
-
         faq: fields.object(
           {
             titleLead: text("Title (lead)"),

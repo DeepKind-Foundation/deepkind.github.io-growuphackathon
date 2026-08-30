@@ -239,11 +239,6 @@
     ],
     "ctaLabel": "Chcę wziąć udział"
   },
-  "waitlist": {
-    "title": "Zapisy są otwarte!",
-    "text": "Zgłoś swój zespół już teraz i zacznij hackować dorosłość.",
-    "ctaLabel": "Wypełnij zgłoszenie"
-  },
   "faq": {
     "titleLead": "Pytania i",
     "titleAccent": "Odpowiedzi",
