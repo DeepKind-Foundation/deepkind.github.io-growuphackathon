@@ -175,7 +175,7 @@ const pdfUrl = content.links.regulaminPdf;
     </div>
   </main>
   <Footer footer={content.footer} links={content.links} />
-  <CookieBanner cookie={content.cookie} />
+  <CookieBanner cookie={content.cookie} gaMeasurementId={content.analytics.gaMeasurementId} />
 </BaseLayout>
 
 <style>

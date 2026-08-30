@@ -1,5 +1,8 @@
 {
   "teamCount": "15",
+  "analytics": {
+    "gaMeasurementId": ""
+  },
   "seo": {
     "title": "GrowUp Hackathon",
     "description": "Ogólnopolski hackathon dla młodych ludzi — projektuj technologiczne rozwiązania realnych problemów swojego pokolenia.",
@@ -403,7 +406,8 @@
     "tagline": "Hackuj dorosłość ✦ wymyśl lepsze jutro"
   },
   "cookie": {
-    "text": "Ta strona używa plików cookies w celu świadczenia usług na najwyższym poziomie. Dalsze korzystanie ze strony oznacza, że zgadzasz się na ich użycie. ",
-    "accept": "Zgadzam się"
+    "text": "Ta strona może używać plików cookies do analizy ruchu (Google Analytics). Wybierz, czy się na to zgadzasz — strona działa tak samo niezależnie od Twojej decyzji.",
+    "accept": "Zgadzam się",
+    "decline": "Nie zgadzam się"
   }
 }

@@ -3,14 +3,26 @@ import type { HomeContent } from '../lib/types';
 
 interface Props {
   cookie: HomeContent['cookie'];
+  /** Google Analytics Measurement ID (G-XXXXXXXXXX). Empty/undefined keeps analytics fully disabled — see the script below. */
+  gaMeasurementId?: string;
 }
 
-const { cookie } = Astro.props;
+const { cookie, gaMeasurementId } = Astro.props;
 ---
 
-<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Informacja o plikach cookies" hidden>
+<div
+  class="cookie-banner"
+  id="cookie-banner"
+  role="region"
+  aria-label="Informacja o plikach cookies"
+  data-ga-id={gaMeasurementId}
+  hidden
+>
   <p class="cookie-banner__text">{cookie.text}</p>
-  <button type="button" class="cookie-banner__accept" id="cookie-accept">{cookie.accept}</button>
+  <div class="cookie-banner__actions">
+    <button type="button" class="cookie-banner__decline" id="cookie-decline">{cookie.decline}</button>
+    <button type="button" class="cookie-banner__accept" id="cookie-accept">{cookie.accept}</button>
+  </div>
 </div>
 
 <style>
@@ -37,17 +49,34 @@ const { cookie } = Astro.props;
     text-align: center;
     max-width: 56rem;
   }
-  .cookie-banner__accept {
+  .cookie-banner__actions {
+    display: flex;
     flex-shrink: 0;
-    border: 0;
+    gap: var(--space-3);
+  }
+  .cookie-banner__accept,
+  .cookie-banner__decline {
     cursor: pointer;
     font-family: inherit;
+    font-size: inherit;
     font-weight: 700;
     padding: var(--space-2) var(--space-6);
     border-radius: var(--radius-pill);
+    transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  }
+  /* Same size and weight as Accept — declining must be exactly as easy, not a de-emphasized afterthought. */
+  .cookie-banner__decline {
+    border: 1px solid color-mix(in oklch, var(--c-white) 25%, transparent);
+    background: transparent;
+    color: var(--c-gray-300);
+  }
+  .cookie-banner__decline:hover {
+    background: color-mix(in oklch, var(--c-white) 8%, transparent);
+  }
+  .cookie-banner__accept {
+    border: 0;
     color: var(--c-ink-deep);
     background: var(--c-lime-500);
-    transition: background 0.2s var(--ease-out);
   }
   .cookie-banner__accept:hover {
     background: var(--c-lime-400);
@@ -71,17 +100,53 @@ const { cookie } = Astro.props;
 </style>
 
 <script>
+  declare global {
+    interface Window {
+      dataLayer: unknown[];
+    }
+  }
+
   const STORAGE_KEY = 'growup-cookie-consent';
   const banner = document.getElementById('cookie-banner');
   const accept = document.getElementById('cookie-accept');
-  if (banner && accept) {
-    let consented = false;
-    try {
-      consented = localStorage.getItem(STORAGE_KEY) === 'accepted';
-    } catch {
-      consented = false;
+  const decline = document.getElementById('cookie-decline');
+
+  /**
+   * Loads Google Analytics — but only ever called after explicit accept,
+   * never on page load speculatively. No script tag exists anywhere else
+   * on the site; nothing is requested from Google's servers until this
+   * runs. Also gated on the production hostname, so local dev and any
+   * other environment never pollutes real analytics data.
+   */
+  function loadAnalytics(measurementId: string): void {
+    if (window.location.hostname !== 'growuphackathon.pl') return;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer ?? [];
+    function gtag(...args: unknown[]) {
+      window.dataLayer.push(args);
     }
-    if (!consented) {
+    gtag('js', new Date());
+    gtag('config', measurementId);
+  }
+
+  if (banner && accept && decline) {
+    let consent: string | null = null;
+    try {
+      consent = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      consent = null;
+    }
+
+    const gaId = banner.dataset.gaId;
+    if (consent === 'accepted' && gaId) {
+      loadAnalytics(gaId);
+    }
+
+    if (consent !== 'accepted' && consent !== 'declined') {
       banner.hidden = false;
       // Being `position: fixed`, the banner covers whatever content happens
       // to sit at the bottom of the viewport instead of pushing it up — on
@@ -96,14 +161,24 @@ const { cookie } = Astro.props;
       reserveSpace();
       new ResizeObserver(reserveSpace).observe(banner);
     }
-    accept.addEventListener('click', () => {
+
+    const dismiss = (value: 'accepted' | 'declined') => {
       banner.hidden = true;
       document.body.style.paddingBottom = '';
       try {
-        localStorage.setItem(STORAGE_KEY, 'accepted');
+        localStorage.setItem(STORAGE_KEY, value);
       } catch {
         // ignore storage failures (private mode); banner simply reappears next visit
       }
+    };
+
+    accept.addEventListener('click', () => {
+      dismiss('accepted');
+      if (gaId) loadAnalytics(gaId);
+    });
+
+    decline.addEventListener('click', () => {
+      dismiss('declined');
     });
   }
 </script>
