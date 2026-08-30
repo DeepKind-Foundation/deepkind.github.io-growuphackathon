@@ -9,7 +9,6 @@ import AboutSection from '../components/sections/AboutSection.astro';
 import PathsSection from '../components/sections/PathsSection.astro';
 import StagesSection from '../components/sections/StagesSection.astro';
 import BenefitsSection from '../components/sections/BenefitsSection.astro';
-import WaitlistSection from '../components/sections/WaitlistSection.astro';
 import FaqSection from '../components/sections/FaqSection.astro';
 import OrganizersSection from '../components/sections/OrganizersSection.astro';
 import PeopleSection from '../components/sections/PeopleSection.astro';
@@ -36,7 +35,6 @@ const waitlistUrl = content.links.waitlist;
     <PathsSection paths={content.paths} />
     <StagesSection stages={content.stages} />
     <BenefitsSection benefits={content.benefits} waitlistUrl={waitlistUrl} />
-    <WaitlistSection waitlist={content.waitlist} waitlistUrl={waitlistUrl} />
     <FaqSection faq={content.faq} />
     <OrganizersSection organizers={content.organizers} />
     <PeopleSection />
