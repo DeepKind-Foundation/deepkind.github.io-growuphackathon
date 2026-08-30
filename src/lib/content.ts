@@ -4,6 +4,36 @@ import { PARTNER_IMAGES_PATH, PEOPLE_IMAGES_PATH } from "./image-paths";
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
+/**
+ * Replaces `{{token}}` placeholders throughout any nested string/array/object
+ * value. Lets a single Keystatic field (e.g. `teamCount`) be the one place
+ * an editor updates a number that would otherwise need editing separately
+ * in every stat block and paragraph that mentions it — those just contain
+ * `{{teamCount}}` instead of a hardcoded number, so they can never drift
+ * out of sync with each other.
+ */
+function applyTokens<T>(value: T, tokens: Record<string, string>): T {
+  if (typeof value === "string") {
+    let text: string = value;
+    for (const [token, replacement] of Object.entries(tokens)) {
+      text = text.replaceAll(`{{${token}}}`, replacement);
+    }
+    return text as T;
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => applyTokens(item, tokens)) as T;
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, val]) => [
+        key,
+        applyTokens(val, tokens),
+      ]),
+    ) as T;
+  }
+  return value;
+}
+
 /** All editorial copy for the single home page, read from the Keystatic singleton. */
 export async function getHomeContent() {
   const home = await reader.singletons.home.read();
@@ -12,7 +42,7 @@ export async function getHomeContent() {
       "Home content singleton is missing at src/content/pages/home",
     );
   }
-  return home;
+  return applyTokens(home, { teamCount: home.teamCount });
 }
 
 /** Resolved shape of the home singleton (inferred from the Keystatic schema). */

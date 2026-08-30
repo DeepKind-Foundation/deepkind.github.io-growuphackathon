@@ -63,6 +63,13 @@ const { cookie } = Astro.props;
   }
 </style>
 
+<style is:global>
+  /* Smooths the space this component reserves at the bottom of the page — see the script below. */
+  body {
+    transition: padding-bottom 0.25s var(--ease-out);
+  }
+</style>
+
 <script>
   const STORAGE_KEY = 'growup-cookie-consent';
   const banner = document.getElementById('cookie-banner');
@@ -76,9 +83,22 @@ const { cookie } = Astro.props;
     }
     if (!consented) {
       banner.hidden = false;
+      // Being `position: fixed`, the banner covers whatever content happens
+      // to sit at the bottom of the viewport instead of pushing it up — on
+      // a short mobile screen that can hide the last item of a section
+      // (e.g. a stats grid) until the banner is dismissed. Reserve that
+      // much space at the bottom of the page instead. Recomputed via
+      // ResizeObserver since the banner's own height changes (it switches
+      // from a stacked to a row layout at the 768px breakpoint).
+      const reserveSpace = () => {
+        document.body.style.paddingBottom = `${banner.offsetHeight}px`;
+      };
+      reserveSpace();
+      new ResizeObserver(reserveSpace).observe(banner);
     }
     accept.addEventListener('click', () => {
       banner.hidden = true;
+      document.body.style.paddingBottom = '';
       try {
         localStorage.setItem(STORAGE_KEY, 'accepted');
       } catch {
