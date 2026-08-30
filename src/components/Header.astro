@@ -8,18 +8,25 @@ interface Props {
 }
 
 const { nav } = Astro.props;
+
+// Nav items are in-page section anchors (#o-projekcie, ...), meaningful only on
+// the homepage. Prefixing with "/" makes them navigate home first on any other
+// page (e.g. /regulamin) instead of silently rewriting the current page's URL
+// with no matching element to scroll to. Harmless on the homepage itself —
+// "/#id" there is still a same-document anchor, no extra navigation happens.
+const sectionHref = (href: string) => (href.startsWith('#') ? `/${href}` : href);
 ---
 
 <header class="site-header" id="site-header" data-scrolled="false" data-menu-open="false">
   <nav class="container container--full site-header__nav" aria-label="Główna nawigacja">
-    <a href="#" class="site-header__logo" aria-label="GrowUp Hackathon — strona główna">
+    <a href="/" class="site-header__logo" aria-label="GrowUp Hackathon — strona główna">
       <img src="/logos/logo_growup.png" alt="GrowUp Hackathon" width="160" height="56" />
     </a>
     <ul class="site-header__menu">
       {
         nav.map((item) => (
           <li>
-            <a href={safeHref(item.href)}>{item.label}</a>
+            <a href={safeHref(sectionHref(item.href))}>{item.label}</a>
           </li>
         ))
       }
@@ -41,7 +48,7 @@ const { nav } = Astro.props;
       {
         nav.map((item) => (
           <li>
-            <a href={safeHref(item.href)}>{item.label}</a>
+            <a href={safeHref(sectionHref(item.href))}>{item.label}</a>
           </li>
         ))
       }

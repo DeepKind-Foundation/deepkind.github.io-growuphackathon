@@ -13,10 +13,7 @@ export const prerender = true;
 const content = await getHomeContent();
 const title = 'Regulamin programu GrowUp Hackathon 2026';
 const description = 'Regulamin i zasady uczestnictwa w programie GrowUp Hackathon 2026.';
-
 const pdfUrl = content.links.regulaminPdf;
-const driveMatch = pdfUrl?.match(/\/file\/d\/([^/]+)/);
-const previewUrl = driveMatch ? `https://drive.google.com/file/d/${driveMatch[1]}/preview` : pdfUrl;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -34,33 +31,143 @@ const previewUrl = driveMatch ? `https://drive.google.com/file/d/${driveMatch[1]
       </p>
 
       {
-        previewUrl && (
-          <div class="regulamin__doc">
-            <iframe
-              src={previewUrl}
-              title="Regulamin programu GrowUp Hackathon 2026"
-              loading="lazy"
-              allow="autoplay"
-            />
-          </div>
+        pdfUrl && (
+          <p class="regulamin__actions">
+            <a class="btn-gradient btn-gradient--md" href={safeHref(pdfUrl)} target="_blank" rel="noopener noreferrer">
+              Pobierz PDF
+              <Icon name="ph:arrow-square-out-bold" aria-hidden="true" />
+            </a>
+          </p>
         )
       }
 
-      <p class="regulamin__actions">
-        {
-          pdfUrl && (
-            <a
-              class="btn-gradient btn-gradient--md"
-              href={safeHref(pdfUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Otwórz regulamin w nowym oknie
-              <Icon name="ph:arrow-square-out-bold" aria-hidden="true" />
-            </a>
-          )
-        }
-      </p>
+      <article class="regulamin__doc section-shell">
+        <p class="regulamin__doc-org"><em>Organizator: Fundacja DeepKind</em></p>
+
+        <h2>§ 1. Postanowienia ogólne</h2>
+        <ol>
+          <li>Niniejszy regulamin (dalej: „Regulamin") określa zasady organizacji i przebiegu wydarzenia GrowUp Hackathon 2026 (dalej: „Hackathon").</li>
+          <li>Organizatorem Hackathonu jest Fundacja DeepKind z siedzibą w Warszawie, ul. Odolańska 3/15, 02-560 Warszawa, wpisana do rejestru stowarzyszeń KRS pod numerem 0001193215, NIP 5214132486 (dalej: „Organizator").</li>
+          <li>Hackathon jest programem rozwojowym skierowanym do osób w wieku 18–26 lat.</li>
+          <li>Udział w Hackathonie jest bezpłatny.</li>
+          <li>Komunikacja z Uczestnikami odbywa się drogą mailową na adres podany w zgłoszeniu oraz przez kanały wskazane przez Organizatora po zakwalifikowaniu.</li>
+        </ol>
+
+        <h2>§ 2. Definicje</h2>
+        <ol>
+          <li><strong>Uczestnik</strong> — osoba fizyczna w wieku 18–26 lat, która dokonała zgłoszenia i została zakwalifikowana do udziału.</li>
+          <li><strong>Zespół</strong> — grupa około 5 Uczestników pracująca wspólnie nad projektem.</li>
+          <li><strong>Projekt</strong> — rozwiązanie opracowane przez Zespół w ramach jednej ze ścieżek tematycznych.</li>
+          <li><strong>Finał</strong> — wydarzenie zamykające Hackathon, podczas którego Zespoły prezentują Projekty przed Jury.</li>
+        </ol>
+
+        <h2>§ 3. Warunki uczestnictwa</h2>
+        <ol>
+          <li>Uczestnikiem może być osoba, która w dniu rozpoczęcia programu ma ukończone 18 lat i nie ma ukończonych 27 lat.</li>
+          <li>Zgłoszenia przyjmowane są od 3 września 2026 r. do 20 października 2026 r. przez formularz dostępny na stronie https://growuphackathon.pl/.</li>
+          <li>Zgłoszenie wymaga podania danych osobowych wskazanych w formularzu oraz akceptacji Regulaminu.</li>
+          <li>Organizator kwalifikuje do udziału maksymalnie {content.teamCount} Zespołów (łącznie 70–100 Uczestników).</li>
+          <li>Kryteria kwalifikacji: motywacja i cel udziału opisane w zgłoszeniu, dopasowanie pomysłu lub zainteresowań do jednej ze ścieżek tematycznych oraz kompletność zgłoszenia. Przy zgłoszeniach o porównywalnej ocenie decyduje kolejność zgłoszeń.</li>
+          <li>Wyniki kwalifikacji Organizator przekazuje Uczestnikom mailowo do dnia 27 października 2026 r.</li>
+          <li>Zgłoszenie można wysłać indywidualnie lub zespołowo. Osoby zgłaszające się indywidualnie Organizator może przydzielić do Zespołu.</li>
+        </ol>
+
+        <h2>§ 4. Przebieg Hackathonu</h2>
+        <ol>
+          <li>Program trwa miesiąc i odbywa się w listopadzie 2026 r.</li>
+          <li>
+            Zespoły pracują nad Projektami w jednej z pięciu ścieżek tematycznych:
+            <ol class="regulamin__sublist">
+              <li>zdrowie psychiczne,</li>
+              <li>finanse,</li>
+              <li>relacje,</li>
+              <li>klimat,</li>
+              <li>kompetencje przyszłości.</li>
+            </ol>
+          </li>
+          <li>W ramach programu Organizator zapewnia warsztaty rozwojowe i mentoring.</li>
+          <li>Program prowadzony jest w formie hybrydowej — część działań odbywa się online, część stacjonarnie.</li>
+          <li>Uczestnik zobowiązuje się do aktywnego udziału w programie. Organizator może wykluczyć Uczestnika, który nie bierze aktywnego udziału w programie lub narusza Regulamin.</li>
+        </ol>
+
+        <h2>§ 5. Finał</h2>
+        <ol>
+          <li>Finał odbędzie się w połowie stycznia 2027 r. w Krakowie. Dokładną datę i miejsce Organizator ogłosi na stronie https://growuphackathon.pl/.</li>
+          <li>Podczas Finału Zespoły prezentują Projekty przed Jury.</li>
+          <li>Format prezentacji (czas, forma, wymagane materiały) Organizator przekaże Zespołom przed Finałem.</li>
+          <li>Koszty dojazdu i noclegu związane z udziałem w Finale Uczestnicy pokrywają we własnym zakresie.</li>
+        </ol>
+
+        <h2>§ 6. Jury i ocena Projektów</h2>
+        <ol>
+          <li>Projekty ocenia Jury powołane przez Organizatora.</li>
+          <li>
+            Kryteria oceny Projektów:
+            <ol class="regulamin__sublist">
+              <li>wpływ społeczny i odpowiedź na realny problem w ramach ścieżki — 30%,</li>
+              <li>wykonalność i potencjał wdrożenia — 25%,</li>
+              <li>jakość realizacji (poziom dopracowania rozwiązania) — 25%,</li>
+              <li>prezentacja podczas Finału — 20%.</li>
+            </ol>
+          </li>
+          <li>Decyzje Jury są ostateczne i nie przysługuje od nich odwołanie.</li>
+        </ol>
+
+        <h2>§ 7. Nagrody</h2>
+        <ol>
+          <li>
+            Nagrodą główną jest 6 miesięcy wsparcia wdrożeniowego dla zwycięskiego Zespołu, obejmującego:
+            <ol class="regulamin__sublist">
+              <li>regularne sesje mentoringowe (co najmniej 2 sesje miesięcznie),</li>
+              <li>konsultacje eksperckie (m.in. techniczne, komunikacyjne, organizacyjne) w łącznym wymiarze do 20 godzin,</li>
+              <li>promocję Projektu w kanałach Organizatora,</li>
+              <li>wsparcie w nawiązaniu kontaktów z partnerami Organizatora.</li>
+            </ol>
+          </li>
+          <li>Nagrody nie podlegają wymianie na ekwiwalent pieniężny.</li>
+        </ol>
+
+        <h2>§ 8. Własność intelektualna</h2>
+        <ol>
+          <li>Prawa do Projektów pozostają przy Uczestnikach, którzy je stworzyli.</li>
+          <li>Uczestnik udziela Organizatorowi nieodpłatnej, niewyłącznej licencji na prezentowanie Projektu (nazwa, opis, materiały wizualne) w celach informacyjnych i promocyjnych Hackathonu, bez ograniczeń czasowych i terytorialnych.</li>
+          <li>Uczestnik oświadcza, że Projekt nie narusza praw osób trzecich, w tym praw autorskich.</li>
+          <li>Dopuszczalne jest korzystanie z narzędzi AI przy tworzeniu Projektów. Zespół wskazuje podczas prezentacji Projektu, które jego elementy powstały z istotnym udziałem narzędzi AI.</li>
+          <li>Zespół ponosi pełną odpowiedzialność za treść Projektu, w tym za ewentualne naruszenie praw osób trzecich, niezależnie od narzędzi użytych przy jego tworzeniu.</li>
+        </ol>
+
+        <h2>§ 9. Wizerunek</h2>
+        <ol>
+          <li>Podczas Hackathonu, w szczególności podczas Finału, Organizator może utrwalać przebieg wydarzenia (zdjęcia, nagrania).</li>
+          <li>Przystępując do Hackathonu, Uczestnik wyraża zgodę na nieodpłatne utrwalanie i rozpowszechnianie jego wizerunku w materiałach, o których mowa w ust. 1, w celach dokumentacyjnych i promocyjnych Hackathonu. Wyrażenie zgody jest warunkiem udziału w Hackathonie.</li>
+          <li>Materiały mogą być publikowane na stronie i w kanałach społecznościowych Organizatora oraz partnerów Hackathonu w celach dokumentacyjnych i promocyjnych.</li>
+        </ol>
+
+        <h2>§ 10. Dane osobowe</h2>
+        <ol>
+          <li>Administratorem danych osobowych Uczestników jest Fundacja DeepKind z siedzibą w Warszawie, ul. Odolańska 3/15, 02-560 Warszawa, kontakt: kontakt@growuphackathon.pl.</li>
+          <li>Dane przetwarzane są w celu: organizacji i przeprowadzenia Hackathonu (podstawa: art. 6 ust. 1 lit. b i f RODO), wypełnienia obowiązków prawnych Organizatora (lit. c) oraz — za zgodą — w celach promocyjnych (lit. a).</li>
+          <li>Dane mogą być powierzane podmiotom wspierającym organizację Hackathonu (np. dostawcom narzędzi rejestracyjnych) na podstawie umów powierzenia.</li>
+          <li>Dane osób niezakwalifikowanych usuwane są w terminie 3 miesięcy od zakończenia rekrutacji. Dane Uczestników przechowywane są przez 12 miesięcy od zakończenia Hackathonu, a w zakresie wymaganym przepisami (m.in. dokumentacja podatkowa i księgowa) — przez okres wynikający z tych przepisów.</li>
+          <li>Uczestnikowi przysługuje prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia, sprzeciwu oraz skargi do Prezesa UODO.</li>
+          <li>Podanie danych jest dobrowolne, ale niezbędne do udziału w Hackathonie.</li>
+        </ol>
+
+        <h2>§ 11. Odpowiedzialność i zasady współżycia</h2>
+        <ol>
+          <li>Uczestnicy zobowiązani są do przestrzegania zasad kultury i wzajemnego szacunku. Organizator nie toleruje dyskryminacji, mobbingu ani zachowań agresywnych.</li>
+          <li>Organizator może wykluczyć z Hackathonu Uczestnika, który narusza Regulamin lub zasady, o których mowa w ust. 1.</li>
+          <li>Organizator nie ponosi odpowiedzialności za rzeczy Uczestników pozostawione podczas wydarzeń stacjonarnych.</li>
+        </ol>
+
+        <h2>§ 12. Postanowienia końcowe</h2>
+        <ol>
+          <li>Organizator zastrzega sobie prawo zmiany Regulaminu z ważnych przyczyn. Zmiany ogłaszane są przez publikację zaktualizowanego Regulaminu na stronie https://growuphackathon.pl/.</li>
+          <li>Organizator może odwołać Hackathon lub zmienić jego terminy z przyczyn niezależnych od Organizatora.</li>
+          <li>W sprawach nieuregulowanych Regulaminem stosuje się przepisy prawa polskiego.</li>
+          <li>Regulamin wchodzi w życie z dniem 1 lipca 2026 r. i jest dostępny na stronie https://growuphackathon.pl/.</li>
+        </ol>
+      </article>
 
       <p class="regulamin__back">
         <a href="/">← Wróć na stronę główną</a>
@@ -91,22 +198,58 @@ const previewUrl = driveMatch ? `https://drive.google.com/file/d/${driveMatch[1]
     color: var(--c-slate-300);
     margin-bottom: var(--space-8);
   }
-  .regulamin__doc {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid color-mix(in oklch, var(--c-white) 10%, transparent);
-    background: color-mix(in oklch, var(--c-white) 3%, transparent);
-    margin-bottom: var(--space-8);
-  }
-  .regulamin__doc iframe {
-    display: block;
-    width: 100%;
-    height: min(80vh, 900px);
-    border: 0;
-  }
   .regulamin__actions {
     margin-bottom: var(--space-10);
   }
+
+  .regulamin__doc {
+    padding: var(--space-8) var(--space-6);
+    margin-bottom: var(--space-10);
+    color: var(--c-gray-300);
+  }
+  .regulamin__doc-org {
+    text-align: center;
+    color: var(--c-slate-400);
+    margin-bottom: var(--space-8);
+  }
+  .regulamin__doc h2 {
+    font-size: 1.125rem;
+    color: var(--c-white);
+    margin-block: var(--space-10) var(--space-4);
+  }
+  .regulamin__doc h2:first-of-type {
+    margin-top: 0;
+  }
+  .regulamin__doc ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .regulamin__doc li {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    padding-left: var(--space-1);
+  }
+  .regulamin__doc li::marker {
+    color: var(--c-lime-400);
+    font-weight: 600;
+  }
+  .regulamin__doc strong {
+    color: var(--c-white);
+  }
+  .regulamin__sublist {
+    /* Inherits list-style: decimal from .regulamin__doc ol (matches the source document's own "1) 2) 3)" numbering). */
+    margin-top: var(--space-3);
+  }
+
+  @media (min-width: 768px) {
+    .regulamin__doc {
+      padding: var(--space-12) var(--space-10);
+    }
+  }
+
   .regulamin__back a {
     color: var(--c-lavender);
     text-decoration: underline;
