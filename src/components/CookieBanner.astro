@@ -64,7 +64,6 @@ const { cookie, gaMeasurementId } = Astro.props;
     border-radius: var(--radius-pill);
     transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
   }
-  /* Same size and weight as Accept — declining must be exactly as easy, not a de-emphasized afterthought. */
   .cookie-banner__decline {
     border: 1px solid color-mix(in oklch, var(--c-white) 25%, transparent);
     background: transparent;
@@ -93,7 +92,6 @@ const { cookie, gaMeasurementId } = Astro.props;
 </style>
 
 <style is:global>
-  /* Smooths the space this component reserves at the bottom of the page — see the script below. */
   body {
     transition: padding-bottom 0.25s var(--ease-out);
   }
@@ -111,13 +109,6 @@ const { cookie, gaMeasurementId } = Astro.props;
   const accept = document.getElementById('cookie-accept');
   const decline = document.getElementById('cookie-decline');
 
-  /**
-   * Loads Google Analytics — but only ever called after explicit accept,
-   * never on page load speculatively. No script tag exists anywhere else
-   * on the site; nothing is requested from Google's servers until this
-   * runs. Also gated on the production hostname, so local dev and any
-   * other environment never pollutes real analytics data.
-   */
   function loadAnalytics(measurementId: string): void {
     if (window.location.hostname !== 'growuphackathon.pl') return;
     const script = document.createElement('script');
@@ -148,13 +139,6 @@ const { cookie, gaMeasurementId } = Astro.props;
 
     if (consent !== 'accepted' && consent !== 'declined') {
       banner.hidden = false;
-      // Being `position: fixed`, the banner covers whatever content happens
-      // to sit at the bottom of the viewport instead of pushing it up — on
-      // a short mobile screen that can hide the last item of a section
-      // (e.g. a stats grid) until the banner is dismissed. Reserve that
-      // much space at the bottom of the page instead. Recomputed via
-      // ResizeObserver since the banner's own height changes (it switches
-      // from a stacked to a row layout at the 768px breakpoint).
       const reserveSpace = () => {
         document.body.style.paddingBottom = `${banner.offsetHeight}px`;
       };
@@ -168,7 +152,7 @@ const { cookie, gaMeasurementId } = Astro.props;
       try {
         localStorage.setItem(STORAGE_KEY, value);
       } catch {
-        // ignore storage failures (private mode); banner simply reappears next visit
+        /* empty */
       }
     };
 
