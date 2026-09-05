@@ -69,7 +69,7 @@ const { footer, links } = Astro.props;
       <p class="footer__copyright">{footer.copyright}</p>
       <div class="footer__legal-links">
         <a href={safeHref(links.regulamin)}>Regulamin</a>
-        <a href={safeHref(links.privacy)} target="_blank" rel="noopener noreferrer">Polityka Prywatności (RODO)</a>
+        <a href={safeHref(links.privacy)}>Polityka Prywatności (RODO)</a>
       </div>
       <p class="footer__tagline">{footer.tagline}</p>
     </div>
