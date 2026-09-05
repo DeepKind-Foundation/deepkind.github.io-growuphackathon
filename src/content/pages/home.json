@@ -1,7 +1,8 @@
 {
   "teamCount": "15",
   "analytics": {
-    "gaMeasurementId": "G-K1FYYRKKYN"
+    "gaMeasurementId": "G-K1FYYRKKYN",
+    "cloudflareToken": "921d5b21370f48ba87bf8eafccf3f254"
   },
   "seo": {
     "title": "GrowUp Hackathon 2026 — bezpłatnie dla młodych dorosłych",
