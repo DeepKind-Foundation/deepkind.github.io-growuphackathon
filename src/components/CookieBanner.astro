@@ -39,11 +39,24 @@ const { cookie, gaMeasurementId } = Astro.props;
     font-size: 0.875rem;
     color: var(--c-gray-300);
     background: color-mix(in oklch, var(--c-cookie) 92%, transparent);
-    border-top: 1px solid color-mix(in oklch, var(--c-lime-500) 20%, transparent);
+    border-top: 1px solid color-mix(in oklch, var(--c-lime-500) 35%, transparent);
+    box-shadow: 0 -12px 32px color-mix(in oklch, var(--c-ink-deep) 55%, transparent);
     backdrop-filter: blur(20px);
   }
   .cookie-banner[hidden] {
     display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cookie-banner {
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+    }
+    @starting-style {
+      .cookie-banner:not([hidden]) {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+    }
   }
   .cookie-banner__text {
     text-align: center;
@@ -65,12 +78,12 @@ const { cookie, gaMeasurementId } = Astro.props;
     transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
   }
   .cookie-banner__decline {
-    border: 1px solid color-mix(in oklch, var(--c-white) 25%, transparent);
-    background: transparent;
-    color: var(--c-gray-300);
+    border: 0;
+    color: var(--c-text-100);
+    background: var(--c-gray-700);
   }
   .cookie-banner__decline:hover {
-    background: color-mix(in oklch, var(--c-white) 8%, transparent);
+    background: var(--c-gray-500);
   }
   .cookie-banner__accept {
     border: 0;
@@ -117,8 +130,8 @@ const { cookie, gaMeasurementId } = Astro.props;
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer ?? [];
-    function gtag(...args: unknown[]) {
-      window.dataLayer.push(args);
+    function gtag(..._args: unknown[]) {
+      window.dataLayer.push(arguments);
     }
     gtag('js', new Date());
     gtag('config', measurementId);
@@ -138,12 +151,14 @@ const { cookie, gaMeasurementId } = Astro.props;
     }
 
     if (consent !== 'accepted' && consent !== 'declined') {
-      banner.hidden = false;
-      const reserveSpace = () => {
-        document.body.style.paddingBottom = `${banner.offsetHeight}px`;
-      };
-      reserveSpace();
-      new ResizeObserver(reserveSpace).observe(banner);
+      setTimeout(() => {
+        banner.hidden = false;
+        const reserveSpace = () => {
+          document.body.style.paddingBottom = `${banner.offsetHeight}px`;
+        };
+        reserveSpace();
+        new ResizeObserver(reserveSpace).observe(banner);
+      }, 400);
     }
 
     const dismiss = (value: 'accepted' | 'declined') => {
