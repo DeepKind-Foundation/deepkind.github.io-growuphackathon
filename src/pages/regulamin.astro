@@ -16,7 +16,11 @@ const description = 'Regulamin i zasady uczestnictwa w programie GrowUp Hackatho
 const pdfUrl = content.links.regulaminPdf;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  socialLinks={{ facebook: content.links.facebook, instagram: content.links.instagram }}
+>
   <Header nav={content.nav} />
   <main id="main" tabindex="-1" class="regulamin">
     <div class="container container--md regulamin__inner">

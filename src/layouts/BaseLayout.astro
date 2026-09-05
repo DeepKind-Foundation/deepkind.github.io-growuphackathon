@@ -16,11 +16,24 @@ interface Props {
   ogImage?: string;
   /** Only the homepage actually represents the event — other pages (e.g. regulamin) must not carry this schema. */
   includeEventSchema?: boolean;
+  socialLinks?: { facebook?: string; instagram?: string };
 }
 
-const { title, description, ogImage, includeEventSchema = false } = Astro.props;
+const { title, description, ogImage, includeEventSchema = false, socialLinks } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const siteRoot = new URL('/', Astro.site ?? Astro.url).href;
 const ogImageUrl = ogImage ?? new URL('/logos/og-image.png', Astro.site ?? Astro.url).href;
+const logoUrl = new URL('/logos/logo_growup.png', Astro.site ?? Astro.url).href;
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Fundacja DeepKind',
+  url: siteRoot,
+  logo: logoUrl,
+  sameAs: [socialLinks?.facebook, socialLinks?.instagram].filter(Boolean),
+};
+const organizationJsonLdSafe = JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c');
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -80,6 +93,7 @@ const jsonLdSafe = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    <script is:inline type="application/ld+json" set:html={organizationJsonLdSafe} />
     {includeEventSchema && <script is:inline type="application/ld+json" set:html={jsonLdSafe} />}
 
     <script is:inline>
