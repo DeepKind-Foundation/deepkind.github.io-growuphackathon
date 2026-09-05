@@ -53,7 +53,13 @@ const logoRows = CATEGORIES.map((cat) => ({
                 <div class="partners__logos">
                   {row.logos.map((logo) => (
                     <div class="partners__logo">
-                      <img src={logo.logo} alt={logo.name} loading="lazy" />
+                      <img
+                        src={logo.logo}
+                        alt={logo.name}
+                        width={logo.width ?? undefined}
+                        height={logo.height ?? undefined}
+                        loading="lazy"
+                      />
                     </div>
                   ))}
                 </div>
