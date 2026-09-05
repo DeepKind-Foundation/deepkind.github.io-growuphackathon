@@ -40,7 +40,7 @@ const { footer, links } = Astro.props;
       </div>
 
       <nav class="footer__nav" aria-label="Nawigacja w stopce">
-        <h2 class="footer__col-title">{footer.navTitle}</h2>
+        <h3 class="footer__col-title">{footer.navTitle}</h3>
         <ul>
           {
             footer.navLinks.map((link) => (
@@ -53,7 +53,7 @@ const { footer, links } = Astro.props;
       </nav>
 
       <div class="footer__contact">
-        <h2 class="footer__col-title">{footer.contactTitle}</h2>
+        <h3 class="footer__col-title">{footer.contactTitle}</h3>
         <a class="footer__email" href={safeHref(`mailto:${links.contactEmail}`)}>
           <Icon name="ph:envelope-bold" aria-hidden="true" />
           {links.contactEmail}
