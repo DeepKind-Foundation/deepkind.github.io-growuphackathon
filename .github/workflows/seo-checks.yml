@@ -41,7 +41,7 @@ jobs:
       - name: Check for broken links
         run: >
           npx -y linkinator@6 dist/client --recurse
-          --skip "instagram.com|facebook.com|drive.google.com|forms.gle|deepkind.org|cloudflareinsights.com|googletagmanager.com|google-analytics.com"
+          --skip "instagram.com|facebook.com|drive.google.com|forms.gle|cloudflareinsights.com|googletagmanager.com|google-analytics.com"
 
       - name: Lighthouse CI
         run: npx -y @lhci/cli@0.15 autorun --config=./lighthouserc.json
