@@ -1,6 +1,10 @@
 resource "cloudflare_zone" "main" {
   account = { id = var.cloudflare_account_id }
   name    = var.domain
+  # Full nameserver delegation, not partial/CNAME setup. This is a real decision,
+  # not the provider default going unnoticed: dns.tf's proxied apex CNAME (relying
+  # on Cloudflare's flattening) only works under full delegation.
+  type = "full"
 }
 
 resource "cloudflare_zone_setting" "ssl" {
