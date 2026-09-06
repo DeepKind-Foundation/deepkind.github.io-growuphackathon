@@ -42,6 +42,22 @@ bot protection. Flagging the correction rather than letting it stand uncorrected
 - Must preserve: GSC verification, the current CI's SEO gates (structured data, linkinator,
   Lighthouse), and the existing PR-based workflow (worktrees, `seo-checks.yml`).
 
+## Infrastructure as code (added 2026-09-06)
+
+All Cloudflare-side resources (zone, baseline TLS settings, Pages project, custom domain) are
+managed via Terraform in `terraform/` — not ad-hoc dashboard clicks or one-off API calls. This
+makes every change reviewable in a PR diff before it touches anything, and reversible via
+`terraform destroy` / state history rather than "hope someone remembers what they clicked."
+Provider: `cloudflare/cloudflare` ~> 5.15 (auto-generated from Cloudflare's OpenAPI spec — v5
+renamed several resources from v4; the skill's cached examples were stale for the exact pinned
+version here, confirmed and fixed against the live provider schema, not guessed). See
+`terraform/README.md` for setup.
+
+What Terraform does NOT do, by design: touch DNS at the registrar (cyberfolks.pl — outside its
+reach entirely), configure the AI Crawl Control allowlist (kept a manual one-time dashboard
+toggle rather than granting a scoped API permission for a single checkbox), or deploy the site
+build (that stays `wrangler pages deploy` in CI, against the Pages project Terraform creates).
+
 ## Known unknowns (confirm before starting)
 
 - [ ] Full nameserver delegation to Cloudflare vs. a partial CNAME-only setup — full delegation
@@ -60,10 +76,15 @@ bot protection. Flagging the correction rather than letting it stand uncorrected
 - [ ] 1. Audit all existing DNS records at cyberfolks.pl (A, MX, TXT, CNAME) — export/screenshot
       before touching anything, so there's a known-good rollback reference.
 - [ ] 2. Add growuphackathon.pl to a Cloudflare account (free plan, confirmed $0/mo at this
-      site's traffic scale per prior conversation).
-- [ ] 3. Create the Cloudflare Pages project, connected via `wrangler pages deploy` from CI
-      (not Cloudflare's own Git integration, per the decision above) — get a `*.pages.dev`
-      preview URL working and verified correct (visual + Lighthouse) before touching DNS at all.
+      site's traffic scale per prior conversation) — via `terraform apply` (`cloudflare_zone` +
+      baseline TLS `cloudflare_zone_setting` resources), not a manual dashboard click. Config
+      written and validated (`terraform validate`, `tflint`, `trivy config .` all clean) —
+      not yet applied.
+- [ ] 3. Create the Cloudflare Pages project via Terraform (`cloudflare_pages_project`,
+      direct-upload, no Git source — deploys come from `wrangler pages deploy` in CI, per the
+      decision above) plus `cloudflare_pages_domain` for the apex + the flattened apex CNAME
+      (`cloudflare_dns_record`). Get a `*.pages.dev` preview URL working and verified correct
+      (visual + Lighthouse) before touching DNS at all. Config written, not yet applied.
 - [ ] 4. **Before any DNS cutover**: in the Cloudflare dashboard, explicitly allow search-stage
       AI crawlers (Google-Extended, PerplexityBot, Perplexity-User, OAI-SearchBot, ChatGPT-User,
       Claude-SearchBot) — do not rely on robots.txt alone; Cloudflare's bot-blocking happens at
