@@ -98,11 +98,18 @@ build (that stays `wrangler deploy` in CI, against the Worker Terraform binds th
       nameservers are delegated at cutover.
 - [x] 3. Create the Worker + custom domain binding — applied 2026-09-06. Live and verified at
       the `workers.dev` preview URL (200, correct site) before the custom domain was attached.
-- [ ] 4. **Before any DNS cutover**: in the Cloudflare dashboard, explicitly allow search-stage
-      AI crawlers (Google-Extended, PerplexityBot, Perplexity-User, OAI-SearchBot, ChatGPT-User,
-      Claude-SearchBot) — do not rely on robots.txt alone; Cloudflare's bot-blocking happens at
-      the network edge, before robots.txt is ever consulted. Manual step, deliberately not
-      automated (see Infrastructure as Code section).
+- [ ] 4. **Revised 2026-09-06 — cannot be done in advance.** Originally planned as a pre-cutover
+      step; discovered the Cloudflare dashboard blocks configuring AI Crawl Control at all until
+      the zone is fully active ("Finish onboarding to control AI Crawlers... update your
+      nameservers"), not just added. So this folds into Task 7 instead: the moment nameservers
+      finish propagating, immediately go to AI Crawl Control → Crawlers/Security tab and confirm
+      Google-Extended, PerplexityBot, Perplexity-User, OAI-SearchBot, ChatGPT-User, and
+      Claude-SearchBot are all set to Allow, not Block. There will be a brief window between
+      propagation completing and this being set — minutes, not a real practical risk given how
+      infrequently AI crawlers hit any single page, but a zero-gap guarantee isn't achievable
+      here. Do not rely on robots.txt alone regardless; Cloudflare's bot handling happens at the
+      network edge, before robots.txt is ever consulted. Manual step, deliberately not automated
+      (see Infrastructure as Code section).
 - [x] 5. CI deploys via `wrangler deploy` on every push to main (`.github/workflows/
       cloudflare-deploy.yml`, PR #89), in parallel with GitHub Pages (neither replaces the
       other yet). Uses a `CLOUDFLARE_API_TOKEN` secret scoped to just `Workers Scripts: Edit`
@@ -118,7 +125,9 @@ build (that stays `wrangler deploy` in CI, against the Worker Terraform binds th
       A records at cyberfolks.pl 24-48h in advance, then delegate nameservers to Cloudflare
       (the assigned nameservers are in the `name_servers` Terraform output). Recreate the MX/
       SPF/DKIM/DMARC records from Task 1 in Cloudflare DNS as part of this step, before or
-      immediately as the nameservers switch — not after.
+      immediately as the nameservers switch — not after. The moment propagation is confirmed,
+      immediately do Task 4's AI Crawl Control allowlist — it can only be configured once the
+      zone goes active, so it happens right here, not before.
 - [ ] 8. Monitor propagation (`dig`, multiple resolvers) and confirm: site resolves, HTTPS cert
       issues correctly, GSC still shows the property verified, sitemap still fetches clean,
       and a test email round-trip still works (send + receive via `kontakt@`).
