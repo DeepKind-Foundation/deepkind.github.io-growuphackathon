@@ -1,10 +1,11 @@
-# Plan: Migrate growuphackathon.pl from GitHub Pages to Cloudflare Pages
+# Plan: Migrate growuphackathon.pl from GitHub Pages to Cloudflare
 
 ## Goal
 
-Move hosting from GitHub Pages to Cloudflare Pages to cut TTFB (currently ~730ms baseline,
-confirmed via Lighthouse on the live site) via Cloudflare's edge network, with zero regression
-to AI crawler access, existing SEO signals, or the current CI pipeline — measured, not assumed.
+Move hosting from GitHub Pages to Cloudflare to cut TTFB (currently ~730ms baseline, confirmed
+via Lighthouse on the live site) via Cloudflare's edge network, with zero regression to AI
+crawler access, existing SEO signals, email delivery, or the current CI pipeline — measured, not
+assumed.
 
 ## Current state (confirmed 2026-09-06)
 
@@ -19,6 +20,8 @@ to AI crawler access, existing SEO signals, or the current CI pipeline — measu
 - CI (`static.yml`) builds with the existing `pnpm build` and deploys `dist/client` via
   `actions/deploy-pages@v4` — a GitHub-native action, not portable to Cloudflare as-is.
 - GSC is verified via an HTML verification file; sitemap submitted 2026-09-05.
+- **Email is live via Google Workspace** — confirmed by the Task 1 DNS audit (see below). Any
+  DNS cutover must carry these records forward exactly, or `kontakt@`/`rodo@` mail breaks.
 
 ## Correction to a claim made earlier in conversation
 
@@ -39,84 +42,98 @@ bot protection. Flagging the correction rather than letting it stand uncorrected
   real regression, not a theoretical one.
 - **Zero-downtime requirement**: growuphackathon.pl is an active recruiting funnel (registration
   open, countdown timer on the homepage) — no outage window is acceptable.
+- **Email must survive the cutover** — Google Workspace MX/SPF/DKIM/DMARC, see Task 1.
 - Must preserve: GSC verification, the current CI's SEO gates (structured data, linkinator,
   Lighthouse), and the existing PR-based workflow (worktrees, `seo-checks.yml`).
 
-## Infrastructure as code (added 2026-09-06)
+## Infrastructure as code
 
-All Cloudflare-side resources (zone, baseline TLS settings, Pages project, custom domain) are
+All Cloudflare-side resources (zone, baseline TLS settings, Worker custom domain binding) are
 managed via Terraform in `terraform/` — not ad-hoc dashboard clicks or one-off API calls. This
 makes every change reviewable in a PR diff before it touches anything, and reversible via
 `terraform destroy` / state history rather than "hope someone remembers what they clicked."
-Provider: `cloudflare/cloudflare` ~> 5.15 (auto-generated from Cloudflare's OpenAPI spec — v5
-renamed several resources from v4; the skill's cached examples were stale for the exact pinned
-version here, confirmed and fixed against the live provider schema, not guessed). See
-`terraform/README.md` for setup.
+Provider: `cloudflare/cloudflare` ~> 5.15 (resolved 5.24.0). See `terraform/README.md` for setup
+and the bootstrap-order gotcha (Custom Domain creation needs the Worker to already exist).
+
+**Architecture: Workers with static assets, not Cloudflare Pages.** Started with Pages
+(`cloudflare_pages_project` + `cloudflare_pages_domain`); Pages project creation via API kept
+403ing (`code 10000, Authentication error`) even with the "Cloudflare Pages" token permission
+granted and confirmed saved — ruled out propagation delay, resource scope, and account
+activation as causes, never found the actual root cause. Switched to a plain Worker with static
+assets (`wrangler.jsonc` at repo root, `cloudflare_workers_custom_domain` in Terraform) after
+finding `growup-webcrew` (sibling project, same Cloudflare account) already runs this way
+successfully, and it's Cloudflare's own current recommendation for new projects over Pages
+generally. See [[project_cloudflare_migration_status]] for the full gotcha list.
 
 What Terraform does NOT do, by design: touch DNS at the registrar (cyberfolks.pl — outside its
 reach entirely), configure the AI Crawl Control allowlist (kept a manual one-time dashboard
 toggle rather than granting a scoped API permission for a single checkbox), or deploy the site
-build (that stays `wrangler pages deploy` in CI, against the Pages project Terraform creates).
+build (that stays `wrangler deploy` in CI, against the Worker Terraform binds the domain to).
 
 ## Known unknowns (confirm before starting)
 
-- [ ] Full nameserver delegation to Cloudflare vs. a partial CNAME-only setup — full delegation
-      gets the complete edge/caching benefit and the AI-crawler dashboard toggle; partial setup
-      is less disruptive to existing DNS records (MX for `kontakt@`/`rodo@` addresses, if any
-      live at this registrar) but may not deliver the full TTFB win. Needs a decision, not an
-      assumption — check what other DNS records exist at cyberfolks.pl first (MX, TXT/SPF/DKIM
-      for email) so nothing breaks silently.
-- [ ] Whether to let Cloudflare Pages build directly from the GitHub repo (its own CI) or keep
-      building in GitHub Actions and `wrangler pages deploy dist/client` as a publish step.
-      Recommend the latter — it reuses the already-tested `seo-checks.yml` gates verbatim and
-      avoids running two divergent build pipelines.
+- [x] Full nameserver delegation vs. partial CNAME — **decided: full delegation**
+      (`type = "full"` in `terraform/zone.tf`, explicit). The Worker Custom Domain design
+      requires it (Custom Domains need Cloudflare to be authoritative for the zone).
+- [x] Build in Cloudflare's own CI vs. GitHub Actions + `wrangler deploy` publish step —
+      **decided: GitHub Actions + wrangler**, reuses the existing `seo-checks.yml` gates
+      verbatim, avoids two divergent build pipelines.
 
 ## Tasks
 
-- [ ] 1. Audit all existing DNS records at cyberfolks.pl (A, MX, TXT, CNAME) — export/screenshot
-      before touching anything, so there's a known-good rollback reference.
-- [ ] 2. Add growuphackathon.pl to a Cloudflare account (free plan, confirmed $0/mo at this
-      site's traffic scale per prior conversation) — via `terraform apply` (`cloudflare_zone` +
-      baseline TLS `cloudflare_zone_setting` resources), not a manual dashboard click. Config
-      written and validated (`terraform validate`, `tflint`, `trivy config .` all clean) —
-      not yet applied.
-- [ ] 3. Create the Cloudflare Pages project via Terraform (`cloudflare_pages_project`,
-      direct-upload, no Git source — deploys come from `wrangler pages deploy` in CI, per the
-      decision above) plus `cloudflare_pages_domain` for the apex + the flattened apex CNAME
-      (`cloudflare_dns_record`). Get a `*.pages.dev` preview URL working and verified correct
-      (visual + Lighthouse) before touching DNS at all. Config written, not yet applied.
+- [x] 1. Audit all existing DNS records at cyberfolks.pl (A, MX, TXT, CNAME) — done 2026-09-06
+      via public `dig` lookups (no registrar login needed). Findings:
+      - A: `185.199.108-111.153` (GitHub Pages)
+      - MX: `1 SMTP.GOOGLE.COM` — Google Workspace
+      - TXT (SPF): `v=spf1 include:_spf.google.com include:_spf.cyberfolks.pl ~all`
+      - TXT (DMARC, at `_dmarc`): `v=DMARC1; p=none;`
+      - TXT: `google-site-verification=v-6SO1rbFinkMhhU2XQSEtnDaeksyP2AG5Pgko76t_I` (Workspace
+        domain verification, separate from the GSC HTML-file verification)
+      - DKIM: `google._domainkey` has a valid Google Workspace DKIM key
+      - `www` CNAMEs to `joannalange.github.io` — confirmed correct (GitHub Pages'
+        standard custom-domain pattern; `www` redirects cleanly to the apex, verified 200)
+      - All of the above must be recreated in Cloudflare DNS before or immediately at cutover.
+- [x] 2. Add growuphackathon.pl to Cloudflare via Terraform (`cloudflare_zone` + 4 TLS
+      `cloudflare_zone_setting` resources) — applied 2026-09-06. Zone status `pending` until
+      nameservers are delegated at cutover.
+- [x] 3. Create the Worker + custom domain binding — applied 2026-09-06. Live and verified at
+      the `workers.dev` preview URL (200, correct site) before the custom domain was attached.
 - [ ] 4. **Before any DNS cutover**: in the Cloudflare dashboard, explicitly allow search-stage
       AI crawlers (Google-Extended, PerplexityBot, Perplexity-User, OAI-SearchBot, ChatGPT-User,
       Claude-SearchBot) — do not rely on robots.txt alone; Cloudflare's bot-blocking happens at
-      the network edge, before robots.txt is ever consulted.
-- [ ] 5. Update `.github/workflows/static.yml` (or a new `cloudflare-deploy.yml`) to publish via
-      `wrangler pages deploy dist/client` using a Cloudflare API token stored as a GitHub secret,
-      keeping the existing `seo-checks.yml` gates unchanged and running first.
+      the network edge, before robots.txt is ever consulted. Manual step, deliberately not
+      automated (see Infrastructure as Code section).
+- [ ] 5. Update CI to publish via `wrangler deploy` (not `wrangler pages deploy`) using a
+      Cloudflare API token stored as a GitHub Actions secret, keeping the existing
+      `seo-checks.yml` gates unchanged and running first.
 - [ ] 6. Re-run the full technical audit (robots.txt, sitemap, meta tags, structured data,
-      Lighthouse) against the `*.pages.dev` preview URL — confirm nothing regressed before DNS
+      Lighthouse) against the `workers.dev` preview URL — confirm nothing regressed before DNS
       touches anything.
 - [ ] 7. **Checkpoint — get explicit go-ahead before this step.** Lower DNS TTL on the current
-      A records at cyberfolks.pl 24-48h in advance, then either delegate nameservers to
-      Cloudflare or add the CNAME/A records Cloudflare Pages requires for the custom domain,
-      per the decision in Known Unknowns.
+      A records at cyberfolks.pl 24-48h in advance, then delegate nameservers to Cloudflare
+      (the assigned nameservers are in the `name_servers` Terraform output). Recreate the MX/
+      SPF/DKIM/DMARC records from Task 1 in Cloudflare DNS as part of this step, before or
+      immediately as the nameservers switch — not after.
 - [ ] 8. Monitor propagation (`dig`, multiple resolvers) and confirm: site resolves, HTTPS cert
-      issues correctly, GSC still shows the property verified, sitemap still fetches clean.
+      issues correctly, GSC still shows the property verified, sitemap still fetches clean,
+      and a test email round-trip still works (send + receive via `kontakt@`).
 - [ ] 9. Re-measure TTFB and full Lighthouse mobile run against the live domain post-cutover —
       compare against the ~730ms GitHub Pages baseline captured 2026-09-06. Report the actual
       number, not the expected one.
 - [ ] 10. Keep the GitHub Pages `static.yml` deploy path intact (do not delete) for at least one
       full week post-cutover as a fast rollback option (revert DNS, GitHub Pages is still
       serving the last-deployed build). Remove only after that window with no issues.
-- [ ] 11. Update [[project_seo_campaign_status]] memory once stable.
+- [ ] 11. Update [[project_seo_campaign_status]] and [[project_cloudflare_migration_status]]
+      memory once stable.
 
 ## Review Criteria
 
 - TTFB measurably lower than the ~730ms GitHub Pages baseline — measured on the live domain,
-  not the `*.pages.dev` preview.
+  not the `workers.dev` preview.
 - Zero AI-crawler regression: `curl` each of the six bot user-agents against the live domain
   post-cutover and confirm 200s, not blocks/challenges.
 - GSC property still verified, sitemap still submitted and fetching clean.
-- No MX/email regression if the registrar's DNS carried mail records — confirmed against the
-  Task 1 audit.
-- `seo-checks.yml` and `static.yml`-successor both green on the deploying branch before this is
-  considered done.
+- Zero email regression: MX/SPF/DKIM/DMARC recreated exactly, test email round-trip confirmed
+  working post-cutover.
+- `seo-checks.yml` and the Cloudflare deploy workflow both green on the deploying branch before
+  this is considered done.
