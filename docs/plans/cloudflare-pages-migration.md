@@ -103,12 +103,17 @@ build (that stays `wrangler deploy` in CI, against the Worker Terraform binds th
       Claude-SearchBot) — do not rely on robots.txt alone; Cloudflare's bot-blocking happens at
       the network edge, before robots.txt is ever consulted. Manual step, deliberately not
       automated (see Infrastructure as Code section).
-- [ ] 5. Update CI to publish via `wrangler deploy` (not `wrangler pages deploy`) using a
-      Cloudflare API token stored as a GitHub Actions secret, keeping the existing
-      `seo-checks.yml` gates unchanged and running first.
-- [ ] 6. Re-run the full technical audit (robots.txt, sitemap, meta tags, structured data,
-      Lighthouse) against the `workers.dev` preview URL — confirm nothing regressed before DNS
-      touches anything.
+- [x] 5. CI deploys via `wrangler deploy` on every push to main (`.github/workflows/
+      cloudflare-deploy.yml`, PR #89), in parallel with GitHub Pages (neither replaces the
+      other yet). Uses a `CLOUDFLARE_API_TOKEN` secret scoped to just `Workers Scripts: Edit`
+      — narrower than the Terraform token, set by the user directly rather than by the agent.
+      First real run confirmed working end to end 2026-09-06.
+- [x] 6. Full technical audit against the `workers.dev` preview — done 2026-09-06, no
+      regressions. Lighthouse: performance 90 / accessibility 100 / best-practices 100 / seo
+      100. **TTFB 70ms vs the ~730ms GitHub Pages baseline** — the headline result validating
+      this migration's premise. robots.txt/sitemap correctly reference the production domain,
+      all 3 pages 200, 404 handling correct, HTML byte-identical to the live production site,
+      static assets spot-checked correct.
 - [ ] 7. **Checkpoint — get explicit go-ahead before this step.** Lower DNS TTL on the current
       A records at cyberfolks.pl 24-48h in advance, then delegate nameservers to Cloudflare
       (the assigned nameservers are in the `name_servers` Terraform output). Recreate the MX/
