@@ -67,6 +67,7 @@ const { footer, links } = Astro.props;
 
     <div class="footer__bottom">
       <p class="footer__copyright">{footer.copyright}</p>
+      <p class="footer__legal-id">Fundacja DeepKind · KRS 0001193215 · NIP 5214132486</p>
       <div class="footer__legal-links">
         <a href={safeHref(links.regulamin)}>Regulamin</a>
         <a href={safeHref(links.privacy)}>Polityka Prywatności (RODO)</a>
@@ -196,6 +197,10 @@ const { footer, links } = Astro.props;
     text-align: center;
   }
   .footer__copyright {
+    font-size: 0.75rem;
+    color: var(--c-gray-400);
+  }
+  .footer__legal-id {
     font-size: 0.75rem;
     color: var(--c-gray-400);
   }

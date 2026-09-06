@@ -23,6 +23,9 @@ package-lock.json
 /.vercel
 /.netlify
 
+# Lighthouse CI
+/.lighthouseci
+
 # Keystatic session + editor
 /keystatic.session.json
 /keystatic.session
