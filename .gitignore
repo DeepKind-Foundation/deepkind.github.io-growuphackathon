@@ -48,6 +48,7 @@ package-lock.json
 /terraform/*.tfstate
 /terraform/*.tfstate.*
 /terraform/*.tfplan
+/terraform/tfplan
 /terraform/terraform.tfvars
 
 # Logs

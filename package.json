@@ -11,7 +11,8 @@
     "typecheck": "astro check",
     "recon": "node scripts/recon.mjs",
     "test:e2e": "playwright test",
-    "test": "vitest run"
+    "test": "vitest run",
+    "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/node": "^10.1.4",
@@ -35,7 +36,8 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.129.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
