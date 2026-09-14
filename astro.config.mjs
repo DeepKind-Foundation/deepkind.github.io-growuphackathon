@@ -4,13 +4,14 @@ import keystatic from '@keystatic/astro';
 import node from '@astrojs/node';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
+import { partnerWebp } from './src/lib/astro-plugin-partner-webp.ts';
 
 // Static public site; the Keystatic admin route renders on demand via the Node adapter.
 export default defineConfig({
   site: 'https://growuphackathon.pl',
   output: 'static',
   adapter: node({ mode: 'standalone' }),
-  integrations: [icon(), react(), keystatic(), sitemap()],
+  integrations: [icon(), react(), keystatic(), sitemap(), partnerWebp()],
   vite: {
     optimizeDeps: {
       // react-dom/client is CJS; force pre-bundling so Vite exposes named ESM exports

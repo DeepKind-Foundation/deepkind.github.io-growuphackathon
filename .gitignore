@@ -17,6 +17,9 @@ package-lock.json
 /build
 /out
 
+# Generated at build time by src/lib/webp.ts — never hand-authored, never committed
+/public/images/partners/*.webp
+
 # Astro & Vite
 /.astro
 /.cache
