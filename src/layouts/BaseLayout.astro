@@ -41,6 +41,15 @@ const organizationJsonLd = {
 };
 const organizationJsonLdSafe = JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c');
 
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GrowUp Hackathon',
+  url: siteRoot,
+  publisher: { '@type': 'Organization', name: 'Fundacja DeepKind', url: siteRoot },
+};
+const websiteJsonLdSafe = JSON.stringify(websiteJsonLd).replace(/</g, '\\u003c');
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Event',
@@ -103,6 +112,7 @@ const cfBeaconAttr = cloudflareToken ? JSON.stringify({ token: cloudflareToken }
     <meta name="twitter:image" content={ogImageUrl} />
 
     <script is:inline type="application/ld+json" set:html={organizationJsonLdSafe} />
+    <script is:inline type="application/ld+json" set:html={websiteJsonLdSafe} />
     {includeEventSchema && <script is:inline type="application/ld+json" set:html={jsonLdSafe} />}
 
     {cfBeaconAttr && (

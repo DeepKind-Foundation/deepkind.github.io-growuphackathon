@@ -128,6 +128,9 @@ ul {
   left: var(--space-4);
   top: var(--space-2);
   z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
   padding: var(--space-2) var(--space-4);
   background: var(--c-card-2);
   border: 1px solid color-mix(in oklch, var(--c-white) 15%, transparent);

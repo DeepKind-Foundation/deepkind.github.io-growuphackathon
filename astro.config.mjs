@@ -11,7 +11,18 @@ export default defineConfig({
   site: 'https://growuphackathon.pl',
   output: 'static',
   adapter: node({ mode: 'standalone' }),
-  integrations: [icon(), react(), keystatic(), sitemap(), partnerWebp()],
+  integrations: [
+    icon(),
+    react(),
+    keystatic(),
+    sitemap({
+      // Per-page lastmod isn't tracked anywhere in this content pipeline (Keystatic
+      // entries carry no updated-at field) — stamping the build date is honest about
+      // what we actually know, rather than omitting lastmod or guessing a stale one.
+      serialize: (item) => ({ ...item, lastmod: new Date().toISOString() }),
+    }),
+    partnerWebp(),
+  ],
   vite: {
     optimizeDeps: {
       // react-dom/client is CJS; force pre-bundling so Vite exposes named ESM exports
