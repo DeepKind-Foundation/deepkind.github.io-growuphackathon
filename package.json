@@ -5,6 +5,7 @@
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "astro dev",
+    "generate:partner-webp": "node scripts/generate-partner-webp.ts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",

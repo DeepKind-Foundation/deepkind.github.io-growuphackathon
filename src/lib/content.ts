@@ -1,8 +1,10 @@
 import { createReader } from "@keystatic/core/reader";
 import sharp from "sharp";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import keystaticConfig from "../../keystatic.config";
 import { PARTNER_IMAGES_PATH, PEOPLE_IMAGES_PATH } from "./image-paths";
+import { isWebpConvertible, webpSiblingPath } from "./webp";
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
@@ -59,6 +61,8 @@ export interface PartnerLogo {
   category: string;
   order: number;
   logo: string;
+  /** WebP sibling of `logo`, generated at build time; null when not applicable or conversion failed. */
+  webp: string | null;
   width: number | null;
   height: number | null;
 }
@@ -77,6 +81,20 @@ async function readImageSize(
   }
 }
 
+/**
+ * Resolves the WebP sibling of a public/-relative logo path, if one exists. The
+ * astro-plugin-partner-webp integration is what actually generates these (before
+ * dev serving / building starts) — this just looks up what it produced, so a
+ * failed or skipped conversion there naturally falls back to the original `logo`.
+ */
+function resolveWebp(publicPath: string): string | null {
+  if (!isWebpConvertible(publicPath)) return null;
+  const webpPublicPath = webpSiblingPath(publicPath);
+  return existsSync(path.join(process.cwd(), "public", webpPublicPath))
+    ? webpPublicPath
+    : null;
+}
+
 /** All partner logos, read from the `partnerLogos` collection. */
 export async function getPartnerLogos(): Promise<PartnerLogo[]> {
   const all = await reader.collections.partnerLogos.all();
@@ -86,12 +104,14 @@ export async function getPartnerLogos(): Promise<PartnerLogo[]> {
       const { width, height } = logo
         ? await readImageSize(logo)
         : { width: null, height: null };
+      const webp = logo ? resolveWebp(logo) : null;
       return {
         slug,
         name: entry.name,
         category: entry.category,
         order: entry.order ?? 0,
         logo,
+        webp,
         width,
         height,
       };

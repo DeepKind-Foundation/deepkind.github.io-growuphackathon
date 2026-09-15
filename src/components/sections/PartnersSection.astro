@@ -54,13 +54,18 @@ const logoRows = CATEGORIES.map((cat) => ({
                   {row.logos.map((logo) => (
                     <div class="partners__logo">
                       <div class="partners__logo-mark">
-                        <img
-                          src={logo.logo}
-                          alt={logo.name}
-                          width={logo.width ?? undefined}
-                          height={logo.height ?? undefined}
-                          loading="lazy"
-                        />
+                        <picture>
+                          {logo.webp && (
+                            <source srcset={logo.webp} type="image/webp" />
+                          )}
+                          <img
+                            src={logo.logo}
+                            alt={logo.name}
+                            width={logo.width ?? undefined}
+                            height={logo.height ?? undefined}
+                            loading="lazy"
+                          />
+                        </picture>
                       </div>
                       <span class="partners__logo-name">{logo.name}</span>
                     </div>
